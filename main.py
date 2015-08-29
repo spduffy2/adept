@@ -14,12 +14,17 @@ def main():
 
 if __name__ == "__main__":
     
-    if not utils.init( 
+    if not utils.init(
         logic_func=Menu.logic,
         update_func=Menu.update, 
         render_func=Menu.render,
         ):
         print('buffalo.utils failed to initialize')
+        pygame.quit()
+        exit()
+
+    if not Menu.init():
+        print('Menu failed to initialize')
         pygame.quit()
         exit()
 

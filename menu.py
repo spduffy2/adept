@@ -13,7 +13,13 @@ class Menu:
     
     @staticmethod
     def init():
-        pass
+        Menu.labels.add(
+            Label(
+                (5, 5),
+                "Adept 0.0 Alpha + 29 August 2015",
+            )
+        )
+        return True
 
     @staticmethod
     def logic():
