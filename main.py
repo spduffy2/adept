@@ -5,7 +5,7 @@ from buffalo import utils
 from menu import Menu
 
 def main():
-
+    
     while not utils.end:
         utils.scene.logic()
         utils.scene.update()
@@ -14,13 +14,15 @@ def main():
 
 if __name__ == "__main__":
     
-    if not utils.init():
+    if not utils.init(
+            caption='Adept',
+    ):
         print('buffalo.utils failed to initialize')
         pygame.quit()
         exit()
-
+    
     utils.set_scene( Menu() )
-
+    
     main()
-
+    
     pygame.quit()
