@@ -22,7 +22,7 @@ class Menu(Scene):
         self.labels.add(
             Label(
                 (5, 5),
-                "Adept 0.0 Alpha + 29 August 2015",
+                "Adept 0.0 Alpha <-> September 2015",
             )
         )
         self.labels.add(
