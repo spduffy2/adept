@@ -2,7 +2,7 @@ class MapManager:
     """
     Manages chunks and map loading
     """
-    loadedChunks = [
+    loadedChunks = []
 
     @staticmethod
     def loadChunks():

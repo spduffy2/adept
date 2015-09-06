@@ -9,6 +9,7 @@ class GameTestScene(Scene):
     def __init__(self):
         super().__init__()
         chunk = Chunk(0,0)
+        chunk.toFile()
         exit()
 
     def on_escape(self):
