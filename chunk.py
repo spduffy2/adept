@@ -1,5 +1,3 @@
-from os import listdir
-
 class Chunk:
     CHUNK_HEIGHT, CHUNK_WIDTH = 64,64
     def __init__(self, x, y):
@@ -17,8 +15,7 @@ class Chunk:
         Need to account for different OS's for data folder
         """
         url = "chunks/" + str(x) + "," + str(y) + ".chunk"
-        #print(listdir("."))
-        #print(listdir("chunks"))
+        
         """
         Need to account for chunk not existing
         """

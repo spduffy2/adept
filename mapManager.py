@@ -5,5 +5,5 @@ class MapManager:
     loadedChunks = [
 
     @staticmethod
-    def laadChunks():
+    def loadChunks():
         pass
