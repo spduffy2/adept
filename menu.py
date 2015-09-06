@@ -90,11 +90,11 @@ class Menu(Scene):
                 (10, utils.SCREEN_H - 10),
                 "Select Character",
                 invert_y_pos=True,
-                func=self.go_to_select_character,
+                func=self.go_to_selectCharacter,
             )
         )
 
-    def go_to_select_character(self):
+    def go_to_selectCharacter(self):
         utils.set_scene(
             SelectCharacter()
         )
@@ -108,6 +108,6 @@ class Menu(Scene):
             GameTestScene()
         )
 
-from selectcharacter import SelectCharacter
+from selectCharacter import SelectCharacter
 from gameTestScene import GameTestScene
 from options import Options
