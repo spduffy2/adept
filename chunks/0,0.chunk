@@ -1,0 +1,5 @@
+define f as #FFFFFF
+define g as #000000
+
+f f f f
+g g g g 
