@@ -41,13 +41,14 @@ class Menu(Scene):
                 x_centered=True,
                 y_centered=True,
             )
-        )        
+        )
         self.buttons.add(
             Button(
                 (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 160),
                 "New Solo Game",
                 x_centered=True,
                 y_centered=True,
+                func = self.go_to_gameTestScene
             )
         )
         self.buttons.add(
@@ -102,6 +103,11 @@ class Menu(Scene):
         utils.set_scene(
             Options()
         )
+    def go_to_gameTestScene(self):
+        utils.set_scene(
+            GameTestScene()
+        )
 
 from selectcharacter import SelectCharacter
+from gameTestScene import GameTestScene
 from options import Options
