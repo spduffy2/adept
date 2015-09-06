@@ -1,6 +1,8 @@
 import pygame
 from buffalo import utils
 from buffalo.scene import Scene
+from buffalo.label import Label
+
 from chunk import Chunk
 
 class GameTestScene(Scene):
