@@ -3,21 +3,36 @@ import random
 from noise import snoise3
 from PIL import Image
 
-# import time
-# start_time = time.time()
+"""
+Class that generates tile data for the world map with a given seed.
+The generation algorithm uses Perlin noise to generate maps for both altitude and moisture.
+(This requires the 'noise' library)
+Based on the generated noise, biomes are determined.
+
+The algorithm is (and must be) deterministic for any discrete seed, as the whole
+game world will not be generated in a single call of the GenerateMap() function.
+Rather, chunks may be requested from the generator using the map's seed, and the
+location / size of the requested chunks.
+"""
 
 class MapGenerator:
 
     @staticmethod
     def GenerateMap(seed, startx, starty, sizex, sizey):
+        #Constants needed for the perlin noise algorithm
         octaves = 8;
         freq = 64.0 * octaves
+        """
+        NOTE: Changing the value of freq essentially changes the scale / level
+        of detail produced in the noise maps.
+        """
+
         #Generate map seed if none was given
         if seed == None:
             seed = random.random()
 
+        #Generate 2d Lists for height and moisture data
         heightMap = [[None]*sizex for _ in range(sizey)]
-
         moistureMap = [[None]*sizex for _ in range(sizey)]
 
         for outputy, y in enumerate(range(starty, sizey + starty)):
@@ -25,7 +40,7 @@ class MapGenerator:
                 #Generate Perlin noise for the given x,y using the map seed as the z value
                 #Map the noise to between 0 and 255
                 heightMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
-                #print "("+str(x)+","+str(y)+") " + str(heightMap[x][y])
+                #Change the z value so that moisture is determined by a different (but predictable) seed
                 moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
 
         MapGenerator.DrawMap(heightMap,moistureMap,sizex,sizey)
@@ -63,4 +78,4 @@ class MapGenerator:
                 #f.write(str(heightMap[x][y]) + "\n")
                 #print "("+str(x)+","+str(y)+") " + str(altitude[x][y])
         img.show()
-MapGenerator.GenerateMap(1,1,1,512,512)
+MapGenerator.GenerateMap(random.random(),1,1,512,512)
