@@ -2,6 +2,7 @@ import sys
 import random
 from noise import snoise3
 from PIL import Image
+from biome import Biome
 
 """
 Class that generates tile data for the world map with a given seed.
@@ -42,10 +43,30 @@ class MapGenerator:
                 heightMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
                 #Change the z value so that moisture is determined by a different (but predictable) seed
                 moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
-
         MapGenerator.DrawMap(heightMap,moistureMap,sizex,sizey)
 
-
+    def AssignBiomes(altitude,moisture,sizex,sizey):
+        biomeMap = [[None]*sizex for _ in range(sizey)]
+        for y in range(sizex):
+            for x in range(sizey):
+                #Mountain Peak
+                if(altitude[x][y] > 195):
+                    pixels[x,y] = (255,255,255)
+                #Mountain
+                elif(altitude[x][y]  > 185):
+                    pixels[x,y] = 0x5F5F57
+                #Forest
+                elif(altitude[x][y]  > 155):
+                    pixels[x,y] = 0x005C09
+                #Grassland
+                elif(altitude[x][y]  > 130):
+                    pixels[x,y] = 0x018E0E
+                #Sand
+                elif(altitude[x][y]  > 120):
+                    pixels[x,y] = (237,201,175)
+                #Debug Chunk Markings
+                if(x % 64 == 0 or y % 64 == 0):
+                    pixels[x,y] = (50,50,50)
 
     @staticmethod
     def SmoothMoistureMap(moisture):
@@ -53,29 +74,32 @@ class MapGenerator:
 
     @staticmethod
     def DrawMap(altitude,moisture,sizex,sizey):
+        print Biome.forest
+
+        #initializes new image
         img = Image.new("RGB", (sizex,sizey), "blue")
         pixels = img.load()
+        #Iterate through all pixels
         for y in range(sizex):
             for x in range(sizey):
                 #Mountain Peak
                 if(altitude[x][y] > 195):
                     pixels[x,y] = (255,255,255)
-                    #Mountain
+                #Mountain
                 elif(altitude[x][y]  > 185):
                     pixels[x,y] = 0x5F5F57
-                    #Forest
+                #Forest
                 elif(altitude[x][y]  > 155):
                     pixels[x,y] = 0x005C09
-                    #Grassland
+                #Grassland
                 elif(altitude[x][y]  > 130):
                     pixels[x,y] = 0x018E0E
-                    #Sand
+                #Sand
                 elif(altitude[x][y]  > 120):
                     pixels[x,y] = (237,201,175)
-                    #Chunk Markings
+                #Debug Chunk Markings
                 if(x % 64 == 0 or y % 64 == 0):
                     pixels[x,y] = (50,50,50)
-                #f.write(str(heightMap[x][y]) + "\n")
-                #print "("+str(x)+","+str(y)+") " + str(altitude[x][y])
+
         img.show()
 MapGenerator.GenerateMap(random.random(),1,1,512,512)
