@@ -16,17 +16,17 @@ class MapGenerator:
         if seed == None:
             seed = random.random()
 
-        heightMap = [[0]*sizex for _ in range(sizey)]
+        heightMap = [[None]*sizex for _ in range(sizey)]
 
-        moistureMap = [[0]*sizex]*sizey
+        moistureMap = [[None]*sizex for _ in range(sizey)]
 
-        for y in range(starty, sizey + starty):
-            for x in range(startx, sizex + startx):
+        for outputy, y in enumerate(range(starty, sizey + starty)):
+            for outputx, x in enumerate(range(startx, sizex + startx)):
                 #Generate Perlin noise for the given x,y using the map seed as the z value
                 #Map the noise to between 0 and 255
-                heightMap[x][y] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
+                heightMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
                 #print "("+str(x)+","+str(y)+") " + str(heightMap[x][y])
-                #moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
+                moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
 
         MapGenerator.DrawMap(heightMap,moistureMap,sizex,sizey)
 
@@ -63,4 +63,4 @@ class MapGenerator:
                 #f.write(str(heightMap[x][y]) + "\n")
                 #print "("+str(x)+","+str(y)+") " + str(altitude[x][y])
         img.show()
-MapGenerator.GenerateMap(1,0,0,512,512)
+MapGenerator.GenerateMap(1,1,1,512,512)
