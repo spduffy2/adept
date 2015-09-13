@@ -15,30 +15,52 @@ class MapGenerator:
         #Generate map seed if none was given
         if seed == None:
             seed = random.random()
-        img = Image.new("RGB", (sizex,sizey), "blue")
-        pixels = img.load()
-        xOutput = 0
-        yOutput = 0
+
+        heightMap = [[0]*sizex for _ in range(sizey)]
+
+        moistureMap = [[0]*sizex]*sizey
+
         for y in range(starty, sizey + starty):
             for x in range(startx, sizex + startx):
                 #Generate Perlin noise for the given x,y using the map seed as the z value
-                #Map the noise to between 0 and 256
-                noise = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
-                if(noise > 195):
-                    pixels[xOutput,yOutput] = (255,255,255)
-                elif(noise > 185):
-                    pixels[xOutput,yOutput] = 0x5F5F57
-                elif(noise > 155):
-                    pixels[xOutput,yOutput] = 0x005C09
-                elif(noise > 130):
-                    pixels[xOutput,yOutput] = 0x018E0E
-                elif(noise > 120):
-                    pixels[xOutput,yOutput] = (237,201,175)
-                if(xOutput % 64 == 0 or yOutput % 64 == 0):
-                    pixels[xOutput,yOutput] = (50,50,50)
-                xOutput += 1
-            xOutput = 0
-            yOutput += 1
+                #Map the noise to between 0 and 255
+                heightMap[x][y] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
+                #print "("+str(x)+","+str(y)+") " + str(heightMap[x][y])
+                #moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
 
+        MapGenerator.DrawMap(heightMap,moistureMap,sizex,sizey)
+
+
+
+    @staticmethod
+    def SmoothMoistureMap(moisture):
+        pass
+
+    @staticmethod
+    def DrawMap(altitude,moisture,sizex,sizey):
+        img = Image.new("RGB", (sizex,sizey), "blue")
+        pixels = img.load()
+        for y in range(sizex):
+            for x in range(sizey):
+                #Mountain Peak
+                if(altitude[x][y] > 195):
+                    pixels[x,y] = (255,255,255)
+                    #Mountain
+                elif(altitude[x][y]  > 185):
+                    pixels[x,y] = 0x5F5F57
+                    #Forest
+                elif(altitude[x][y]  > 155):
+                    pixels[x,y] = 0x005C09
+                    #Grassland
+                elif(altitude[x][y]  > 130):
+                    pixels[x,y] = 0x018E0E
+                    #Sand
+                elif(altitude[x][y]  > 120):
+                    pixels[x,y] = (237,201,175)
+                    #Chunk Markings
+                if(x % 64 == 0 or y % 64 == 0):
+                    pixels[x,y] = (50,50,50)
+                #f.write(str(heightMap[x][y]) + "\n")
+                #print "("+str(x)+","+str(y)+") " + str(altitude[x][y])
         img.show()
-MapGenerator.GenerateMap(1,64,0,64,64)
+MapGenerator.GenerateMap(1,0,0,512,512)
