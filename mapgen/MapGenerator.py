@@ -18,6 +18,9 @@ location / size of the requested chunks.
 
 class MapGenerator:
 
+    chunkSizeX = 64
+    chunkSizeY = 64
+
     @staticmethod
     def GenerateMap(seed, startx, starty, sizex, sizey):
         #Constants needed for the perlin noise algorithm
@@ -42,64 +45,88 @@ class MapGenerator:
                 #Map the noise to between 0 and 255
                 heightMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed, octaves) * 127.0 + 128.0)
                 #Change the z value so that moisture is determined by a different (but predictable) seed
-                moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*100, octaves) * 127.0 + 128.0)
-        MapGenerator.DrawMap(heightMap,moistureMap,sizex,sizey)
+                moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*10, octaves) * 127.0 + 128.0)
+        biomeMap = MapGenerator.AssignBiomes(heightMap,moistureMap,sizex,sizey)
+        MapGenerator.DrawMap(biomeMap)
+        return biomeMap
 
+    @staticmethod
     def AssignBiomes(altitude,moisture,sizex,sizey):
         biomeMap = [[None]*sizex for _ in range(sizey)]
         for y in range(sizex):
             for x in range(sizey):
+                #ocean
+                if(altitude[x][y] <= Biome.ocean_height):
+                    biomeMap[x][y] = Biome.ocean
+                #shore
+                elif(altitude[x][y] <= Biome.shore_height):
+                    biomeMap[x][y] = Biome.shore
                 #Mountain Peak
-                if(altitude[x][y] > 195):
-                    pixels[x,y] = (255,255,255)
+                elif(altitude[x][y] >= Biome.peak_height):
+                    biomeMap[x][y] = Biome.peak
                 #Mountain
-                elif(altitude[x][y]  > 185):
-                    pixels[x,y] = 0x5F5F57
+                elif(altitude[x][y] >= Biome.mountain_height):
+                    biomeMap[x][y] = Biome.mountain
+                #tropical
+                elif(moisture[x][y] >= Biome.tropical_moisture):
+                    biomeMap[x][y] = Biome.tropical
                 #Forest
-                elif(altitude[x][y]  > 155):
-                    pixels[x,y] = 0x005C09
+                elif(moisture[x][y] >= Biome.forest_moisture):
+                    biomeMap[x][y] = Biome.forest
                 #Grassland
-                elif(altitude[x][y]  > 130):
-                    pixels[x,y] = 0x018E0E
-                #Sand
-                elif(altitude[x][y]  > 120):
-                    pixels[x,y] = (237,201,175)
-                #Debug Chunk Markings
-                if(x % 64 == 0 or y % 64 == 0):
-                    pixels[x,y] = (50,50,50)
+                elif(moisture[x][y] >= Biome.grassland):
+                    biomeMap[x][y] = Biome.grassland
+                #desert
+                elif(moisture[x][y] >= Biome.desert):
+                    biomeMap[x][y] = Biome.desert
+                #desert
+                elif(moisture[x][y] >= Biome.tundra):
+                    biomeMap[x][y] = Biome.tundra
+        return biomeMap
 
     @staticmethod
     def SmoothMoistureMap(moisture):
+        """
+        TODO
+        """
         pass
 
     @staticmethod
-    def DrawMap(altitude,moisture,sizex,sizey):
-        print Biome.forest
-
+    def DrawMap(biomeMap):
         #initializes new image
-        img = Image.new("RGB", (sizex,sizey), "blue")
+        img = Image.new("RGB", (len(biomeMap),len(biomeMap[0])), "blue")
         pixels = img.load()
         #Iterate through all pixels
-        for y in range(sizex):
-            for x in range(sizey):
+        for y in range(len(biomeMap)):
+            for x in range(len(biomeMap[0])):
                 #Mountain Peak
-                if(altitude[x][y] > 195):
+                if(biomeMap[x][y] == Biome.peak):
                     pixels[x,y] = (255,255,255)
                 #Mountain
-                elif(altitude[x][y]  > 185):
+                elif(biomeMap[x][y] == Biome.mountain):
                     pixels[x,y] = 0x5F5F57
                 #Forest
-                elif(altitude[x][y]  > 155):
+                elif(biomeMap[x][y] == Biome.forest):
                     pixels[x,y] = 0x005C09
                 #Grassland
-                elif(altitude[x][y]  > 130):
+                elif(biomeMap[x][y] == Biome.grassland):
                     pixels[x,y] = 0x018E0E
-                #Sand
-                elif(altitude[x][y]  > 120):
-                    pixels[x,y] = (237,201,175)
-                #Debug Chunk Markings
-                if(x % 64 == 0 or y % 64 == 0):
-                    pixels[x,y] = (50,50,50)
+                #desert
+                elif(biomeMap[x][y] == Biome.desert):
+                    # pixels[x,y] = (237,201,175)
+                    pixels[x,y] = (0,0,0)
+                #ocean
+                elif(biomeMap[x][y] == Biome.ocean):
+                    pixels[x,y] = 0xFF0000
+                #shore
+                elif(biomeMap[x][y] == Biome.shore):
+                    pixels[x,y] = (170, 146, 74)
+                #tropical
+                elif(biomeMap[x][y] == Biome.tropical):
+                    pixels[x,y] = (0, 118, 93)
+                else:
+                    pixels[x,y] = (0,0,0)
+                    #Biome not assigned
 
         img.show()
-MapGenerator.GenerateMap(random.random(),1,1,512,512)
+MapGenerator.GenerateMap(random.random(),0,0,16*MapGenerator.chunkSizeX,16*MapGenerator.chunkSizeY)
