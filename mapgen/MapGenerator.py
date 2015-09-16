@@ -74,13 +74,13 @@ class MapGenerator:
                 elif(moisture[x][y] >= Biome.forest_moisture):
                     biomeMap[x][y] = Biome.forest
                 #Grassland
-                elif(moisture[x][y] >= Biome.grassland):
+                elif(moisture[x][y] >= Biome.grassland_moisture):
                     biomeMap[x][y] = Biome.grassland
                 #desert
-                elif(moisture[x][y] >= Biome.desert):
+                elif(moisture[x][y] >= Biome.desert_moisture):
                     biomeMap[x][y] = Biome.desert
-                #desert
-                elif(moisture[x][y] >= Biome.tundra):
+                #tundra
+                elif(moisture[x][y] >= Biome.tundra_moisture):
                     biomeMap[x][y] = Biome.tundra
         return biomeMap
 
@@ -113,8 +113,7 @@ class MapGenerator:
                     pixels[x,y] = 0x018E0E
                 #desert
                 elif(biomeMap[x][y] == Biome.desert):
-                    # pixels[x,y] = (237,201,175)
-                    pixels[x,y] = (0,0,0)
+                    pixels[x,y] = (237,201,175)
                 #ocean
                 elif(biomeMap[x][y] == Biome.ocean):
                     pixels[x,y] = 0xFF0000
@@ -124,6 +123,9 @@ class MapGenerator:
                 #tropical
                 elif(biomeMap[x][y] == Biome.tropical):
                     pixels[x,y] = (0, 118, 93)
+                #tundra
+                elif(biomeMap[x][y] == Biome.tundra):
+                    pixels[x,y] = 0xCCF2FF
                 else:
                     pixels[x,y] = (0,0,0)
                     #Biome not assigned

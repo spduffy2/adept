@@ -19,7 +19,7 @@ class Biome(Enum):
 
     #Moisture Constarints
     tropical_moisture = 180
-    forest_moisture = 135
-    grassland_moisture = 135
-    desert_moisture = 125
+    forest_moisture = 150
+    grassland_moisture = 110
+    desert_moisture = 90
     tundra_moisture = 0
