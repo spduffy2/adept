@@ -1,17 +1,45 @@
+import sys
+
 import pygame
 from buffalo import utils
 from buffalo.scene import Scene
-from chunk import Chunk
+
+from pluginManager import PluginManager
+from mapManager import MapManager
+from camera import Camera
+
+from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
     def __init__(self):
         super().__init__()
-        chunk = Chunk(0,0)
-        exit()
+        self.BACKGROUND_COLOR = (0, 0, 0, 255)
+        PluginManager.loadPlugins()
+        Camera.init()
+        self.pc = PlayerCharacter(
+            name="Tom",
+            fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
+            size=(32, 64),
+            speed=2.0,
+        )
+        Camera.lock(self.pc)
 
     def on_escape(self):
-        exit();
+        sys.exit()
+    
     def update(self):
-        pass
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.pc.yv += -self.pc.speed
+        if keys[pygame.K_s]:
+            self.pc.yv += self.pc.speed
+        if keys[pygame.K_d]:
+            self.pc.xv += self.pc.speed
+        if keys[pygame.K_a]:
+            self.pc.xv += -self.pc.speed
+        self.pc.update()
+        Camera.update()
+    
     def blit(self):
-        pass
+        Camera.blitView()
+        self.pc.blit(utils.screen)

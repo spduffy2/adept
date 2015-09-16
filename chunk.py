@@ -1,5 +1,11 @@
 import os.path
 
+import pygame
+
+from buffalo import utils
+
+from mapManager import MapManager
+
 """
 A Chunk is a data structure
 that holds tiles.
@@ -10,7 +16,9 @@ class Chunk:
     CHUNK_HEIGHT and CHUNK_WIDTH represent
     the size, in tiles, of each Chunk
     """
-    CHUNK_HEIGHT, CHUNK_WIDTH = 64,64
+    CHUNK_HEIGHT, CHUNK_WIDTH = 32, 32
+    TILE_SIZE                 = 32     # TILE_SIZE represents the tile size, in pixels, when
+                                       # Camera.zoom = 1.0
 
     def __init__(self, x, y):
         """
@@ -26,11 +34,20 @@ class Chunk:
                     Each string is a key, which, when plugged into the
                     dictionary self.defs, returns an RGBA 4-tuple
         """
-
+        self.path = None
+        search_string = "{0},{1}.chunk".format(x, y)
+        for m in MapManager.maps:
+            if search_string in m.chunk_files:
+                self.path = os.path.join(*list(m.path + [search_string]))
+                break
         self.pos = x,y
-        self.defs = dict() 
+        self.defs = dict()
         self.data = [["" for x in range(Chunk.CHUNK_WIDTH)] for y in range(Chunk.CHUNK_HEIGHT)]
+        self.surface = utils.empty_surface(
+            (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH, Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT)
+        )
         self.fromFile(x,y)
+        self.render()
 
     def fromFile(self,x,y):
         """
@@ -39,15 +56,15 @@ class Chunk:
         which are positive or negative integers.
         """
 
-        # Create a URL that's dependent on platform
-        url = os.path.join("chunks", str(x) + "," + str(y) + ".chunk")
-
+        if self.path is None:
+            return
+        
         # Be sure the URL points to a file before trying to open it
-        if not os.path.isfile(url):
-            print("Could not load chunk at URL '" + url + "'.")
+        if not os.path.isfile(self.path):
+            print("Could not load chunk in path '" + self.path + "'.")
             return
 
-        with open(url,"r") as chunkFile:
+        with open(self.path,"r") as chunkFile:
             # Keep track of which row of data we want to fill
             row = 0
             
@@ -79,3 +96,18 @@ class Chunk:
                                 self.data[row][col] = key
 
                         row += 1 # And remember to keep track of the row!
+
+    def render(self):
+        for y, row in enumerate(self.data):
+            for x, col in enumerate(row):
+                if col in self.defs.keys():
+                    self.surface.fill(
+                        self.defs[col],
+                        pygame.Rect(
+                            (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE),
+                            (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
+                        )
+                    )
+
+    def blit(self, dest, pos):
+        dest.blit( self.surface, pos )
