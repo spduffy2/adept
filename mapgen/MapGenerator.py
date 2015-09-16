@@ -67,6 +67,9 @@ class MapGenerator:
                 #Mountain
                 elif(altitude[x][y] >= Biome.mountain_height):
                     biomeMap[x][y] = Biome.mountain
+                #tundra
+                elif(moisture[x][y] >= Biome.tundra_moisture):
+                    biomeMap[x][y] = Biome.tundra
                 #tropical
                 elif(moisture[x][y] >= Biome.tropical_moisture):
                     biomeMap[x][y] = Biome.tropical
@@ -79,9 +82,7 @@ class MapGenerator:
                 #desert
                 elif(moisture[x][y] >= Biome.desert_moisture):
                     biomeMap[x][y] = Biome.desert
-                #tundra
-                elif(moisture[x][y] >= Biome.tundra_moisture):
-                    biomeMap[x][y] = Biome.tundra
+
         return biomeMap
 
     @staticmethod
@@ -90,6 +91,12 @@ class MapGenerator:
         TODO
         """
         pass
+
+    @staticmethod
+    def GenerateChunk(seed,chunkx, chunky):
+        worldx = chunkx * 64
+        worldy = chunk * 64
+        return MapGenerator.GenerateMap(seed, worldx, worldy, chunkSizeX, chunkSizeY)
 
     @staticmethod
     def DrawMap(biomeMap):
@@ -101,33 +108,33 @@ class MapGenerator:
             for x in range(len(biomeMap[0])):
                 #Mountain Peak
                 if(biomeMap[x][y] == Biome.peak):
-                    pixels[x,y] = (255,255,255)
+                    pixels[x,y] = Biome.peak_color
                 #Mountain
                 elif(biomeMap[x][y] == Biome.mountain):
-                    pixels[x,y] = 0x5F5F57
+                    pixels[x,y] = Biome.mountain_color
                 #Forest
                 elif(biomeMap[x][y] == Biome.forest):
-                    pixels[x,y] = 0x005C09
+                    pixels[x,y] = Biome.forest_color
                 #Grassland
                 elif(biomeMap[x][y] == Biome.grassland):
-                    pixels[x,y] = 0x018E0E
+                    pixels[x,y] = Biome.grassland_color
                 #desert
                 elif(biomeMap[x][y] == Biome.desert):
-                    pixels[x,y] = (237,201,175)
+                    pixels[x,y] = Biome.desert_color
                 #ocean
                 elif(biomeMap[x][y] == Biome.ocean):
-                    pixels[x,y] = 0xFF0000
+                    pixels[x,y] = Biome.ocean_color
                 #shore
                 elif(biomeMap[x][y] == Biome.shore):
-                    pixels[x,y] = (170, 146, 74)
+                    pixels[x,y] = Biome.shore_color
                 #tropical
                 elif(biomeMap[x][y] == Biome.tropical):
-                    pixels[x,y] = (0, 118, 93)
+                    pixels[x,y] = Biome.tropical_color
                 #tundra
                 elif(biomeMap[x][y] == Biome.tundra):
-                    pixels[x,y] = 0xCCF2FF
+                    pixels[x,y] = Biome.tundra_color
                 else:
-                    pixels[x,y] = (0,0,0)
+                    pixels[x,y] = 0x000000
                     #Biome not assigned
 
         img.show()
