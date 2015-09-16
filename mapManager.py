@@ -1,7 +1,5 @@
 import os
 
-from pluginManager import PluginManager
-
 class MapManager:
     """
     Manages chunks and map loading
@@ -43,3 +41,4 @@ class MapManager:
         MapManager.maps.sort(key=lambda m: m.precedence)
 
 from Map import Map
+from pluginManager import PluginManager

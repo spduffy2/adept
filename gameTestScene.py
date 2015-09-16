@@ -3,10 +3,13 @@ import sys
 import pygame
 from buffalo import utils
 from buffalo.scene import Scene
+from buffalo.label import Label
 
-from pluginManager import PluginManager
-from mapManager import MapManager
+from chunk import Chunk
 from camera import Camera
+from mapManager import MapManager
+from pluginManager import PluginManager
+
 
 from playerCharacter import PlayerCharacter
 

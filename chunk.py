@@ -25,7 +25,7 @@ class Chunk:
         This is the Chunk constructor.
         It creates a Chunk at the coordinates (<x>, <y>).
         <x> and <y> are positive or negative integers.
-        
+
         self.pos  - a 2-tuple that stores the coordinates of the Chunk
         self.defs - a dictionary that stores definitions of tiles
                     self.defs' keys are specified in the file.
@@ -67,7 +67,7 @@ class Chunk:
         with open(self.path,"r") as chunkFile:
             # Keep track of which row of data we want to fill
             row = 0
-            
+
             for line in chunkFile:
                 stripped = line.strip()
                 # If the line isn't blank
@@ -111,3 +111,40 @@ class Chunk:
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
+
+    def toFile(self):
+        # TODO
+        # UPDATE THIS METHOD
+        # USE self.path AND OTHER STUFF
+        """
+        This method saves a chunk to a file.
+        This should only be called when a map has been updated at runtime,
+        as the function overwrites previous chunk data.
+        """
+
+        # Create a URL that's dependent on platform
+        url = os.path.join("chunks", str(self.pos[0]) + "," + str(self.pos[1]) + ".chunk")
+
+        #Opens file in overwrite / file creation mode
+        with open(url,"w+") as chunkFile:
+            #Iterate through the tile definition dictionary
+            for key, value in self.defs.items():
+                #Start the definition line with the keyword and key
+                chunkFile.write("define " + str(key) + " as #")
+
+                #Reassemble the RGB integers to hex strings
+                #IMPORTANT: Skipping last element because transparency is not currently saved
+                for i in range(0,3):
+                    RGBString = hex(value[i])[2:]
+                    #Appending 0 to hex values less than 0x10 to maintain 2-character length per RGB
+                    if(len(RGBString) < 2):
+                        RGBString = "0" + RGBString
+                    chunkFile.write(str(RGBString))
+                chunkFile.write("\n") #New line after each definition
+
+            #Iterate through the 2-dimensional list containing chunk data
+            for row in self.data:
+                for col in row:
+                    #At each data point: write data, add white space
+                    chunkFile.write(str(col) + " ")
+                chunkFile.write("\n") #New line at end of each row
