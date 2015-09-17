@@ -5,6 +5,8 @@ import pygame
 from buffalo import utils
 
 from mapManager import MapManager
+from mapGenerator import MapGenerator
+from biome import Biome
 
 """
 A Chunk is a data structure
@@ -49,6 +51,11 @@ class Chunk:
         self.fromFile(x,y)
         self.render()
 
+    def generateDataAndDefs(self):
+        self.data = MapGenerator.GenerateChunk(self.x, self.y)
+        self.defs = Biome.GenerateBiomeDefs
+        self.toFile()
+
     def fromFile(self,x,y):
         """
         This method loads a chunk from a file.
@@ -58,7 +65,7 @@ class Chunk:
 
         if self.path is None:
             return
-        
+
         # Be sure the URL points to a file before trying to open it
         if not os.path.isfile(self.path):
             print("Could not load chunk in path '" + self.path + "'.")

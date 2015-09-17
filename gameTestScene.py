@@ -29,7 +29,7 @@ class GameTestScene(Scene):
 
     def on_escape(self):
         sys.exit()
-    
+
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
@@ -42,7 +42,7 @@ class GameTestScene(Scene):
             self.pc.xv += -self.pc.speed
         self.pc.update()
         Camera.update()
-    
+
     def blit(self):
         Camera.blitView()
         self.pc.blit(utils.screen)
