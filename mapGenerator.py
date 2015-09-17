@@ -138,4 +138,4 @@ class MapGenerator:
                     #Biome not assigned
 
         img.show()
-MapGenerator.GenerateMap(random.random(),0,0,16*MapGenerator.chunkSizeX,16*MapGenerator.chunkSizeY)
+#MapGenerator.GenerateMap(random.random(),0,0,16*MapGenerator.chunkSizeX,16*MapGenerator.chunkSizeY)
