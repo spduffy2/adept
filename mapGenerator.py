@@ -47,7 +47,6 @@ class MapGenerator:
                 #Change the z value so that moisture is determined by a different (but predictable) seed
                 moistureMap[outputx][outputy] = int(snoise3(x / freq, y / freq, seed*10, octaves) * 127.0 + 128.0)
         biomeMap = MapGenerator.AssignBiomes(heightMap,moistureMap,sizex,sizey)
-        MapGenerator.DrawMap(biomeMap)
         return biomeMap
 
     @staticmethod
@@ -95,8 +94,8 @@ class MapGenerator:
     @staticmethod
     def GenerateChunk(seed,chunkx, chunky):
         worldx = chunkx * 64
-        worldy = chunk * 64
-        return MapGenerator.GenerateMap(seed, worldx, worldy, chunkSizeX, chunkSizeY)
+        worldy = chunky * 64
+        return MapGenerator.GenerateMap(seed, worldx, worldy, MapGenerator.chunkSizeX, MapGenerator.chunkSizeY)
 
     @staticmethod
     def DrawMap(biomeMap):

@@ -26,6 +26,7 @@ class GameTestScene(Scene):
             speed=2.0,
         )
         Camera.lock(self.pc)
+        MapManager.reloadChunks(0,0)
 
     def on_escape(self):
         sys.exit()

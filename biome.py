@@ -1,5 +1,4 @@
-from enum import Enum
-class Biome(Enum):
+class Biome():
     #Tile Outputs
     ocean = 'o'
     forest = 'f'
@@ -25,10 +24,10 @@ class Biome(Enum):
     desert_moisture = 0
 
     #Default Colors
-    ocean_color = (00,00,255)
-    forest_color = (00,92, 9)
+    ocean_color = (0,0,255)
+    forest_color = (0,92, 9)
     desert_color = (255,229,167)
-    grassland_color = (01, 142, 14)
+    grassland_color = (1, 142, 14)
     mountain_color = (95, 95, 95)
     peak_color = (255, 255, 255)
     tundra_color = (204, 242, 255)

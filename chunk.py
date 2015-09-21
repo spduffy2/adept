@@ -4,8 +4,8 @@ import pygame
 
 from buffalo import utils
 
-from mapManager import MapManager
-from mapGenerator import MapGenerator
+from mapManager import *
+from mapGenerator import *
 from biome import Biome
 
 """
@@ -50,10 +50,12 @@ class Chunk:
         )
         self.fromFile(x,y)
         self.render()
+        self.seed = 1
 
     def generateDataAndDefs(self):
-        self.data = MapGenerator.GenerateChunk(self.x, self.y)
-        self.defs = Biome.GenerateBiomeDefs
+        x,y = self.pos
+        self.data = MapGenerator.GenerateChunk(self.seed,x,y)
+        self.defs = Biome.GenerateBiomeDefs()
         self.toFile()
 
     def fromFile(self,x,y):
