@@ -132,7 +132,8 @@ class Chunk:
         """
 
         # Create a URL that's dependent on platform
-        url = os.path.join("chunks", str(self.pos[0]) + "," + str(self.pos[1]) + ".chunk")
+        LOAD_PATH = MapManager.BASE_PATH + [MapManager.activeMap.name, "chunks"]
+        url = os.path.join(*list(LOAD_PATH + [str(self.pos[0]) + "," + str(self.pos[1]) + ".chunk"]))
 
         #Opens file in overwrite / file creation mode
         with open(url,"w+") as chunkFile:

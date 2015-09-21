@@ -41,7 +41,6 @@ class Map:
 
     def loadChunks(self):
         LOAD_PATH = MapManager.BASE_PATH + [self.name, "chunks"]
-        print
         if not os.path.exists(os.path.join(*LOAD_PATH)):
             print ("[Map] Error: No chunks folder found. Creating an empty one.")
             os.makedirs(os.path.join(*LOAD_PATH))

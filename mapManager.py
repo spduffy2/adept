@@ -11,19 +11,11 @@ class MapManager:
                                   # BASE_PATH should equal ["maps", "otherfolder"]
     maps                = []      # Maps is a list of all Map's found in within BASE_PATH
     activeMap           = None
-    loadedChunks        = [
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-    ]
-    LC_WIDTH, LC_HEIGHT = 3, 3    # LC_WIDTH and LC_HEIGHT are the maximum width and height
+    LC_WIDTH, LC_HEIGHT = 5, 5    # LC_WIDTH and LC_HEIGHT are the maximum width and height
                                   # of loadedChunks, which contains Chunk's loaded into memory
+
+    loadedChunks        = [[None]*5 for _ in range(5)]
+
 
     @staticmethod
     def loadMap( map_name ):
