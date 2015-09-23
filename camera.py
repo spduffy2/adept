@@ -18,6 +18,9 @@ class Camera:
 
     @staticmethod
     def init():
+        """
+        TODO: Fix mapManager / Camera link so that chunks are dynamically loaded
+        """
         for row in range(MapManager.LC_HEIGHT):
             for col in range(MapManager.LC_WIDTH):
                 x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2

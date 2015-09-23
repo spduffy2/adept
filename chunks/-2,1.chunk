@@ -1,12 +1,39 @@
-define f as #005c09
-define r as #00765d
-define t as #ccf2ff
-define m as #5f5f5f
-define d as #ffe5a7
-define p as #ffffff
-define g as #018e0e
 define s as #ffd16e
 define o as #0000ff
+define p as #ffffff
+define f as #005c09
+define d as #ffe5a7
+define g as #018e0e
+define r as #00765d
+define m as #5f5f5f
+define t as #ccf2ff
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s g g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s g g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s g g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s g g g g g g g g g g 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g g f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s s g g g g g g g f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s o o o s s s s s s s s s g g g g g f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s g g f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s f f f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s f f 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s s s s s s 
+o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o s s 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
@@ -44,30 +71,3 @@ o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
 o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s s s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-s s s s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-g s s s s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-g g g s s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 
-g g g s s s s s s o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o o 

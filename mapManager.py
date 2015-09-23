@@ -10,19 +10,12 @@ class MapManager:
                                   # if the base path should be maps/otherfolder/ then
                                   # BASE_PATH should equal ["maps", "otherfolder"]
     maps                = []      # Maps is a list of all Map's found in within BASE_PATH
-    loadedChunks        = [
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-        [None, None, None],
-    ]
-    LC_WIDTH, LC_HEIGHT = 3, 3    # LC_WIDTH and LC_HEIGHT are the maximum width and height
-                                  # of loadedChunnks, which contains Chunk's loaded into memory
+    activeMap           = None
+    LC_WIDTH, LC_HEIGHT = 3,3   # LC_WIDTH and LC_HEIGHT are the maximum width and height
+                                  # of loadedChunks, which contains Chunk's loaded into memory
+
+    loadedChunks        = [[None]*3 for _ in range(3)]
+
 
     @staticmethod
     def loadMap( map_name ):
@@ -31,7 +24,9 @@ class MapManager:
         """
         LOAD_PATH = MapManager.BASE_PATH + [map_name, "chunks"]
         MapManager.maps.append(Map(map_name, LOAD_PATH))
+        MapManager.activeMap = MapManager.maps[0]
 
+    @staticmethod
     def loadMaps():
         """
         loadMaps loads all the maps that are checked in the plugins manager file
@@ -39,6 +34,14 @@ class MapManager:
         for name in PluginManager.mapNames:
             MapManager.loadMap(name)
         MapManager.maps.sort(key=lambda m: m.precedence)
+        MapManager.activeMap = MapManager.maps[0]
 
-from Map import Map
+    #Reloads loaded chunks in grid around central chunk (inputs use chunk coordinates)
+    @staticmethod
+    def reloadChunks(centralx,centraly):
+        for LCy, chunky in enumerate(range(centraly - int(MapManager.LC_HEIGHT/2), centraly + int(MapManager.LC_HEIGHT/2))):
+            for LCx, chunkx in enumerate(range(centralx - int(MapManager.LC_WIDTH/2), centralx + int(MapManager.LC_WIDTH/2))):
+                MapManager.loadedChunks[LCx][LCy] = MapManager.activeMap.loadChunk(chunkx, chunky)
+
+from Map import *
 from pluginManager import PluginManager

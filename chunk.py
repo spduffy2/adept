@@ -4,7 +4,9 @@ import pygame
 
 from buffalo import utils
 
-from mapManager import MapManager
+from mapManager import *
+from mapGenerator import *
+from biome import Biome
 
 """
 A Chunk is a data structure
@@ -48,6 +50,13 @@ class Chunk:
         )
         self.fromFile(x,y)
         self.render()
+        self.seed = 1
+
+    def generateDataAndDefs(self):
+        x,y = self.pos
+        self.data = MapGenerator.GenerateChunk(self.seed,x,y)
+        self.defs = Biome.GenerateBiomeDefs()
+        self.toFile()
 
     def fromFile(self,x,y):
         """
@@ -58,12 +67,11 @@ class Chunk:
 
         if self.path is None:
             return
-        
+
         # Be sure the URL points to a file before trying to open it
         if not os.path.isfile(self.path):
             print("Could not load chunk in path '" + self.path + "'.")
             return
-
         with open(self.path,"r") as chunkFile:
             # Keep track of which row of data we want to fill
             row = 0
@@ -123,7 +131,8 @@ class Chunk:
         """
 
         # Create a URL that's dependent on platform
-        url = os.path.join("chunks", str(self.pos[0]) + "," + str(self.pos[1]) + ".chunk")
+        LOAD_PATH = MapManager.BASE_PATH + [MapManager.activeMap.name, "chunks"]
+        url = os.path.join(*list(LOAD_PATH + [str(self.pos[0]) + "," + str(self.pos[1]) + ".chunk"]))
 
         #Opens file in overwrite / file creation mode
         with open(url,"w+") as chunkFile:

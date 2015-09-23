@@ -17,7 +17,7 @@ class Menu(Scene):
         pass
 
     def __init__(self):
-        super().__init__()
+        Scene.__init__(self)
         self.BACKGROUND_COLOR = (177, 0, 50, 255)
         self.labels.add(
             Label(
