@@ -72,7 +72,6 @@ class Chunk:
         if not os.path.isfile(self.path):
             print("Could not load chunk in path '" + self.path + "'.")
             return
-
         with open(self.path,"r") as chunkFile:
             # Keep track of which row of data we want to fill
             row = 0

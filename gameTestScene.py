@@ -15,7 +15,7 @@ from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
     def __init__(self):
-        super().__init__()
+        Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         Camera.init()
