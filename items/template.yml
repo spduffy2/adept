@@ -1,0 +1,5 @@
+- name: Template
+- desc: A template item.
+- type: 5
+- maxQuantity: 99
+- id: -1
