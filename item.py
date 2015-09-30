@@ -19,12 +19,35 @@ class Item():
         except Exception as e:
             print "Error: Item " + str(_id) + " does not exist."
 
+        """
+        Special Values per Type:
+        ------------------------
+            - Weapon:
+                -Base Damage
+                -Base Attack Speed
+                -Durability per Use
+                -Critical Chance
+                -Critical Multiplier
+            - Tool:
+                -Base Damage
+                -Base Attack Speed
+                -Durability per Use
+            - Quest:
+                -Quest ID
+            - Armor:
+                -Body Part
+                -Base Protection
+            - Resource:
+                -Resource Type
+        ------------------------
+        """
 
         """
         Instance variables
         """
         self.quantity = quantity
         self.durability = durability
+        self.instanceID = random.random()
 
 class ItemType(Enum):
     WEAPON = 0
