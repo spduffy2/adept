@@ -32,7 +32,7 @@ class GameTestScene(Scene):
             )
         )
         Camera.lock(self.pc)
-        MapManager.reloadChunks(0,0)
+#        MapManager.reloadChunks(0,0)
 
 
     def on_escape(self):
@@ -52,5 +52,8 @@ class GameTestScene(Scene):
         Camera.update()
 
     def blit(self):
+        for row in range(MapManager.LC_HEIGHT):
+            for col in range(MapManager.LC_WIDTH):
+                x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
         Camera.blitView()
         self.pc.blit(utils.screen)
