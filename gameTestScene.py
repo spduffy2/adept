@@ -22,7 +22,6 @@ class GameTestScene(Scene):
             name="Tom",
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
-            speed=20.0,
         )
         self.labels.add(
             Label(

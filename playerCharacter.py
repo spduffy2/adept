@@ -9,7 +9,7 @@ class PlayerCharacter(Character):
     DEFAULT_NAME  = "Unnamed PlayerCharacter"
     DEFAULT_FPOS  = float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])
     DEFAULT_SIZE  = 32, 64
-    DEFAULT_SPEED = 1.5
+    DEFAULT_SPEED = 0.12
 
     def __init__(self, name=None, fPos=None, size=None, speed=None):
         name = name if name is not None else PlayerCharacter.DEFAULT_NAME
@@ -23,8 +23,8 @@ class PlayerCharacter(Character):
 
     def update(self):
         x, y = self.fPos
-        x += self.xv
-        y += self.yv
+        x += self.xv * utils.delta
+        y += self.yv * utils.delta
         self.fPos = x, y
         self.pos  = int(self.fPos[0]), int(self.fPos[1])
         self.xv, self.yv = 0, 0
