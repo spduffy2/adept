@@ -10,7 +10,6 @@ from camera import Camera
 from mapManager import MapManager
 from pluginManager import PluginManager
 
-
 from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
