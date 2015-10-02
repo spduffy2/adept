@@ -17,11 +17,12 @@ class PlayerCharacter(Character):
         name = name if name is not None else PlayerCharacter.DEFAULT_NAME #These could probably be rewritten with kwargs
         fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
-        self.color = kwargs.get('color', PlayerCharacter.DEFAULT_COLOR) #If there's a color given, it's color goes to that value, else it goes to default
+        self.color = kwargs.get('color') if kwargs.get('color') is not None else PlayerCharacter.DEFAULT_COLOR #If there's a color given, it's color goes to that value, else it goes to default
         Character.__init__(self, name=name, fPos=fPos, size=size)
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
         self.xv, self.yv = 0.0, 0.0
-        #Changed the way the surface works: having a surface didn't work well with serialization
+        self.surface = utils.empty_surface(self.size)
+        self.surface.fill(self.color)
 
     def update(self):
         x, y = self.fPos
@@ -34,6 +35,4 @@ class PlayerCharacter(Character):
     def blit(self, dest):
         x, y = self.pos
         cx, cy = Camera.pos
-        surface = utils.empty_surface(self.size)
-        surface.fill(self.color)
-        dest.blit(surface, (x - cx, y - cy))
+        dest.blit(self.surface, (x - cx, y - cy))
