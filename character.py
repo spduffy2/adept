@@ -1,6 +1,8 @@
+from serializable import Serializable
+
 from buffalo import utils
 
-class Character:
+class Character(Serializable):
 
     DEFAULT_NAME = "Unnamed Character"
     DEFAULT_FPOS = float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])
