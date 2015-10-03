@@ -9,6 +9,7 @@ from chunk import Chunk
 from camera import Camera
 from mapManager import MapManager
 from pluginManager import PluginManager
+from inventoryUI import InventoryUI
 
 
 from playerCharacter import PlayerCharacter
@@ -24,6 +25,7 @@ class GameTestScene(Scene):
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
             speed=20.0,
+            inventory=
         )
         self.labels.add(
             Label(
@@ -35,6 +37,7 @@ class GameTestScene(Scene):
         )
         Camera.lock(self.pc)
         MapManager.reloadChunks(0,0)
+        self.inventory = InventoryUI()
 
 
     def on_escape(self):
@@ -55,4 +58,5 @@ class GameTestScene(Scene):
 
     def blit(self):
         Camera.blitView()
+        self.inventory.blit(utils.screen, (100,100))
         self.pc.blit(utils.screen)

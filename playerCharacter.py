@@ -11,7 +11,7 @@ class PlayerCharacter(Character):
     DEFAULT_SIZE  = 32, 64
     DEFAULT_SPEED = 1.5
 
-    def __init__(self, name=None, fPos=None, size=None, speed=None):
+    def __init__(self, name=None, fPos=None, size=None, speed=None, inventory):
         name = name if name is not None else PlayerCharacter.DEFAULT_NAME
         fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
@@ -20,6 +20,7 @@ class PlayerCharacter(Character):
         self.xv, self.yv = 0.0, 0.0
         self.surface = utils.empty_surface(self.size)
         self.surface.fill((170,170,170,255))
+        self.inventory = inventory
 
     def update(self):
         x, y = self.fPos
