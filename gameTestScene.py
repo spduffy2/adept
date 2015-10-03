@@ -11,7 +11,6 @@ from mapManager import MapManager
 from pluginManager import PluginManager
 from inventoryUI import InventoryUI
 
-
 from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
@@ -26,6 +25,7 @@ class GameTestScene(Scene):
             size=(32, 64),
             speed=20.0,
             inventory=
+
         )
         self.labels.add(
             Label(
@@ -36,8 +36,8 @@ class GameTestScene(Scene):
             )
         )
         Camera.lock(self.pc)
-        MapManager.reloadChunks(0,0)
         self.inventory = InventoryUI()
+#        MapManager.reloadChunks(0,0)
 
 
     def on_escape(self):
@@ -57,6 +57,9 @@ class GameTestScene(Scene):
         Camera.update()
 
     def blit(self):
+        for row in range(MapManager.LC_HEIGHT):
+            for col in range(MapManager.LC_WIDTH):
+                x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
         Camera.blitView()
         self.inventory.blit(utils.screen, (100,100))
         self.pc.blit(utils.screen)
