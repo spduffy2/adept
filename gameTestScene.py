@@ -23,37 +23,17 @@ class GameTestScene(Scene):
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
         )
-        self.labels.add(
-            Label(
-                (5,5),
-                "Location",
-                x_centered=True,
-                y_centered=True,
-            )
-        )
         Camera.lock(self.pc)
-#        MapManager.reloadChunks(0,0)
-
+        MapManager.loadChunks(0,0)
 
     def on_escape(self):
         sys.exit()
 
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.pc.yv += -self.pc.speed
-        if keys[pygame.K_s]:
-            self.pc.yv += self.pc.speed
-        if keys[pygame.K_d]:
-            self.pc.xv += self.pc.speed
-        if keys[pygame.K_a]:
-            self.pc.xv += -self.pc.speed
-        self.pc.update()
+        self.pc.update(keys)
         Camera.update()
 
     def blit(self):
-        for row in range(MapManager.LC_HEIGHT):
-            for col in range(MapManager.LC_WIDTH):
-                x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
         Camera.blitView()
         self.pc.blit(utils.screen)
