@@ -55,10 +55,11 @@ class Camera:
     def blitView():
         rmult = Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT
         cmult = Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH
-        for row in range(MapManager.LC_HEIGHT):
-            for col in range(MapManager.LC_WIDTH):
-                x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
-                MapManager.loadedChunks[row][col].blit(
+        for rowindx, row in enumerate(MapManager.loadedChunks):
+            for colindx, chunk in enumerate(row):
+                x = colindx - MapManager.LC_WIDTH // 2
+                y = rowindx - MapManager.LC_HEIGHT // 2
+                chunk.blit(
                     utils.screen,
                     (cmult * x - Camera.pos[0], rmult * y - Camera.pos[1])
                 )

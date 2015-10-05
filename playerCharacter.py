@@ -1,7 +1,8 @@
+import pygame
+
 from buffalo import utils
 
 from camera import Camera
-
 from character import Character
 
 class PlayerCharacter(Character):
@@ -24,7 +25,17 @@ class PlayerCharacter(Character):
         self.surface = utils.empty_surface(self.size)
         self.surface.fill(self.color)
 
-    def update(self):
+    def update(self, keys):
+
+        if keys[pygame.K_w]:
+            self.yv += -self.speed
+        if keys[pygame.K_s]:
+            self.yv += self.speed
+        if keys[pygame.K_d]:
+            self.xv += self.speed
+        if keys[pygame.K_a]:
+            self.xv += -self.speed
+
         x, y = self.fPos
         x += self.xv * utils.delta
         y += self.yv * utils.delta
