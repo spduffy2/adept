@@ -10,6 +10,8 @@ from camera import Camera
 from mapManager import MapManager
 from pluginManager import PluginManager
 from inventoryUI import InventoryUI
+from inventory import Inventory
+from guiManager import GUIManager
 
 from playerCharacter import PlayerCharacter
 
@@ -20,13 +22,12 @@ class GameTestScene(Scene):
         PluginManager.loadPlugins()
         Camera.init()
         self.pc = PlayerCharacter(
+            Inventory(),
             name="Tom",
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
-            speed=20.0,
-            inventory=
-
-        )
+            speed=1.0,
+            )
         self.labels.add(
             Label(
                 (5,5),
@@ -36,8 +37,9 @@ class GameTestScene(Scene):
             )
         )
         Camera.lock(self.pc)
-        self.inventory = InventoryUI()
-#        MapManager.reloadChunks(0,0)
+        self.UIManager = GUIManager()
+        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory))
+        self.UIManager.updateGUIs()
 
 
     def on_escape(self):
@@ -54,6 +56,7 @@ class GameTestScene(Scene):
         if keys[pygame.K_a]:
             self.pc.xv += -self.pc.speed
         self.pc.update()
+        self.UIManager.update()
         Camera.update()
 
     def blit(self):
@@ -61,5 +64,5 @@ class GameTestScene(Scene):
             for col in range(MapManager.LC_WIDTH):
                 x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
         Camera.blitView()
-        self.inventory.blit(utils.screen, (100,100))
+        self.UIManager.blit(utils.screen, (0,0))
         self.pc.blit(utils.screen)
