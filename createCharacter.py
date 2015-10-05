@@ -25,13 +25,29 @@ class CreateCharacter(Scene):
 		super().__init__()
 		self.BACKGROUND_COLOR = (177, 0, 50, 255)
 		Button.DEFAULT_BG_COLOR = (100, 100, 100, 255)
+		self.labels.add(
+			Label(
+				(utils.SCREEN_W / 2 - 75, utils.SCREEN_H / 2 - 60),
+				"Name: ",
+				y_centered=True,
+				x_centered=True,
+			)
+		)
 		self.characterName  = Input(
 				(utils.SCREEN_W / 2, utils.SCREEN_H / 2 - 60),
-				"character",
+				"name",
 				y_centered=True,
 				x_centered=True,
 			)
 		self.inputs.add(self.characterName)
+		self.labels.add(
+			Label(
+				(utils.SCREEN_W / 2 - 175, utils.SCREEN_H / 2),
+				"Color (r,g,b):",
+				x_centered=True,
+                y_centered=True,
+			)
+		)
 		self.r = Option(
 				(utils.SCREEN_W / 2 - 100, utils.SCREEN_H / 2 ),
 				[str(n) for n in list(range(0,256))],
@@ -53,6 +69,14 @@ class CreateCharacter(Scene):
 		self.options.add(self.r)
 		self.options.add(self.g)
 		self.options.add(self.b)
+		self.labels.add(
+			Label(
+				(utils.SCREEN_W / 2 - 75, utils.SCREEN_H / 2 + 60),
+				"Speed: ",
+				y_centered=True,
+				x_centered=True,
+			)
+		)
 		self.speed = Option(
 				(utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 60),
 				[str(n) for n in list(range(10,50))],
