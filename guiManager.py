@@ -1,4 +1,5 @@
 from buffalo import utils
+from inventoryUI import InventoryUI
 import pygame
 
 class GUIManager:
@@ -8,6 +9,7 @@ class GUIManager:
 		self.guiScreens = list()
 		self.keydown = False;
 		self.mousedown = False;
+		self.draggedItem = None
 
 	def updateGUIs(self):
 		self.surface = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
@@ -22,7 +24,6 @@ class GUIManager:
 			if guiRect.collidepoint(pos):
 				return UIObject
 		return None
-
 
 	def update(self):
 		#Keyboard Events
@@ -56,5 +57,8 @@ class GUIManager:
 
 	def blit(self, dest, pos):
 		if(self.active):
-			#self.updateGUIs()
+			self.updateGUIs()
 			dest.blit(self.surface, pos)
+			if self.draggedItem != None:
+				newPos = (pygame.mouse.get_pos()[0] - InventoryUI.BUTTON_SIZE / 2, pygame.mouse.get_pos()[1] - InventoryUI.BUTTON_SIZE / 2)
+				dest.blit(self.draggedItem.surface, newPos)

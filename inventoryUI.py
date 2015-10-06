@@ -2,20 +2,26 @@ import pygame
 from buffalo import utils
 
 class InventoryUI:
-	def __init__(self,inventory):
+
+	BUTTON_SIZE = 35
+	PADDING = 5
+
+	def __init__(self,inventory, manager):
 		self.inventory = inventory
-		self.padding = 5
-		self.buttonSize = 35
-		self.surface = utils.empty_surface((self.inventory.INV_SIZE_X * (self.buttonSize + self.padding) + self.padding,
-			self.inventory.INV_SIZE_Y * (self.buttonSize + self.padding) + self.padding))
+		self.surface = utils.empty_surface((self.inventory.INV_SIZE_X * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING,
+			self.inventory.INV_SIZE_Y * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING))
 		self.surface.fill((0,0,0,100))
 		self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2, utils.SCREEN_H / 2 - 150)
 		self.itemRects = list()
-	
+		self.guiManager = manager
+
 	def getGUIPosFromItemPos(self, pos):
-		newX = pos[0] * (self.buttonSize + self.padding) + self.padding
-		newY = pos[1] * (self.buttonSize + self.padding) + self.padding
+		newX = pos[0] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING
+		newY = pos[1] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING
 		return (newX, newY)
+
+	def getItemPosFromMousePos(self, pos):
+		pass
 
 	def update(self):
 		self.itemRects = dict()
@@ -32,23 +38,23 @@ class InventoryUI:
 				#Blit surface (default to empty surface)
 				self.surface.blit(iSurface, self.getGUIPosFromItemPos((x,y)))
 
-	def getItemFromPos(self, pos):
+	def getItemFromGUIPos(self, pos):
 		for x in range(0,self.inventory.INV_SIZE_X):
 			for y in range(0,self.inventory.INV_SIZE_Y):
 				if self.inventory.items[x][y] != None:
-					itemRect = pygame.Rect(self.getGUIPosFromItemPos((x,y)), (self.buttonSize,self.buttonSize))
+					itemRect = pygame.Rect(self.getGUIPosFromItemPos((x,y)), (InventoryUI.BUTTON_SIZE,InventoryUI.BUTTON_SIZE))
 					if itemRect.collidepoint(pos):
 						return self.inventory.items[x][y]
 		return None
 
-		#Pixel-wise method:
-		# newX = (pos[0] - self.padding) / (self.buttonSize + self.padding)
-		# newY = (pos[1] - self.padding) / (self.buttonSize + self.padding)
-		# return (newX, newY)
-
 	def mouseDown(self,pos):
-		item = self.getItemFromPos(pos)
-		item.surface.fill((100,100,100,255))
+		if self.guiManager.draggedItem == None:
+			item = self.getItemFromGUIPos(pos)
+			self.inventory.removeItem(item)
+			self.guiManager.draggedItem = item
+		else:
+			self.inventory.placeItem(self.guiManager.draggedItem,(0,0))
+			self.guiManager.draggedItem = None
 		self.update()
 
 

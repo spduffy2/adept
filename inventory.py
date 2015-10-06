@@ -15,23 +15,23 @@ class Inventory():
             for y in range(len(self.items[x])):
                 self.items[x][y] = Item("pickaxe")
 
-    def addItem(item):
-        for x in range(INV_SIZE_X):
-            for y in range(INV_SIZE_Y):
+    def addItem(self, item):
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
                 if self.items[x][y] == None and isinstance(item, Item):
                     self.items[x][y] = item
                     return
 
-    def removeItem(item):
-        for x in range(INV_SIZE_X):
-            for y in range(INV_SIZE_Y):
+    def removeItem(self, item):
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
                 if self.items[x][y] == item:
                     self.items[x][y] = None
                     return
 
-    def placeItem(item, x, y):
+    def placeItem(self, item, pos):
         if isinstance(item,Item):
-            self.items[x][y] = item
+            self.items[pos[0]][pos[1]] = item
 
     def placeItemInHotbar(item, index):
         if isinstance(item,Item):
