@@ -10,7 +10,6 @@ class InventoryUI:
 			self.inventory.INV_SIZE_Y * (self.buttonSize + self.padding) + self.padding))
 		self.surface.fill((0,0,0,100))
 		self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2, utils.SCREEN_H / 2 - 150)
-		self.pos = (0,0)
 
 	def update(self):
 		for x in range(0,self.inventory.INV_SIZE_X):

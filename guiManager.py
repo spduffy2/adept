@@ -15,6 +15,15 @@ class GUIManager:
 			UIObject.update()
 			self.surface.blit(UIObject.surface, UIObject.pos)
 
+	def findCollidingGUI(self, pos):
+		for UIObject in self.guiScreens:
+			guiPos = UIObject.pos
+			guiRect = pygame.Rect(guiPos, (UIObject.surface.get_size()))
+			if guiRect.collidepoint(pos):
+				return UIObject
+		return None
+
+
 	def update(self):
 		#Keyboard Events
 		keys = pygame.key.get_pressed()
@@ -33,13 +42,15 @@ class GUIManager:
 			#On Mousedown
 			if not self.mousedown:
 				self.mousedown = True
-				for UIObject in self.guiScreens:
+				UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
+				if UIObject != None:
 					UIObject.mouseDown(pygame.mouse.get_pos())
 					self.updateGUIs()
 
 		else:
 			self.mousedown = False
 
+	
 
 	def blit(self, dest, pos):
 		if(self.active):
