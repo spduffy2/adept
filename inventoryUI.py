@@ -11,13 +11,18 @@ class InventoryUI:
 		self.surface.fill((0,0,0,100))
 		self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2, utils.SCREEN_H / 2 - 150)
 		self.pos = (0,0)
-		
+
 	def update(self):
 		for x in range(0,self.inventory.INV_SIZE_X):
 			for y in range(0,self.inventory.INV_SIZE_Y):
-				newSurface = utils.empty_surface((self.buttonSize,self.buttonSize))
-				newSurface.fill((100,100,100,255))
-				self.surface.blit(newSurface,((x * (self.buttonSize + self.padding)) + self.padding,
+				iSurface = utils.empty_surface((35,35))
+				#Default color
+				iSurface.fill((100,100,100,255))
+
+				#Load item icons from inventory
+				if self.inventory.items[x][y]:
+					iSurface = self.inventory.items[x][y].surface
+				self.surface.blit(iSurface,((x * (self.buttonSize + self.padding)) + self.padding,
 					(y * (self.buttonSize + self.padding) + self.padding)))
 
 	def mouseDown(self,pos):

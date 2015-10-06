@@ -27,6 +27,8 @@ class GUIManager:
 			self.keydown = False
 
 		#Mouse Events
+		if not self.active:
+			return
 		if pygame.mouse.get_pressed()[0]:
 			#On Mousedown
 			if not self.mousedown:
