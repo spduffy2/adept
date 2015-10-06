@@ -44,7 +44,9 @@ class GUIManager:
 				self.mousedown = True
 				UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
 				if UIObject != None:
-					UIObject.mouseDown(pygame.mouse.get_pos())
+					absLocation = pygame.mouse.get_pos()
+					relLocation = (absLocation[0] - UIObject.pos[0], absLocation[1] - UIObject.pos[1])
+					UIObject.mouseDown(relLocation)
 					self.updateGUIs()
 
 		else:
