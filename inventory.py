@@ -11,9 +11,7 @@ class Inventory():
         self.items = [[None]*self.INV_SIZE_Y for _ in range(self.INV_SIZE_X)]
         self.hotbar = [None]*self.INV_SIZE_X
 
-        for x in range(len(self.items)):
-            for y in range(len(self.items[x])):
-                self.items[x][y] = Item("pickaxe")
+        self.items[0][0] = Item("pickaxe")
 
     def addItem(self, item):
         for x in range(self.INV_SIZE_X):
