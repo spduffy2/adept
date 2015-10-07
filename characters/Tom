@@ -1,1 +1,1 @@
-"{\"xv\": 0, \"size\": [32, 64], \"fPos\": [846.9599999999984, 697.6799999999955], \"__class__\": \"PlayerCharacter\", \"speed\": 0.12, \"color\": [0, 0, 200, 255], \"name\": \"Tom\", \"surface\": null, \"__module__\": \"playerCharacter\", \"pos\": [846, 697], \"yv\": 0}"
+"{\"name\": \"Tom\", \"surface\": null, \"yv\": 0, \"fPos\": [561.4800000000037, 914.0399999999916], \"size\": [32, 64], \"__module__\": \"playerCharacter\", \"xv\": 0, \"speed\": 0.12, \"__class__\": \"PlayerCharacter\", \"pos\": [561, 914], \"color\": [0, 0, 200, 255]}"

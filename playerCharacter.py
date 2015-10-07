@@ -19,6 +19,8 @@ class PlayerCharacter(Character):
         fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
         self.color = kwargs.get('color') if kwargs.get('color') is not None else PlayerCharacter.DEFAULT_COLOR #If there's a color given, it's color goes to that value, else it goes to default
+        self.level = kwargs.get('level') if kwargs.get('level') is not None else 1
+        self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
         Character.__init__(self, name=name, fPos=fPos, size=size)
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
         self.xv, self.yv = 0.0, 0.0
@@ -47,3 +49,9 @@ class PlayerCharacter(Character):
         x, y = self.pos
         cx, cy = Camera.pos
         dest.blit(self.surface, (x - cx, y - cy))
+
+    def gainXP(self, amount):
+        self.experience += amount
+        if (self.experience >= 100*self.level):
+            self.level += 1
+            self.experience %= (100*self.level)
