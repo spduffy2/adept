@@ -1,0 +1,11 @@
+- components:
+	- glass_bottle: 1
+	- healing_powder: 5
+- requrements:
+	- level:
+		- magic: 4
+		- crafting: 3
+	- tool:
+		- brewing_station
+- products:
+	- healing_potion: 1
