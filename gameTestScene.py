@@ -27,14 +27,6 @@ class GameTestScene(Scene):
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
         )
-        self.labels.add(
-            Label(
-                (5,5),
-                "Location",
-                x_centered=True,
-                y_centered=True,
-            )
-        )
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))

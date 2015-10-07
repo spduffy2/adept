@@ -54,7 +54,7 @@ class Item():
         self.instanceID = random.random()
         self.surface = utils.empty_surface((InventoryUI.BUTTON_SIZE, InventoryUI.BUTTON_SIZE))
         #Load item image to surface
-        IMG_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH + [self.name + ".png"])))
+        IMG_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + [self.name + ".png"])))
         try:
             self.surface = pygame.image.load(IMG_FILE)
         except Exception as e:
