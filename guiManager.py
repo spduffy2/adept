@@ -1,4 +1,5 @@
 from buffalo import utils
+from inventoryUI import InventoryUI
 import pygame
 
 class GUIManager:
@@ -8,12 +9,21 @@ class GUIManager:
 		self.guiScreens = list()
 		self.keydown = False;
 		self.mousedown = False;
+		self.draggedItem = None
 
 	def updateGUIs(self):
 		self.surface = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
 		for UIObject in self.guiScreens:
 			UIObject.update()
 			self.surface.blit(UIObject.surface, UIObject.pos)
+
+	def findCollidingGUI(self, pos):
+		for UIObject in self.guiScreens:
+			guiPos = UIObject.pos
+			guiRect = pygame.Rect(guiPos, (UIObject.surface.get_size()))
+			if guiRect.collidepoint(pos):
+				return UIObject
+		return None
 
 	def update(self):
 		#Keyboard Events
@@ -27,19 +37,29 @@ class GUIManager:
 			self.keydown = False
 
 		#Mouse Events
+		if not self.active:
+			return
 		if pygame.mouse.get_pressed()[0]:
 			#On Mousedown
 			if not self.mousedown:
 				self.mousedown = True
-				for UIObject in self.guiScreens:
-					UIObject.mouseDown(pygame.mouse.get_pos())
+				UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
+				if UIObject != None:
+					absLocation = pygame.mouse.get_pos()
+					relLocation = (absLocation[0] - UIObject.pos[0], absLocation[1] - UIObject.pos[1])
+					UIObject.mouseDown(relLocation)
 					self.updateGUIs()
 
 		else:
 			self.mousedown = False
 
+	
 
 	def blit(self, dest, pos):
 		if(self.active):
-			#self.updateGUIs()
+			self.updateGUIs()
 			dest.blit(self.surface, pos)
+			if self.draggedItem != None:
+				newPos = (pygame.mouse.get_pos()[0] - InventoryUI.BUTTON_SIZE / 2, 
+					pygame.mouse.get_pos()[1] - InventoryUI.BUTTON_SIZE / 2)
+				dest.blit(self.draggedItem.surface, newPos)

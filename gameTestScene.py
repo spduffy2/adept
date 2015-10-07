@@ -37,8 +37,7 @@ class GameTestScene(Scene):
         )
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
-        MapManager.loadChunks(0,0)
-        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory))
+        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
         self.UIManager.updateGUIs()
 
 

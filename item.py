@@ -1,6 +1,8 @@
 from enum import Enum
+from buffalo import utils
 import yaml
 import os
+import random
 
 class Item():
     BASE_PATH = ["items"]
@@ -48,6 +50,8 @@ class Item():
         self.quantity = quantity
         self.durability = durability
         self.instanceID = random.random()
+        self.surface = utils.empty_surface((35,35))
+        self.surface.fill((random.random() * 255, random.random() * 255, random.random() * 255, 255))
 
 class ItemType(Enum):
     WEAPON = 0
