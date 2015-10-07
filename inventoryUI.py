@@ -3,8 +3,8 @@ from buffalo import utils
 
 class InventoryUI:
 
-	BUTTON_SIZE = 35
-	PADDING = 5
+	BUTTON_SIZE = 32
+	PADDING = 6
 
 	def __init__(self,inventory, manager):
 		self.inventory = inventory
@@ -16,8 +16,8 @@ class InventoryUI:
 		self.guiManager = manager
 
 	def getGUIPosFromItemPos(self, pos):
-		newX = pos[0] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING
-		newY = pos[1] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING
+		newX = (pos[0] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)) + InventoryUI.PADDING
+		newY = (pos[1] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)) + InventoryUI.PADDING
 		return (newX, newY)
 
 	def getItemPosFromMousePos(self, pos):
@@ -30,9 +30,9 @@ class InventoryUI:
 		self.itemRects = dict()
 		for x in range(0,self.inventory.INV_SIZE_X):
 			for y in range(0,self.inventory.INV_SIZE_Y):
-				iSurface = utils.empty_surface((35,35))
+				iSurface = utils.empty_surface((InventoryUI.BUTTON_SIZE,InventoryUI.BUTTON_SIZE))
 				#Default color
-				iSurface.fill((100,100,100,255))
+				iSurface.fill((100,100,100,0))
 
 				#Load item icons from inventory
 				if self.inventory.items[x][y]:
