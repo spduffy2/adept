@@ -13,8 +13,9 @@ class Camera:
 
     zoom = 1.0
     pos  = 0, 0
-    fPos = 0.0, 0.0
+    fPos = float(pos[0]), float(pos[1])
     locked = False
+    marker = fPos # marker represents the last position at which chunks were loaded
 
     @staticmethod
     def init():
@@ -33,6 +34,8 @@ class Camera:
         """
         Camera.locked = True
         Camera.character = character
+        Camera.update()
+        
 
     @staticmethod
     def update():
@@ -40,6 +43,10 @@ class Camera:
             x, y = Camera.character.fPos
             x, y = x - utils.SCREEN_W // 2, y - utils.SCREEN_H // 2
             Camera.updatePos((x, y))
+        if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE):
+            MapManager.loadChunks(0, 0)
+            Camera.marker = Camera.fPos
+        
 
     @staticmethod
     def updatePos(fPos):

@@ -4,12 +4,16 @@ from buffalo import utils
 
 from camera import Camera
 from character import Character
+from chunk import Chunk
 
 class PlayerCharacter(Character):
 
     DEFAULT_NAME  = "Unnamed PlayerCharacter"
-    DEFAULT_FPOS  = float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])
     DEFAULT_SIZE  = 32, 64
+    DEFAULT_FPOS  = (
+        float(Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE / 2 - DEFAULT_SIZE[0] / 2),
+        float(Chunk.CHUNK_HEIGHT * Chunk.TILE_SIZE / 2 - DEFAULT_SIZE[1]),
+        )
     DEFAULT_SPEED = 0.12
     DEFAULT_COLOR = (170,170,170,255) #Added for testing purposes
 
@@ -41,7 +45,7 @@ class PlayerCharacter(Character):
         y += self.yv * utils.delta
         self.fPos = x, y
         self.pos  = int(self.fPos[0]), int(self.fPos[1])
-        self.xv, self.yv = 0, 0
+        self.xv, self.yv = 0.0, 0.0
 
     def blit(self, dest):
         x, y = self.pos

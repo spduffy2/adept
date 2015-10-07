@@ -20,7 +20,6 @@ class GameTestScene(Scene):
         Camera.init()
         self.pc = PlayerCharacter(
             name="Tom",
-            fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
         )
         Camera.lock(self.pc)
