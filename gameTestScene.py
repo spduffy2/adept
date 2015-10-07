@@ -10,6 +10,9 @@ from chunk import Chunk
 from camera import Camera
 from mapManager import MapManager
 from pluginManager import PluginManager
+from inventoryUI import InventoryUI
+from inventory import Inventory
+from guiManager import GUIManager
 
 from playerCharacter import PlayerCharacter
 
@@ -27,8 +30,19 @@ class GameTestScene(Scene):
                 speed=.25,
                 color=(255,0,0,255),
             )
+        self.labels.add(
+            Label(
+                (5,5),
+                "Location",
+                x_centered=True,
+                y_centered=True,
+            )
+        )
         Camera.lock(self.pc)
-        MapManager.loadChunks(0,0)
+        self.UIManager = GUIManager()
+        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
+        self.UIManager.updateGUIs()
+
 
     def on_escape(self):
         Saves.store(self.pc)
@@ -37,8 +51,10 @@ class GameTestScene(Scene):
     def update(self):
         keys = pygame.key.get_pressed()
         self.pc.update(keys)
+        self.UIManager.update()
         Camera.update()
 
     def blit(self):
         Camera.blitView()
+        self.UIManager.blit(utils.screen, (0,0))
         self.pc.blit(utils.screen)
