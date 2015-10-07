@@ -31,7 +31,9 @@ class Inventory():
 
     def placeItem(self, item, pos):
         if isinstance(item,Item):
+            oldItem = self.items[pos[0]][pos[1]]
             self.items[pos[0]][pos[1]] = item
+            return oldItem
 
     def placeItemInHotbar(item, index):
         if isinstance(item,Item):

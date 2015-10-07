@@ -21,7 +21,10 @@ class InventoryUI:
 		return (newX, newY)
 
 	def getItemPosFromMousePos(self, pos):
-		pass
+		relPos = (pos[0] - self.pos[0], pos[1] - self.pos[1])
+		itemX = (relPos[0] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)
+		itemY = (relPos[1] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)
+		return (itemX, itemY)
 
 	def update(self):
 		self.itemRects = dict()
@@ -53,8 +56,8 @@ class InventoryUI:
 			self.inventory.removeItem(item)
 			self.guiManager.draggedItem = item
 		else:
-			self.inventory.placeItem(self.guiManager.draggedItem,(0,0))
-			self.guiManager.draggedItem = None
+			#Replaced by item at location, else None
+			self.guiManager.draggedItem = self.inventory.placeItem(self.guiManager.draggedItem, self.getItemPosFromMousePos(pygame.mouse.get_pos()))
 		self.update()
 
 
