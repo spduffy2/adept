@@ -19,7 +19,7 @@ class Item():
             with open(ITEM_FILE, "r") as iFile:
                 self.info = yaml.load(iFile.read())
         except Exception as e:
-            print "Error: Item " + str(_id) + " does not exist."
+            print("Error: Item " + str(_id) + " does not exist.")
 
         """
         Special Values per Type:
