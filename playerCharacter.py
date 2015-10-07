@@ -1,7 +1,8 @@
+import pygame
+
 from buffalo import utils
 
 from camera import Camera
-
 from character import Character
 
 from inventory import Inventory
@@ -27,7 +28,17 @@ class PlayerCharacter(Character):
         self.inventory = inventory
         self.surface.fill(self.color)
 
-    def update(self):
+    def update(self, keys):
+
+        if keys[pygame.K_w]:
+            self.yv += -self.speed
+        if keys[pygame.K_s]:
+            self.yv += self.speed
+        if keys[pygame.K_d]:
+            self.xv += self.speed
+        if keys[pygame.K_a]:
+            self.xv += -self.speed
+
         x, y = self.fPos
         x += self.xv * utils.delta
         y += self.yv * utils.delta

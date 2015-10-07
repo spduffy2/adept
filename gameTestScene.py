@@ -26,8 +26,7 @@ class GameTestScene(Scene):
             name="Tom",
             fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
-            speed=1.0,
-            )
+        )
         self.labels.add(
             Label(
                 (5,5),
@@ -38,6 +37,7 @@ class GameTestScene(Scene):
         )
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
+        MapManager.loadChunks(0,0)
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory))
         self.UIManager.updateGUIs()
 
@@ -47,22 +47,11 @@ class GameTestScene(Scene):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_w]:
-            self.pc.yv += -self.pc.speed
-        if keys[pygame.K_s]:
-            self.pc.yv += self.pc.speed
-        if keys[pygame.K_d]:
-            self.pc.xv += self.pc.speed
-        if keys[pygame.K_a]:
-            self.pc.xv += -self.pc.speed
-        self.pc.update()
+        self.pc.update(keys)
         self.UIManager.update()
         Camera.update()
 
     def blit(self):
-        for row in range(MapManager.LC_HEIGHT):
-            for col in range(MapManager.LC_WIDTH):
-                x, y = col - MapManager.LC_WIDTH // 2, row - MapManager.LC_HEIGHT // 2
         Camera.blitView()
         self.UIManager.blit(utils.screen, (0,0))
         self.pc.blit(utils.screen)
