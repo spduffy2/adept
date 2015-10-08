@@ -7,6 +7,7 @@ from buffalo.button import Button
 from buffalo.input import Input
 from buffalo.option import Option
 
+from inventory import Inventory
 from saves import Saves
 from playerCharacter import PlayerCharacter
 
@@ -108,7 +109,7 @@ class CreateCharacter(Scene):
 			Menu()
 		)
 	def create_character(self):
-		pc = PlayerCharacter(name = self.characterName.label.text, color=(int(self.r.label.text), int(self.g.label.text), int(self.b.label.text), 255), speed = (float(self.speed.label.text) / 100))
+		pc = PlayerCharacter(Inventory(), name = self.characterName.label.text, color=(int(self.r.label.text), int(self.g.label.text), int(self.b.label.text), 255), speed = (float(self.speed.label.text) / 100))
 		Saves.store(pc)
 
 from menu import Menu
