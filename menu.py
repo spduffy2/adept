@@ -17,8 +17,9 @@ class Menu(Scene):
         pass
 
     def __init__(self):
-        super().__init__()
+        Scene.__init__(self)
         self.BACKGROUND_COLOR = (177, 0, 50, 255)
+        Button.DEFAULT_BG_COLOR = (100, 100, 100, 255)
         self.labels.add(
             Label(
                 (5, 5),
@@ -89,11 +90,11 @@ class Menu(Scene):
                 (10, utils.SCREEN_H - 10),
                 "Select Character",
                 invert_y_pos=True,
-                func=self.go_to_select_character,
+                func=self.go_to_selectCharacter,
             )
         )
 
-    def go_to_select_character(self):
+    def go_to_selectCharacter(self):
         utils.set_scene(
             SelectCharacter()
         )
@@ -103,5 +104,10 @@ class Menu(Scene):
             Options()
         )
 
+<<<<<<< HEAD
 from selectcharacter import SelectCharacter
+=======
+from selectCharacter import SelectCharacter
+from gameTestScene import GameTestScene
+>>>>>>> fd4daf2a30e5444dfc8aa9503fe217f43fb4db6c
 from options import Options
