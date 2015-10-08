@@ -6,7 +6,7 @@ from camera import Camera
 from character import Character
 
 from inventory import Inventory
-import skill
+from skill import Skill
 
 class PlayerCharacter(Character):
 
@@ -26,6 +26,7 @@ class PlayerCharacter(Character):
         self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
         Character.__init__(self, name=name, fPos=fPos, size=size)
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
+        self.hide = Skill()
         self.skills = [hide]
         self.xv, self.yv = 0.0, 0.0
         self.surface = utils.empty_surface(self.size)
@@ -43,7 +44,7 @@ class PlayerCharacter(Character):
         if keys[pygame.K_a]:
             self.xv += -self.speed
         if keys[pygame.K_f]:
-            self.doSkill(hide)
+            self.skills[0].name(self)
 
         x, y = self.fPos
         x += self.xv * utils.delta
@@ -62,6 +63,3 @@ class PlayerCharacter(Character):
         if self.experience >= 100*self.level:
             self.level += 1
             self.experience %= (100*self.level)
-
-    def doSkill(self, skill):
-        skill.func(self)
