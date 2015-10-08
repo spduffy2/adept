@@ -16,6 +16,7 @@ class Camera:
     fPos = float(pos[0]), float(pos[1])
     locked = False
     marker = fPos # marker represents the last position at which chunks were loaded
+    c_offset = 0, 0 # represents the (x, y) tuple last passed to MapManager.loadChunks(...)
 
     @staticmethod
     def init():
@@ -44,7 +45,10 @@ class Camera:
             x, y = x - utils.SCREEN_W // 2, y - utils.SCREEN_H // 2
             Camera.updatePos((x, y))
         if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE):
-            MapManager.loadChunks(0, 0)
+            x, y = Camera.character.fPos
+            x = int(x // (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH))
+            y = int(y // (Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT))            
+            MapManager.loadChunks(x, y)
             Camera.marker = Camera.fPos
         
 
@@ -64,8 +68,8 @@ class Camera:
         cmult = Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH
         for rowindx, row in enumerate(MapManager.loadedChunks):
             for colindx, chunk in enumerate(row):
-                x = colindx - MapManager.LC_WIDTH // 2
-                y = rowindx - MapManager.LC_HEIGHT // 2
+                x = colindx - MapManager.LC_WIDTH // 2 + Camera.c_offset[0]
+                y = rowindx - MapManager.LC_HEIGHT // 2 + Camera.c_offset[1]
                 chunk.blit(
                     utils.screen,
                     (cmult * x - Camera.pos[0], rmult * y - Camera.pos[1])
