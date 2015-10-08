@@ -24,6 +24,7 @@ class GameTestScene(Scene):
         Camera.init()
         pc = Saves.unstore(pc, "characters")
         self.pc = pc if pc is not None else PlayerCharacter(
+                Inventory(),
                 name="Sean",
                 fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
                 size=(32, 64),
