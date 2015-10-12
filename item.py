@@ -60,8 +60,16 @@ class Item():
         except Exception as e:
             print "Error: Icon for item " + str(name) + " does not exist."
             print e
-        # else:
-        #     self.surface.fill((random.random() * 255, random.random() * 255, random.random() * 255, 255))
+        self.renderItemQuantity()
+
+    def renderItemQuantity(self):
+        if(self.quantity > 1):
+            myfont = pygame.font.SysFont("monospace", 15)
+            label = myfont.render(str(self.quantity), 1, (255,255,0))
+            self.surface.blit(label, (12,18))
+
+    def update(self):
+        self.renderItemQuantity()
 
 class ItemType(Enum):
     WEAPON = 0
