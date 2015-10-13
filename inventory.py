@@ -13,7 +13,7 @@ class Inventory():
 
         self.items[0][0] = Item("dagger")
         self.items[1][0] = Item("book")
-        self.items[2][0] = Item("potion")
+        self.items[2][0] = Item("test")
 
     def addItem(self, item):
         for x in range(self.INV_SIZE_X):
