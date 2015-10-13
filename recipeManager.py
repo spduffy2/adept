@@ -9,8 +9,6 @@ class RecipeManager:
 		files =  os.listdir(*list(os.path.join(Recipe.BASE_PATH)))
 		for f in files:
 			newRecipe = Recipe(f.split('.')[0])
-			RECIPES.append(newRecipe)
-
-	
+			RecipeManager.RECIPES.append(newRecipe)
 
 RecipeManager.loadRecipes()

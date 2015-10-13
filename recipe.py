@@ -22,4 +22,22 @@ class Recipe():
             print "Error: Problem with recipe: " + self.name + ".\n"
             print e
 
+    def recipeUnlocked(self):
+        """
+        Eventually, the player should only see recipes that they have the stats to be able to craft.
+        """
+        return True
+
+    def canCraft(inventory, station_type):
+        """
+        Checks to see if the player has the correct items in their inventory and is at the right crafting location
+        """
+        if self.requirements["tool"] != "" and self.requirements["tool"] != station_type:
+            return false
+
+        for item in self.components.key:
+            if inventory.getTotalItemQuantity(item) < self.components[item]:
+                return false
+        #TODO: Also do a check for character's skills
+        return true
         

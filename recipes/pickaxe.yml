@@ -1,10 +1,9 @@
 components: 
-    stick: 1
-    stone: 5
+  stick: 1
+  stone: 5
 requirements:
   level:
     crafting: 1
-  tool:
-    "crafting_station"
+  tool: "crafting_station"
 products:
-  pickaxe	: 1
+  pickaxe: 1

@@ -35,9 +35,21 @@ class Inventory():
             self.items[pos[0]][pos[1]] = item
             return oldItem
 
-    def placeItemInHotbar(item, index):
+    def placeItemInHotbar(self, item, index):
         if isinstance(item,Item):
             hotbar[index] = item
+
+    def getTotalItemQuantity(self, item):
+        """
+        Gets total quantity held of a specific item accross all stacks within Inventory
+        """
+        quantity = 0;
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
+                if self.items[x][y] != None and self.items[x][y].name == item:
+                    quantity += self.items[x][y].quantity
+        return quantity
+
 
     def addItemToHotbar(item):
         for x in range(INV_SIZE_X):
