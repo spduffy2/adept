@@ -23,7 +23,7 @@ class CreateCharacter(Scene):
 		pass
 
 	def __init__(self):
-		super().__init__()
+		super(CreateCharacter, self).__init__()
 		self.BACKGROUND_COLOR = (177, 0, 50, 255)
 		Button.DEFAULT_BG_COLOR = (100, 100, 100, 255)
 		self.labels.add(

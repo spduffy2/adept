@@ -97,7 +97,7 @@ class Chunk:
 
                     else: # If we aren't looking at a correctly formatted definition
 
-                        # Then interprate the line as chunk data
+                        # Then interpret the line as chunk data
                         for col, key in enumerate(splitted):
                             if col < Chunk.CHUNK_WIDTH and row < Chunk.CHUNK_HEIGHT:
                                 self.data[row][col] = key
