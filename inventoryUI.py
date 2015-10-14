@@ -25,8 +25,8 @@ class InventoryUI:
 
 	def getItemPosFromMousePos(self, pos):
 		relPos = (pos[0] - self.pos[0], pos[1] - self.pos[1])
-		itemX = (relPos[0] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)
-		itemY = (relPos[1] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)
+		itemX = int((relPos[0] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING))
+		itemY = int((relPos[1] - InventoryUI.PADDING) / (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING))
 		return (itemX, itemY)
 
 	def update(self):

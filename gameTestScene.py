@@ -17,7 +17,7 @@ from guiManager import GUIManager
 from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
-    def __init__(self, pc):
+    def __init__(self, pc=None):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
@@ -28,7 +28,6 @@ class GameTestScene(Scene):
                 name="Sean",
                 size=(32, 64),
                 speed=.25,
-                color=(255,0,0,255),
             )
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
