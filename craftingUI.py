@@ -2,6 +2,8 @@ import pygame
 from buffalo import utils
 from recipeManager import RecipeManager
 from item import Item
+import pygame
+import os
 
 class CraftingUI:
 
@@ -44,8 +46,16 @@ class CraftingUI:
         """
         Products Rendering
         """
-        for item in recipe.products.keys():
-            pass
+        for num, item in enumerate(recipe.products.keys()):
+            x =  192 - (((num % 2) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING)
+            y = (((num / 2)) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING
+            newScreen.blit(Item(item).surface, (x,y))
+        """
+        Arrow Rendering
+        """
+        path = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + ["arrow.png"])))
+        arrowSurface = pygame.image.load(path)
+        newScreen.blit(arrowSurface,(114, (newScreen.get_height() / 2) - arrowSurface.get_height() / 2))
         """
         Label Rendering
         """
