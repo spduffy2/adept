@@ -19,7 +19,7 @@ class Recipe():
                 self.requirements = self.info["requirements"]
                 self.products = self.info["products"]
         except Exception as e:
-            print "Error: Problem with recipe: " + self.name + ".\n"
+            print "Error: Problem with recipe: " + self.name + "\n"
             print e
 
     def recipeUnlocked(self):

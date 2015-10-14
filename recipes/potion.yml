@@ -1,6 +1,9 @@
 components: 
     glass_bottle: 1
     healing_powder: 5
+    f: 3
+    t: 5
+    g: 4
 requirements:
   level:
     magic: 4

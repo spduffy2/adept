@@ -21,7 +21,7 @@ class Item():
             with open(ITEM_FILE, "r") as iFile:
                 self.info = yaml.load(iFile.read())
         except Exception as e:
-            print "Error: Item " + name + " does not exist."
+            print "Error: Item \"" + name + "\" does not exist."
 
 
         """
@@ -59,7 +59,7 @@ class Item():
         try:
             self.surface = pygame.image.load(IMG_FILE)
         except Exception as e:
-            print "Error: Icon for item " + str(name) + " does not exist."
+            print "Error: Icon for item \"" + str(name) + "\" does not exist."
             print e
             IMG_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + ["error.png"])))
             self.surface = pygame.image.load(IMG_FILE)
