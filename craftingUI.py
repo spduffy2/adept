@@ -11,6 +11,7 @@ class CraftingUI:
     PADDING = 6
 
     def __init__(self, inventory):
+        self.inventory = inventory
         self.surface  = utils.empty_surface((228,500))
         self.surface.fill((100,100,100,100))
         self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2 - 350, utils.SCREEN_H / 2 - 150)
@@ -25,7 +26,7 @@ class CraftingUI:
             recipeTiles.append(newTile)
             total_y += newTile.get_height()
         newSurface = utils.empty_surface((228, total_y))
-        newSurface.fill((100,100,100,100))
+        newSurface.fill((100,100,100,255))
         currY = 0
         for surf in recipeTiles:
             newSurface.blit(surf, (0, currY))
@@ -64,6 +65,7 @@ class CraftingUI:
         newScreen.blit(label, (newScreen.get_width() - label.get_width() - 2, newScreen.get_height() - label.get_height() - 2))
 
         pygame.draw.rect(newScreen, (0,0,0,255), pygame.Rect(0,0,228, y_length), 1)
+        self.inventory.items[1][1] = Item("test")
         return newScreen
 
     def blit(self, dest, pos):
