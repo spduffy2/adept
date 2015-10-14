@@ -107,7 +107,7 @@ class Menu(Scene):
         utils.set_scene(
             Options()
         )
-            GameTestScene(self.characterOption.label.text)
+        GameTestScene(self.characterOption.label.text)
 
 from createCharacter import CreateCharacter
 from gameTestScene import GameTestScene
