@@ -12,9 +12,6 @@ class Skill(Serializable):
 
 	def gainXP(self, amount):
 		self.experience += amount
-		if self.experience >= 100*self.level:
+		if self.experience >= 500*self.level:
 			self.level += 1
-			self.experience %= (100*self.level)
-
-	def hide(pc):
-		pc.color = (250,10,2,50)
+			self.experience %= (500*self.level)

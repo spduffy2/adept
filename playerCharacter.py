@@ -26,8 +26,8 @@ class PlayerCharacter(Character):
         self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
         Character.__init__(self, name=name, fPos=fPos, size=size)
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
-        self.hide = Skill()
-        self.skills = [hide]
+        self.swordSkill = Skill(name="SwordSkill")
+        self.bowSkill = Skill(name="BowSkill")
         self.xv, self.yv = 0.0, 0.0
         self.surface = utils.empty_surface(self.size)
         self.inventory = inventory
@@ -44,7 +44,7 @@ class PlayerCharacter(Character):
         if keys[pygame.K_a]:
             self.xv += -self.speed
         if keys[pygame.K_f]:
-            self.skills[0].name(self)
+            self.swordSkill.gainXP(10)
 
         x, y = self.fPos
         x += self.xv * utils.delta
