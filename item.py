@@ -9,17 +9,17 @@ from inventoryUI import InventoryUI
 class Item():
     BASE_PATH = ["items"]
 
-    def __init__(self,name,quantity=0,durability=1.0):
+    def __init__(self,name,quantity=0,durability=1.0,**kwargs):
         """
         Static item information
         """
         self.name = name
-        self.info = dict()
+        info = dict() #yaml files messed up json serialization, works as long as it's not a self. variable
 
         ITEM_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH + [self.name + ".yml"])))
         try:
             with open(ITEM_FILE, "r") as iFile:
-                self.info = yaml.load(iFile.read())
+                info = yaml.load(iFile.read())
         except Exception as e:
             print "Error: Item \"" + name + "\" does not exist."
 
