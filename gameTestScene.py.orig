@@ -22,12 +22,11 @@ class GameTestScene(Scene):
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         Camera.init()
-<<<<<<< .merge_file_FmiXA0
+<<<<<<< HEAD
         self.pc = PlayerCharacter(
-            Inventory(),
             name="Tom",
-            fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
             size=(32, 64),
+        )
 =======
         pc = Saves.unstore(pc, "characters")
         self.pc = pc if pc is not None else PlayerCharacter(
@@ -38,15 +37,7 @@ class GameTestScene(Scene):
                 speed=.25,
                 color=(255,0,0,255),
             )
-        self.labels.add(
-            Label(
-                (5,5),
-                "Location",
-                x_centered=True,
-                y_centered=True,
-            )
->>>>>>> .merge_file_AkI3v2
-        )
+>>>>>>> develop
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))

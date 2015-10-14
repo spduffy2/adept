@@ -26,7 +26,6 @@ class GameTestScene(Scene):
         self.pc = pc if pc is not None else PlayerCharacter(
                 Inventory(),
                 name="Sean",
-                fPos=(float(utils.SCREEN_M[0]), float(utils.SCREEN_M[1])),
                 size=(32, 64),
                 speed=.25,
                 color=(255,0,0,255),
@@ -36,6 +35,7 @@ class GameTestScene(Scene):
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
         self.UIManager.updateGUIs()
 
+        MapManager.loadChunks(0,0)
 
     def on_escape(self):
         Saves.store(self.pc)

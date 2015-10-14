@@ -94,11 +94,18 @@ class Menu(Scene):
         )
         self.characterOption = Option(
                 (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 100),
-                [character for character in os.listdir("characters")],
+                self.getCharacterNames(),
                 x_centered=True,
                 y_centered=True,
             )
         self.options.add(self.characterOption)
+    def getCharacterNames(self):
+        characters = list()
+        for character in os.listdir("characters"):
+            if character != ".DS_Store":
+                characters.append(character)
+        return characters
+
 
     def go_to_createCharacter(self):
         utils.set_scene(
