@@ -15,15 +15,21 @@ class CraftingUI:
         self.surface  = utils.empty_surface((228,500))
         self.surface.fill((100,100,100,100))
         self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2 - 350, utils.SCREEN_H / 2 - 150)
+        self.tileRects = list()
+        self.tileRecipes = list()
         self.updateRecipeTable()
 
     def updateRecipeTable(self):
+        self.tileRects = list()
+        self.tileRecipes = list()
         recipeTiles = list()
         total_y = 0
         RecipeManager.loadRecipes()
         for r in RecipeManager.RECIPES:
             newTile = self.generateRecipeTile(r)
             recipeTiles.append(newTile)
+            self.tileRects.append(pygame.Rect(0,total_y, newTile.get_width(), newTile.get_height()))
+            self.tileRecipes.append(r)
             total_y += newTile.get_height()
         newSurface = utils.empty_surface((228, total_y))
         newSurface.fill((100,100,100,255))
@@ -72,7 +78,6 @@ class CraftingUI:
         newScreen.blit(label, (newScreen.get_width() - label.get_width() - 2, newScreen.get_height() - label.get_height() - 2))
 
         pygame.draw.rect(newScreen, (0,0,0,255), pygame.Rect(0,0,228, y_length), 1)
-        self.inventory.items[1][1] = Item("test")
         return newScreen
 
     def blit(self, dest, pos):
@@ -82,4 +87,6 @@ class CraftingUI:
         pass
 
     def mouseDown(self, pos):
-        pass
+        for tile in self.tileRects:
+            if(tile.collidepoint(pos)):
+                print self.tileRecipes[self.tileRects.index(tile)].name
