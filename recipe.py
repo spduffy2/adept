@@ -28,16 +28,16 @@ class Recipe():
         """
         return True
 
-    def canCraft(inventory):
+    def canCraft(self, inventory):
         """
         Checks to see if the player has the correct items in their inventory and is at the right crafting location
         """
         # if self.requirements["tool"] != "" and self.requirements["tool"] != station_type:
         #     return false
 
-        for item in self.components.key:
+        for item in self.components.keys():
             if inventory.getTotalItemQuantity(item) < self.components[item]:
-                return false
+                return False
         #TODO: Also do a check for character's skills
-        return true
+        return True
         

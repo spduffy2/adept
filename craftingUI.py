@@ -43,7 +43,11 @@ class CraftingUI:
         for num, item in enumerate(recipe.components.keys()):
             x = ((num % 3) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING
             y = (((num / 3)) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING
-            newScreen.blit(Item(item).surface, (x,y))
+            itemSurface = pygame.Surface.copy(Item(item).surface)
+            if self.inventory.getTotalItemQuantity(item) < recipe.components[item]:
+                itemSurface.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
+                itemSurface.fill(pygame.Color(255,0,0,0)[0:3] + (0,), None, pygame.BLEND_RGBA_ADD)
+            newScreen.blit(itemSurface, (x,y))
         """
         Products Rendering
         """
@@ -61,7 +65,10 @@ class CraftingUI:
         Label Rendering
         """
         myfont = pygame.font.SysFont("monospace", 15)
-        label = myfont.render(str(recipe.name), 1, (255,255,0))
+        color = (255,255,0)
+        if not recipe.canCraft(self.inventory):
+            color = (255,0,0)
+        label = myfont.render(str(recipe.name), 1, color)
         newScreen.blit(label, (newScreen.get_width() - label.get_width() - 2, newScreen.get_height() - label.get_height() - 2))
 
         pygame.draw.rect(newScreen, (0,0,0,255), pygame.Rect(0,0,228, y_length), 1)
