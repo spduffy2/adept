@@ -13,6 +13,7 @@ from pluginManager import PluginManager
 from inventoryUI import InventoryUI
 from inventory import Inventory
 from guiManager import GUIManager
+from craftingUI import CraftingUI
 
 from playerCharacter import PlayerCharacter
 
@@ -32,6 +33,7 @@ class GameTestScene(Scene):
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
+        self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
         self.UIManager.updateGUIs()
 
         MapManager.loadChunks(0,0)

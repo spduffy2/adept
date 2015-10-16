@@ -12,8 +12,11 @@ class Inventory():
         self.hotbar = [None]*self.INV_SIZE_X
 
         self.items[0][0] = Item("dagger")
+        self.items[0][0].quantity = 2
         self.items[1][0] = Item("book")
-        self.items[2][0] = Item("potion")
+        self.items[1][0].quantity = 10
+        self.items[2][0] = Item("test")
+        self.update()
 
     def addItem(self, item):
         for x in range(self.INV_SIZE_X):
@@ -22,6 +25,9 @@ class Inventory():
                     self.items[x][y] = item
                     return
 
+    def addItemQuantity(self,item, quantity):
+        pass
+
     def removeItem(self, item):
         for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
@@ -29,18 +35,54 @@ class Inventory():
                     self.items[x][y] = None
                     return
 
+    def removeItemQuantity(self, item, quantity):
+        quantityRemoved = 0;
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
+                if self.items[x][y] is not None and self.items[x][y].name == item:
+                    currItem = self.items[x][y]
+                    if currItem.quantity > quantity:
+                        currItem.quantity -= quantity
+                        quantityRemoved = quantity
+                    elif currItem.quantity <= quantity:
+                        quantityRemoved += currItem.quantity
+                        self.items[x][y] = None 
+                    if(quantityRemoved >= quantity):
+                        return
+
     def placeItem(self, item, pos):
         if isinstance(item,Item):
             oldItem = self.items[pos[0]][pos[1]]
             self.items[pos[0]][pos[1]] = item
             return oldItem
 
-    def placeItemInHotbar(item, index):
+    def placeItemInHotbar(self, item, index):
         if isinstance(item,Item):
             hotbar[index] = item
+
+    def getTotalItemQuantity(self, item):
+        """
+        Gets total quantity held of a specific item accross all stacks within Inventory
+        """
+        quantity = 0;
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
+                if self.items[x][y] is not None:
+                    if self.items[x][y].name == item:
+                        quantity += self.items[x][y].quantity
+        return quantity
+
 
     def addItemToHotbar(item):
         for x in range(INV_SIZE_X):
             if hotbar[x] == None:
                 hotbar[x] = item
                 return
+    def update(self):
+        for x in range(self.INV_SIZE_X):
+            for y in range(self.INV_SIZE_Y):
+                if self.items[x][y] is not None and self.items[x][y].quantity == 0:
+                    self.items[x][y] = None
+                if self.items[x][y] is not None:
+                    self.items[x][y].update()
+
