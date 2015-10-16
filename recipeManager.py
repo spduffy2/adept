@@ -6,6 +6,7 @@ class RecipeManager:
 
 	@staticmethod
 	def loadRecipes():
+		RecipeManager.RECIPES = list()
 		files =  os.listdir(*list(os.path.join(Recipe.BASE_PATH)))
 		for f in files:
 			if(f.split('.')[0] != ""):

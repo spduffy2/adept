@@ -39,6 +39,7 @@ class GUIManager:
 		#Keyboard Events
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_e]:
+			self.updateGUIs()
 			#On Keydown
 			if not self.keydown:
 				self.active = not self.active
@@ -50,6 +51,7 @@ class GUIManager:
 		if not self.active:
 			return
 		if pygame.mouse.get_pressed()[0]:
+			self.updateGUIs()
 			#On Mousedown
 			if not self.mousedown:
 				self.mousedown = True
@@ -67,7 +69,6 @@ class GUIManager:
 
 	def blit(self, dest, pos):
 		if(self.active):
-			self.updateGUIs()
 			dest.blit(self.surface, pos)
 			if self.draggedItem != None:
 				newPos = (pygame.mouse.get_pos()[0] - InventoryUI.BUTTON_SIZE / 2, 

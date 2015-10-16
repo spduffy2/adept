@@ -73,7 +73,11 @@ class Item():
         if(self.quantity > 1):
             myfont = pygame.font.SysFont("monospace", 15)
             label = myfont.render(str(self.quantity), 1, (255,255,0))
-            self.surface.blit(label, (12,18))
+            if self.quantity / 10 >= 1:
+                self.surface.blit(label, (12,18))
+            else:
+                self.surface.blit(label, (18,18))
+
 
     def update(self):
         self.renderItemQuantity()

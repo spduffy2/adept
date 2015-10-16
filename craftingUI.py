@@ -20,6 +20,8 @@ class CraftingUI:
         self.updateRecipeTable()
 
     def updateRecipeTable(self):
+        self.surface  = utils.empty_surface((228,500))
+        self.surface.fill((100,100,100,100))
         self.tileRects = list()
         self.tileRecipes = list()
         recipeTiles = list()
@@ -100,4 +102,5 @@ class CraftingUI:
                     newItem.quantity = clickedRecipe.products[item]
                     self.inventory.addItem(newItem)
                 self.inventory.update()
+                self.updateRecipeTable()
                 return
