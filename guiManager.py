@@ -2,6 +2,10 @@ from buffalo import utils
 from inventoryUI import InventoryUI
 import pygame
 
+"""
+Class to manage the in-game GUI. (i.e. Inventory and Crafting)
+"""
+
 class GUIManager:
 	def __init__(self):
 		self.active = False;
@@ -12,12 +16,18 @@ class GUIManager:
 		self.draggedItem = None
 
 	def updateGUIs(self):
+		"""
+		Calls update on all the registered GUIs
+		"""
 		self.surface = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
 		for UIObject in self.guiScreens:
 			UIObject.update()
 			self.surface.blit(UIObject.surface, UIObject.pos)
 
 	def findCollidingGUI(self, pos):
+		"""
+		Given a position (such as a mouse click) find the GUI screen that the position interacts with.
+		"""
 		for UIObject in self.guiScreens:
 			guiPos = UIObject.pos
 			guiRect = pygame.Rect(guiPos, (UIObject.surface.get_size()))

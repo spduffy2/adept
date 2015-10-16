@@ -49,10 +49,11 @@ class CraftingUI:
         for num, item in enumerate(recipe.components.keys()):
             x = ((num % 3) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING
             y = (((num / 3)) * CraftingUI.BUTTON_SIZE) + CraftingUI.PADDING
-            itemSurface = pygame.Surface.copy(Item(item).surface)
-            if self.inventory.getTotalItemQuantity(item) < recipe.components[item]:
-                itemSurface.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
-                itemSurface.fill(pygame.Color(255,0,0,0)[0:3] + (0,), None, pygame.BLEND_RGBA_ADD)
+            itemSurface = pygame.Surface.copy(Item(item, quantity=recipe.components[item]).surface)
+            #Shade items red if they aren't available for recipe
+            # if self.inventory.getTotalItemQuantity(item) < recipe.components[item]:
+            #     itemSurface.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
+            #     itemSurface.fill(pygame.Color(255,0,0,250)[0:3] + (0,), None, pygame.BLEND_RGBA_ADD)
             newScreen.blit(itemSurface, (x,y))
         """
         Products Rendering
@@ -89,4 +90,14 @@ class CraftingUI:
     def mouseDown(self, pos):
         for tile in self.tileRects:
             if(tile.collidepoint(pos)):
-                print self.tileRecipes[self.tileRects.index(tile)].name
+                clickedRecipe =  self.tileRecipes[self.tileRects.index(tile)]
+                if not clickedRecipe.canCraft(self.inventory):
+                    return
+                for item in clickedRecipe.components.keys():
+                    self.inventory.removeItemQuantity(item, clickedRecipe.components[item])
+                for item in clickedRecipe.products.keys():
+                    newItem = Item(item)
+                    newItem.quantity = clickedRecipe.products[item]
+                    self.inventory.addItem(newItem)
+                self.inventory.update()
+                return

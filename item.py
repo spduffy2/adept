@@ -9,7 +9,7 @@ from inventoryUI import InventoryUI
 class Item():
     BASE_PATH = ["items"]
 
-    def __init__(self,name,quantity=0,durability=1.0,**kwargs):
+    def __init__(self,name,quantity=1,durability=1.0,**kwargs):
         """
         Static item information
         """
@@ -53,19 +53,23 @@ class Item():
         self.quantity = quantity
         self.durability = durability
         self.instanceID = random.random()
+        self.resetSurface()
+        self.renderItemQuantity()
+
+    def resetSurface(self):
         self.surface = utils.empty_surface((InventoryUI.BUTTON_SIZE, InventoryUI.BUTTON_SIZE))
         #Load item image to surface
         IMG_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + [self.name + ".png"])))
         try:
             self.surface = pygame.image.load(IMG_FILE)
         except Exception as e:
-            print "Error: Icon for item \"" + str(name) + "\" does not exist."
+            print "Error: Icon for item \"" + str(self.name) + "\" does not exist."
             print e
             IMG_FILE = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + ["error.png"])))
             self.surface = pygame.image.load(IMG_FILE)
-        self.renderItemQuantity()
 
     def renderItemQuantity(self):
+        self.resetSurface()
         if(self.quantity > 1):
             myfont = pygame.font.SysFont("monospace", 15)
             label = myfont.render(str(self.quantity), 1, (255,255,0))
