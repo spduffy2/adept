@@ -25,6 +25,9 @@ class Inventory():
                     self.items[x][y] = item
                     return
 
+    def addItemQuantity(self,item, quantity):
+        pass
+
     def removeItem(self, item):
         for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
