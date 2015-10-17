@@ -1,4 +1,4 @@
-def update(self):import pygame
+import pygame
 
 from buffalo import utils
 
