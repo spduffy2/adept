@@ -3,6 +3,7 @@ import os.path
 import pygame
 
 from buffalo import utils
+from buffalo.label import Label
 
 """
 A Chunk is a data structure
@@ -45,8 +46,13 @@ class Chunk:
         self.data = [["" for x in range(Chunk.CHUNK_WIDTH)] for y in range(Chunk.CHUNK_HEIGHT)]
         self.surface = utils.empty_surface(
             (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH, Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT)
-        )
+        )        
         self.fromFile(x,y)
+        self.label = Label(
+            (5, 5),
+            str(self.pos),
+            font="default36",
+        )
         self.render()
         self.seed = 1
 
@@ -115,6 +121,7 @@ class Chunk:
                             (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
                         )
                     )
+        self.label.blit( self.surface )
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )

@@ -44,7 +44,7 @@ class Camera:
             x, y = Camera.character.fPos
             x, y = x - utils.SCREEN_W // 2, y - utils.SCREEN_H // 2
             Camera.updatePos((x, y))
-        if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE):
+        if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE / 3):
             x, y = Camera.character.fPos
             x = int(x // (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH))
             y = int(y // (Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT))            

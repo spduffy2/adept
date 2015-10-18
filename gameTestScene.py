@@ -17,18 +17,12 @@ from guiManager import GUIManager
 from playerCharacter import PlayerCharacter
 
 class GameTestScene(Scene):
-    def __init__(self, pc=None):
+    def __init__(self, pc_name):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         Camera.init()
-        pc = Saves.unstore(pc, "characters")
-        self.pc = pc if pc is not None else PlayerCharacter(
-                Inventory(),
-                name="Sean",
-                size=(32, 64),
-                speed=.25,
-            )
+        self.pc = Saves.unstore(pc_name, "characters")
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
