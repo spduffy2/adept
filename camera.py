@@ -74,3 +74,5 @@ class Camera:
                     utils.screen,
                     (cmult * x - Camera.pos[0], rmult * y - Camera.pos[1])
                 )
+                #print Camera.pos 
+                #print (cmult * x - Camera.pos[0], rmult * y - Camera.pos[1])
