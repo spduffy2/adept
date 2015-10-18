@@ -129,7 +129,7 @@ class Chunk:
                             (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
                         )
                     )
-        self.label.blit(self.surface)
+        #self.label.blit(self.surface)
 
 
     def blit(self, dest, pos):
