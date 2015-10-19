@@ -71,6 +71,10 @@ class PlayerCharacter(Character):
         if a:
             self.xv += -self.speed
 
+        if abs(self.xv) + abs(self.yv) > self.speed:
+            self.xv /= 1.4142135 # / sqrt(2)
+            self.yv /= 1.4142135 # / sqrt(2)
+
         x, y = self.fPos
         x += self.xv * utils.delta
         y += self.yv * utils.delta
