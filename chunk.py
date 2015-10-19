@@ -49,11 +49,9 @@ class Chunk:
         )
         if self.path is None:
             self.data = MapGenerator.GenerateChunk(0, self.pos[0], self.pos[1])
-            #print self.data
             self.defs = Biome.GenerateBiomeDefs()
             self.toFile()
         self.fromFile(x,y)
-        #print self.defs
         self.label = Label(
             (5,5),
             str((self.pos[0] * 32, self.pos[1] * 32)),
@@ -130,7 +128,6 @@ class Chunk:
                         )
                     )
         self.label.blit(self.surface)
-
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
