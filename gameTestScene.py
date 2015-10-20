@@ -14,6 +14,7 @@ from inventoryUI import InventoryUI
 from inventory import Inventory
 from guiManager import GUIManager
 from craftingUI import CraftingUI
+from subMap import SubMap
 
 from playerCharacter import PlayerCharacter
 
@@ -31,6 +32,14 @@ class GameTestScene(Scene):
         self.UIManager.updateGUIs()
 
         MapManager.loadChunks(0,0)
+
+        s = SubMap(10,10,0)
+        from tile import Tile 
+        t = Tile((0,0),1)
+        s.tileMap[0][0] = t
+        t = Tile((9,9),10)
+        s.tileMap[9][9] = t
+        s.toFile()
 
     def on_escape(self):
         Saves.store(self.pc)
