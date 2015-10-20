@@ -147,7 +147,7 @@ class PlayerCharacter(Character):
             if not os.path.exists(path):
                 continue
             files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path,f))]
-            files = [f for f in files if len(f) > 4 and f[:-4].isnumeric()]
+            files = [f for f in files if len(f) > 4 and unicode(f[:-4],"utf-8").isnumeric()]
             files = [f for f in files if f[-4:] == ".png"]
             for f in sorted(files): # sorted alphanumerically (NOT numerically)
                 url = os.path.join(
