@@ -13,37 +13,30 @@ from pluginManager import PluginManager
 from inventoryUI import InventoryUI
 from inventory import Inventory
 from guiManager import GUIManager
+from craftingUI import CraftingUI
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
 from enemy import Enemy
 
 class GameTestScene(Scene):
-    def __init__(self, pc=None):
+    def __init__(self, pc_name):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         Camera.init()
-        pc = Saves.unstore(pc, "characters")
-        self.pc = pc if pc is not None else PlayerCharacter(
-                Inventory(),
-                name="Sean",
-                size=(32, 64),
-                speed=.25,
-            )
         self.enemy = Enemy(name="monster", fPos=(0,0))
         self.friendly = Friendly(name="villager", fPos=(0,0))
+        self.pc = Saves.unstore(pc_name, "characters")
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
+        self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
         self.UIManager.updateGUIs()
 
         MapManager.loadChunks(0,0)
 
     def on_escape(self):
-        print(self.enemy.pos)
-        print(self.friendly.pos)
-        print(self.pc.pos)
         Saves.store(self.pc)
         sys.exit()
 
