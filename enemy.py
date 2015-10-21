@@ -10,7 +10,8 @@ from npc import NPC
 class Enemy(NPC):
 
 	def __init__(self, name=None, fPos=None, **kwargs):
-		NPC.__init__(self, name, fPos)
+		speed = kwargs.get("speed") if kwargs.get("speed") is not None else .05
+		NPC.__init__(self, name=name, fPos=fPos, speed=speed)
 
 	def update(self, target):
 		if self.fPos[0] != target.fPos[0] and math.hypot(self.fPos[1]-target.fPos[1], self.fPos[0]-target.fPos[0]) > 32 and math.hypot(self.fPos[1]-target.fPos[1], self.fPos[0]-target.fPos[0]) < 600:
@@ -18,3 +19,7 @@ class Enemy(NPC):
 			if self.fPos[0] - target.fPos[0] > 0:
 				angle = math.pi + angle
 			self.move(angle)
+		else:
+			self.move(None)
+
+		NPC.update(self)

@@ -17,3 +17,4 @@ class Friendly(NPC):
 	def update(self):
 		self.currentDirection += random.random() * .5 - .25
 		self.move(self.currentDirection)
+		NPC.update(self)
