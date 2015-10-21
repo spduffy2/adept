@@ -40,6 +40,7 @@ class GameTestScene(Scene):
         t = Tile((9,9),10)
         s.tileMap[9][9] = t
         s.toFile()
+        MapManager.activeMap.submaps.append(s)
 
     def on_escape(self):
         Saves.store(self.pc)

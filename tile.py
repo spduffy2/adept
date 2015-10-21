@@ -12,6 +12,7 @@ class Tile(Serializable):
         self.type = type_id
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
         self.render()
+        self.collisionEnabled = False
 
     def render(self):
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
