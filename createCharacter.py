@@ -80,6 +80,8 @@ class CreateCharacter(Scene):
                         Menu()
                 )
         def create_character(self):
+                if self.characterName.selected:
+                        self.characterName.deselect()
                 Saves.store(
                         PlayerCharacter(
                                 Inventory(),
