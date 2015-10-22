@@ -23,7 +23,7 @@ class PlayerCharacter(Character):
         float(Chunk.CHUNK_HEIGHT * Chunk.TILE_SIZE / 2 - DEFAULT_SIZE[1]),
         )
     DEFAULT_COLOR      = (170,170,170,255) # Added for testing purposes
-    DEFAULT_SPRITE_URL = os.path.join("sprites", "deep_elf",)
+    DEFAULT_SPRITE_URL = os.path.join("sprites", "paul_asl",)
 
     #**kwargs here allows for an object to be created with a dictionary for input, which basically allows an object to be created from the deserialize method
     def __init__(self, inventory, name=None, fPos=None, size=None, speed=None, **kwargs):
