@@ -12,6 +12,7 @@ class InventoryUI:
 		self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2, utils.SCREEN_H / 2 - 150)
 		self.itemRects = list()
 		self.guiManager = manager
+		self.active = True
 
 	def resetSurface(self):
 		self.surface = utils.empty_surface((self.inventory.INV_SIZE_X * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING,

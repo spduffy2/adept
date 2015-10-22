@@ -11,13 +11,18 @@ from character import Character
 
 class NPC(Character):
 
+    # Superclass for every non-player character
+    # Animation is pretty much copied from PlayerCharacter (with some changes to save space)
+    # The sprites are the same leafeon as the PlayerCharacter, I was just too lazy
+    # To find animated sprites for anything else
+    # For testing purposes, the Enemy follows you, Friendly goes around randomly, and
+    # Trader just stands there
+
     def __init__(self, name=None, fPos=None, size=None, level=None, **kwargs):
         self.level = level if level is not None else 0
-        Character.__init__(self, name=name, fPos=fPos, size=size)
+        Character.__init__(self, name=name, fPos=fPos, size=size, spawn=kwargs.get('spawn'))
         self.speed = kwargs.get('speed') if kwargs.get('speed') is not None else .1
-        self.color = kwargs.get('color') if kwargs.get('color') is not None else (0,0,0,255)
         self.surface = utils.empty_surface(self.size)
-        self.surface.fill(self.color)
         self.pos = int(self.fPos[0]),int(self.fPos[1])
         self.direction = None
         self.sprites = {
@@ -34,6 +39,7 @@ class NPC(Character):
         self.sprite_counter = 0
         self.animation_delta = int((1.0 / self.speed) * 10.5)
 
+    # General movement method for all NPCs. Takes a direction and goes
     def move(self, direction=0):
         if direction is not None:
             x, y = self.fPos

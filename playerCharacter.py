@@ -32,7 +32,7 @@ class PlayerCharacter(Character):
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
         self.level = kwargs.get('level') if kwargs.get('level') is not None else 1
         self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
-        Character.__init__(self, name=name, fPos=fPos, size=size)
+        Character.__init__(self, name=name, fPos=fPos, size=size, spawn=kwargs.get('spawn'))
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
         self.swordSkill = kwargs.get('swordSkill') if kwargs.get('swordSkill') is not None else Skill(name="SwordSkill") #Example setup for a skill
         self.bowSkill = kwargs.get('bowSkill') if kwargs.get('bowSkill') is not None else Skill(name="BowSkill")

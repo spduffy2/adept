@@ -18,6 +18,7 @@ class CraftingUI:
         self.tileRects = list()
         self.tileRecipes = list()
         self.updateRecipeTable()
+        self.active = True
 
     def updateRecipeTable(self):
         self.surface  = utils.empty_surface((228,500))

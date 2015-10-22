@@ -7,11 +7,13 @@ from buffalo import utils
 
 from npc import NPC
 
+# Overarching class for all Friendly NPCs. For now they just move randomly
+
 class Friendly(NPC):
 
 	def __init__(self, name=None, fPos=None, speed=None, **kwargs):
 		speed = speed if speed is not None else .05
-		NPC.__init__(self, name=name, fPos=fPos, speed = speed)
+		NPC.__init__(self, name=name, fPos=fPos, speed = speed, spawn=kwargs.get("spawn"))
 		self.currentDirection = random.random() * 2 * math.pi
 
 	def update(self):
