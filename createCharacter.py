@@ -43,43 +43,14 @@ class CreateCharacter(Scene):
                 self.inputs.add(self.characterName)
                 self.labels.add(
                         Label(
-                                (utils.SCREEN_W / 2 - 175, utils.SCREEN_H / 2),
-                                "Color (r,g,b):",
-                                x_centered=True,
-                y_centered=True,
-                        )
-                )
-                self.r = Option(
-                                (utils.SCREEN_W / 2 - 100, utils.SCREEN_H / 2 ),
-                                [str(n) for n in list(range(0,256))],
-                                x_centered=True,
-                y_centered=True,
-                        )
-                self.g = Option(
-                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 ),
-                                [str(n) for n in list(range(0,256))],
-                                x_centered=True,
-                y_centered=True,
-                        )
-                self.b = Option(
-                                (utils.SCREEN_W / 2 + 100, utils.SCREEN_H / 2 ),
-                                [str(n) for n in list(range(0,256))],
-                                x_centered=True,
-                y_centered=True,
-                        )
-                self.options.add(self.r)
-                self.options.add(self.g)
-                self.options.add(self.b)
-                self.labels.add(
-                        Label(
-                                (utils.SCREEN_W / 2 - 75, utils.SCREEN_H / 2 + 60),
+                                (utils.SCREEN_W / 2 - 75, utils.SCREEN_H / 2),
                                 "Speed: ",
                                 y_centered=True,
                                 x_centered=True,
                         )
                 )
                 self.speed = Option(
-                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 60),
+                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2),
                                 [str(n) for n in list(range(10,50))],
                                 x_centered=True,
                                 y_centered=True,
@@ -87,7 +58,7 @@ class CreateCharacter(Scene):
                 self.options.add(self.speed)
                 self.buttons.add(
                         Button(
-                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 120),
+                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 60),
                                 "Create",
                                 x_centered=True,
                                 y_centered=True,
@@ -96,7 +67,7 @@ class CreateCharacter(Scene):
                 )
                 self.buttons.add(
                         Button(
-                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 180),
+                                (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 120),
                                 "Exit",
                                 x_centered=True,
                                 y_centered=True,
@@ -109,16 +80,12 @@ class CreateCharacter(Scene):
                         Menu()
                 )
         def create_character(self):
+                if self.characterName.selected:
+                        self.characterName.deselect()
                 Saves.store(
                         PlayerCharacter(
                                 Inventory(),
                                 name=self.characterName.label.text,
-                                color=(
-                                        int(self.r.label.text),
-                                        int(self.g.label.text),
-                                        int(self.b.label.text),
-                                        255,
-                                ),
                                 speed = (float(self.speed.label.text) / 100),
                         )
                 )
