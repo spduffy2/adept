@@ -6,24 +6,41 @@ from mapManager import MapManager
 import os
 import pygame
 
-class Tile(Serializable):
-    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,**kwargs):
+class Tile(Serializable,object):
+    LOADED_SURFACES = dict()
+    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,buildingInternal=False,roofType=0,heightLevel=0,**kwargs):
         self.pos = pos
         self.type_id = type_id
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
-        self.render()
         self.collisionEnabled = collisionEnabled
+        self.buildingInternal=buildingInternal
+        self.roofType=roofType
+        self.inside=False
+        self.heightLevel=heightLevel
+        self.render()
 
     def render(self):
-        self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
-        IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+        renderID = self.type_id
+        if self.buildingInternal and not self.inside:
+            renderID = self.roofType
+        self.surface = Tile.loadSurfaceForId(renderID)
+
+    def onCollision(self,pc=None):
+        pass
+
+    @staticmethod
+    def loadSurfaceForId(_id):
+        if _id in Tile.LOADED_SURFACES.keys():
+            return Tile.LOADED_SURFACES[_id]
+        IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(_id) + ".png"])))
         try:
-            self.surface = pygame.image.load(IMG_FILE)
+            surface = pygame.image.load(IMG_FILE)
+            Tile.LOADED_SURFACES[_id] = surface
+            return surface
         except Exception as e:
-            print("Error: Tile image for item \"" + str(self.type_id) + "\" does not exist.")
+            print("Error: Tile image for item \"" + str(_id) + "\" does not exist.")
             print(e)
             IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
-            self.surface = pygame.image.load(IMG_FILE)
-
-    def loadIDProperties(self):
-        pass
+            surface = pygame.image.load(IMG_FILE)
+            Tile.LOADED_SURFACES[_id] = surface
+            return surface
