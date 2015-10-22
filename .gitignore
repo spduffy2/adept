@@ -1,3 +1,7 @@
+#
+characters/
+
+# Emacs autosaves
 *~
 __pycache__
 

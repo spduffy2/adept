@@ -1,4 +1,3 @@
-from enum import Enum
 from buffalo import utils
 import yaml
 import os
@@ -82,7 +81,7 @@ class Item():
     def update(self):
         self.renderItemQuantity()
 
-class ItemType(Enum):
+class ItemType():
     WEAPON = 0
     TOOL = 1
     QUEST = 2
