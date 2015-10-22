@@ -9,11 +9,11 @@ class SubMap:
     PATH = ["submaps"]
     TILE_SIZE = 32
 
-    def __init__(self,sizeX,sizeY,_id,posX=0,posY=0):
+    def __init__(self,sizeX,sizeY,_id,posX=0,posY=0,posZ=0):
         self.size = sizeX,sizeY
         self.id = _id
-        self.pos = posX,posY
-        self.tileMap = [[None for _x in range(self.size[0])] for _y in range(self.size[1])]
+        self.pos = posX,posY,posZ
+        self.tileMap = list()
         self.fromFile()
         self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
         self.render()
@@ -23,10 +23,9 @@ class SubMap:
         url = os.path.join(*list(LOAD_PATH + [str(self.id) + '.smap']))
 
         output = ""
-        for y in range(self.size[1]):
-            for x in range(self.size[0]):
-                if self.tileMap[x][y] is not None:
-                    output += self.tileMap[x][y].serialize() + "\n"
+        for tile in self.tileMap:
+            if tile is not None:
+                    output += tile.serialize() + "\n"
 
         with open(url,'w+') as subMapFile:
             subMapFile.write(output)
@@ -38,20 +37,20 @@ class SubMap:
             print "Error: Tried to load SubMap with id \"" + str(self.id) + "\", but could not find the file."
             return
 
-        tiles = list()
         with open(url,'r') as subMapFile:
             for tileLine in subMapFile:
-                tiles.append(Tile.deserialize(tileLine))
+                self.tileMap.append(Tile.deserialize(tileLine))
 
-        for tile in tiles:
-            tile.render()
-            self.tileMap[tile.pos[0]][tile.pos[1]] = tile
+    def removeTileAtLoc(self,pos):
+        for tile in self.tileMap:
+            if tile.pos[0] == pos[0] and tile.pos[1] == pos[1]:
+                self.tileMap.remove(tile)
 
     def render(self):
-        for y in range(self.size[1]):
-            for x in range(self.size[0]):
-                if self.tileMap[x][y] is not None:
-                    self.surface.blit(self.tileMap[x][y].surface, (SubMap.TILE_SIZE * x, SubMap.TILE_SIZE * y))
+        for tile in self.tileMap:
+            if tile is not None:
+                tile.render()
+                self.surface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )

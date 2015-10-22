@@ -33,12 +33,11 @@ class GameTestScene(Scene):
 
         MapManager.loadChunks(0,0)
 
-        s = SubMap(10,10,0)
+        s = SubMap(10,10,5)
         from tile import Tile 
-        t = Tile((0,0),1)
-        s.tileMap[0][0] = t
-        t = Tile((9,9),10)
-        s.tileMap[9][9] = t
+        t = Tile((5,9),2)
+        s.removeTileAtLoc((5,9))
+        s.tileMap.append(t)
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
@@ -48,7 +47,8 @@ class GameTestScene(Scene):
 
     def update(self):
         keys = pygame.key.get_pressed()
-        self.pc.update(keys)
+        subMaps = MapManager.activeMap.submaps
+        self.pc.update(keys, subMaps)
         self.UIManager.update()
         Camera.update()
 
