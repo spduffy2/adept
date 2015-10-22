@@ -15,7 +15,6 @@ from inventory import Inventory
 class Menu(Scene):
 
     def on_escape(self):
-        print(self.characterOption.label.text)
         exit()
 
     def update(self):
