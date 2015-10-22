@@ -65,7 +65,6 @@ class SubMap:
                 #time.sleep(.001)
                 newSurface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
         self.surface = newSurface
-        print "render"
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )

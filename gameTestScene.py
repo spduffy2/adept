@@ -35,7 +35,7 @@ class GameTestScene(Scene):
 
         s = SubMap(10,10,5)
         from tile import Tile 
-        t = Tile((5,9,0),2,collisionEnabled=False)
+        t = Tile((5,9,0),2,collisionEnabled=False,buildingInternal=True,roofType=2)
         for x in range(10):
             for y in range(10):
                 newTile = Tile(pos=(x,y,0),type_id=0,collisionEnabled=False,buildingInternal=True,roofType=1)
