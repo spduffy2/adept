@@ -38,9 +38,11 @@ class GameTestScene(Scene):
         t = Tile((5,9,0),2,collisionEnabled=False)
         for x in range(10):
             for y in range(10):
-                newTile = Tile(pos=(x,y,0),type_id=1,collisionEnabled=True,buildingInternal=True)
+                newTile = Tile(pos=(x,y,0),type_id=0,collisionEnabled=False,buildingInternal=True,roofType=1)
                 if x == 0 or x == 9 or y == 0 or y == 9:
                     newTile.buildingInternal = False
+                    newTile.type_id = 1
+                    newTile.collisionEnabled = True
                 s.addTile(newTile)
         s.removeTileAtLoc((5,9,0))
         s.tileMap.append(t)

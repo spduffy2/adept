@@ -79,11 +79,11 @@ class PlayerCharacter(Character):
         ##TODO: Make Collisions less "sticky"
         for submap in submaps:
             #Collision Logic
-            submap.render(self.fPos)
             collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
             pcRect = pygame.Rect(self.fPos, (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64) 
-            pcRect = self.surface.get_bounding_rect().move(self.fPos)           
+            pcRect = self.surface.get_bounding_rect().move(self.fPos)  
             if collideRect.colliderect(pcRect):
+                submap.handleCollision(submap.getTileAtCoord(self.fPos))         
                 for tile in submap.tileMap:
                     if tile.collisionEnabled:
                         tileRect = pygame.Rect( submap.pos[0] + tile.pos[0] * SubMap.TILE_SIZE, submap.pos[1] + tile.pos[1] * SubMap.TILE_SIZE, SubMap.TILE_SIZE, SubMap.TILE_SIZE )

@@ -2,7 +2,7 @@ from serializable import Serializable
 from mapManager import MapManager
 from buffalo import utils
 
-import os
+import os, time, copy
 
 class SubMap:
 
@@ -17,6 +17,7 @@ class SubMap:
         self.fromFile()
         self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
         self.render()
+        self.internalAreas = list()
 
     def toFile(self):
         LOAD_PATH = MapManager.BASE_PATH + [MapManager.activeMap.name] + SubMap.PATH
@@ -57,36 +58,58 @@ class SubMap:
                 self.tileMap.remove(tile)
 
     def render(self,player_loc=None):
-        self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
-        if player_loc is not None:
-            print self.findAllNeighbors(self.tileMap[12])
-
+        newSurface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
         for tile in self.tileMap:
             if tile is not None:
                 tile.render()
-                self.surface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
+                #time.sleep(.001)
+                newSurface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
+        self.surface = newSurface
+        print "render"
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
 
-    def findAllNeighbors(self,tile):
-        neighbors_found = 1
-        neighbors = [tile]
-        while neighbors_found is not 0:
-            neighbors_found = 0
-            for t in neighbors:
-                immediateNeighbors = list()
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0]+1,t.pos[1],t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0]-1,t.pos[1],t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]+1,t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
-                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
-                for n in immediateNeighbors:
-                    if n is not None and n.buildingInternal is True and not n in neighbors:
-                        neighbors.append(n)
-                        neighbors_found += 1
-        return neighbors
+    def handleCollision(self, tile):
+        tilesChanged = False
+        if tile is not None and tile.buildingInternal:
+            tiles = copy.deepcopy(self.tileMap)
+            for tile in tiles:
+                if tile.buildingInternal and not tile.inside:
+                    self.getTileAtPos(tile.pos).inside = True
+                    tilesChanged = True
+        else:
+            for tile in self.tileMap:
+                if tile.buildingInternal and tile.inside:
+                    tile.inside = False
+                    tilesChanged = True
+
+        if tilesChanged:
+            self.render()
+
+    def getTileAtCoord(self, pos):
+        x = (pos[0] - self.pos[0]) / SubMap.TILE_SIZE
+        y = (pos[1] - self.pos[1]) / SubMap.TILE_SIZE
+        return self.getTileAtPos((int(x),int(y),0))
+
+    # def findAllNeighbors(self,tile):
+    #     neighbors_found = 1
+    #     neighbors = [tile]
+    #     while neighbors_found is not 0:
+    #         neighbors_found = 0
+    #         for t in neighbors:
+    #             immediateNeighbors = list()
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0]+1,t.pos[1],t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0]-1,t.pos[1],t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]+1,t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+    #             immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+    #             for n in immediateNeighbors:
+    #                 if n is not None and n.buildingInternal is True and not n in neighbors:
+    #                     neighbors.append(n)
+    #                     neighbors_found += 1
+    #     return neighbors
 
 from tile import Tile

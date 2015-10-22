@@ -11,14 +11,24 @@ class Tile(Serializable):
         self.pos = pos
         self.type_id = type_id
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
-        self.render()
         self.collisionEnabled = collisionEnabled
         self.buildingInternal=buildingInternal
         self.roofType=roofType
+        self.inside=False
+        self.render()
 
     def render(self):
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
-        IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+        if self.buildingInternal:
+            if self.inside:
+                IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+
+            else:
+                IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.roofType) + ".png"])))
+
+        else:
+            IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+
         try:
             self.surface = pygame.image.load(IMG_FILE)
         except Exception as e:
