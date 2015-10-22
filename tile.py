@@ -7,6 +7,7 @@ import os
 import pygame
 
 class Tile(Serializable):
+    LOADED_SURFACES = dict()
     def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,buildingInternal=False,roofType=0,**kwargs):
         self.pos = pos
         self.type_id = type_id
@@ -15,31 +16,32 @@ class Tile(Serializable):
         self.buildingInternal=buildingInternal
         self.roofType=roofType
         self.inside=False
-        self.IMG_FILE = ""
-        self.renderedOnce = False
         self.render()
 
     def render(self):
-        self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
-        oldIMG_FILE = self.IMG_FILE
-        if self.buildingInternal:
-            if self.inside:
-                self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+        renderID = self.type_id
+        if self.buildingInternal and not self.inside:
+            renderID = self.roofType
+        self.surface = Tile.loadSurfaceForId(renderID)
 
-            else:
-                self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.roofType) + ".png"])))
-
-        else:
-            self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
         
-        try:
-            self.surface = pygame.image.load(self.IMG_FILE)
-        except Exception as e:
-            print("Error: Tile image for item \"" + str(self.type_id) + "\" does not exist.")
-            print(e)
-            self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
-            self.surface = pygame.image.load(self.IMG_FILE)
-        self.renderedOnce = True
 
     def loadIDProperties(self):
         pass
+
+    @staticmethod
+    def loadSurfaceForId(_id):
+        if _id in Tile.LOADED_SURFACES.keys():
+            return Tile.LOADED_SURFACES[_id]
+        IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(_id) + ".png"])))
+        try:
+            surface = pygame.image.load(IMG_FILE)
+            Tile.LOADED_SURFACES[_id] = surface
+            return surface
+        except Exception as e:
+            print("Error: Tile image for item \"" + str(_id) + "\" does not exist.")
+            print(e)
+            IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
+            surface = pygame.image.load(IMG_FILE)
+            Tile.LOADED_SURFACES[_id] = surface
+            return surface
