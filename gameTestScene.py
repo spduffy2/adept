@@ -14,6 +14,7 @@ from inventoryUI import InventoryUI
 from inventory import Inventory
 from guiManager import GUIManager
 from craftingUI import CraftingUI
+from subMap import SubMap
 
 from playerCharacter import PlayerCharacter
 
@@ -32,13 +33,25 @@ class GameTestScene(Scene):
 
         MapManager.loadChunks(0,0)
 
+        s = SubMap(10,10,5)
+        from tile import Tile 
+        t = Tile((5,9,0),2,collisionEnabled=False)
+        for x in range(10):
+            for y in range(10):
+                s.addTile(Tile(pos=(x,y,0),type_id=1,collisionEnabled=True))
+        s.removeTileAtLoc((5,9,0))
+        s.tileMap.append(t)
+        s.toFile()
+        MapManager.activeMap.submaps.append(s)
+
     def on_escape(self):
         Saves.store(self.pc)
         sys.exit()
 
     def update(self):
         keys = pygame.key.get_pressed()
-        self.pc.update(keys)
+        subMaps = MapManager.activeMap.submaps
+        self.pc.update(keys, subMaps)
         self.UIManager.update()
         Camera.update()
 

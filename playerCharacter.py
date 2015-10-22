@@ -11,6 +11,7 @@ from character import Character
 from chunk import Chunk
 
 from inventory import Inventory
+from subMap import SubMap
 
 class PlayerCharacter(Character):
 
@@ -53,7 +54,7 @@ class PlayerCharacter(Character):
         self.idle = False
         self.animation_delta = int((1.0 / self.speed) * 10.5)
 
-    def update(self, keys):
+    def update(self, keys, submaps):
 
         w, a, s, d = (
             keys[pygame.K_w],
@@ -61,7 +62,9 @@ class PlayerCharacter(Character):
             keys[pygame.K_s],
             keys[pygame.K_d],
         )
-        
+
+
+
         if w:
             self.yv += -self.speed
         if s:
@@ -75,9 +78,36 @@ class PlayerCharacter(Character):
             self.xv /= 1.4142135 # / sqrt(2)
             self.yv /= 1.4142135 # / sqrt(2)
 
-        x, y = self.fPos
+        
+        
+        ##TODO: Make Collisions less "sticky"
+        for submap in submaps:
+            #Collision Logic
+            collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
+            pcRect = pygame.Rect(self.fPos, (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64) 
+            pcRect = self.surface.get_bounding_rect().move(self.fPos)           
+            if collideRect.colliderect(pcRect):
+                for tile in submap.tileMap:
+                    if tile.collisionEnabled:
+                        tileRect = pygame.Rect( submap.pos[0] + tile.pos[0] * SubMap.TILE_SIZE, submap.pos[1] + tile.pos[1] * SubMap.TILE_SIZE, SubMap.TILE_SIZE, SubMap.TILE_SIZE )
+                        newRect = pcRect.move(( self.xv * utils.delta, self.yv * utils.delta )) 
+                        if tileRect.colliderect(newRect):
+                            #Collision Detected between player and rect
+                            #X-Velocity Logic
+                            if pcRect.center[0] < tileRect.midleft[0] and self.xv > 0:
+                                self.xv = 0
+                            elif pcRect.center[0] > tileRect.midright[0] and self.xv < 0:
+                                self.xv = 0
+                            #Y-Velocity Logic
+                            if pcRect.center[1]  < tileRect.midbottom[1] and self.yv > 0:
+                                self.yv = 0
+                            elif pcRect.center[1] > tileRect.midtop[1] and self.yv < 0:
+                                self.yv = 0
+                                
+        x,y = self.fPos
         x += self.xv * utils.delta
-        y += self.yv * utils.delta
+        y += self.yv * utils.delta                   
+
         self.fPos = x, y
         self.pos  = int(self.fPos[0]), int(self.fPos[1])
         self.xv, self.yv = 0.0, 0.0
