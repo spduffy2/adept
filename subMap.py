@@ -41,12 +41,18 @@ class SubMap:
             for tileLine in subMapFile:
                 self.tileMap.append(Tile.deserialize(tileLine))
 
+    #Best practice to make sure there aren't duplicate tile objects at same point in tileMap
+    def addTile(self, tile):
+        self.removeTileAtLoc(tile.pos)
+        self.tileMap.append(tile)
+
     def removeTileAtLoc(self,pos):
         for tile in self.tileMap:
-            if tile.pos[0] == pos[0] and tile.pos[1] == pos[1]:
+            if tile.pos[0] == pos[0] and tile.pos[1] == pos[1] and tile.pos[2] == pos[2]:
                 self.tileMap.remove(tile)
 
     def render(self):
+        self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
         for tile in self.tileMap:
             if tile is not None:
                 tile.render()

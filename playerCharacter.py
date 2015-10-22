@@ -76,23 +76,30 @@ class PlayerCharacter(Character):
 
         
         
-
+        ##TODO: Make Collisions less "sticky"
         for submap in submaps:
             #Collision Logic
             collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
-            pcRect = pygame.Rect(self.fPos, (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64)
-            print self.surface.get_size()
+            pcRect = pygame.Rect(self.fPos, (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64) 
+            pcRect = self.surface.get_bounding_rect().move(self.fPos)           
             if collideRect.colliderect(pcRect):
                 for tile in submap.tileMap:
                     if tile.collisionEnabled:
                         tileRect = pygame.Rect( submap.pos[0] + tile.pos[0] * SubMap.TILE_SIZE, submap.pos[1] + tile.pos[1] * SubMap.TILE_SIZE, SubMap.TILE_SIZE, SubMap.TILE_SIZE )
-                        pcRect.move_ip(( self.xv * utils.delta, self.yv * utils.delta )) 
-                        if tileRect.colliderect(pcRect):
+                        newRect = pcRect.move(( self.xv * utils.delta, self.yv * utils.delta )) 
+                        if tileRect.colliderect(newRect):
                             #Collision Detected between player and rect
-                            self.xv = 0
-                            self.yv = 0
-                            break
-    
+                            #X-Velocity Logic
+                            if pcRect.center[0] < tileRect.midleft[0] and self.xv > 0:
+                                self.xv = 0
+                            elif pcRect.center[0] > tileRect.midright[0] and self.xv < 0:
+                                self.xv = 0
+                            #Y-Velocity Logic
+                            if pcRect.center[1]  < tileRect.midbottom[1] and self.yv > 0:
+                                self.yv = 0
+                            elif pcRect.center[1] > tileRect.midtop[1] and self.yv < 0:
+                                self.yv = 0
+                                
         x,y = self.fPos
         x += self.xv * utils.delta
         y += self.yv * utils.delta                   

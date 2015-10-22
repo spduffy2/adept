@@ -35,8 +35,11 @@ class GameTestScene(Scene):
 
         s = SubMap(10,10,5)
         from tile import Tile 
-        t = Tile((5,9),2,collisionEnabled=True)
-        s.removeTileAtLoc((5,9))
+        t = Tile((5,9,0),2,collisionEnabled=False)
+        for x in range(10):
+            for y in range(10):
+                s.addTile(Tile(pos=(x,y,0),type_id=1,collisionEnabled=True))
+        s.removeTileAtLoc((5,9,0))
         s.tileMap.append(t)
         s.toFile()
         MapManager.activeMap.submaps.append(s)
