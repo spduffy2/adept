@@ -15,6 +15,7 @@ from inventory import Inventory
 from guiManager import GUIManager
 from craftingUI import CraftingUI
 from subMap import SubMap
+from stair import Stair
 
 from playerCharacter import PlayerCharacter
 
@@ -44,8 +45,30 @@ class GameTestScene(Scene):
                     newTile.type_id = 1
                     newTile.collisionEnabled = True
                 s.addTile(newTile)
-        s.removeTileAtLoc((5,9,0))
-        s.tileMap.append(t)
+        for x in range(10):
+            for y in range(10):
+                newTile = Tile(pos=(x,y,1),type_id=5,collisionEnabled=False,buildingInternal=True,roofType=1)
+                if x == 0 or x == 9 or y == 0 or y == 9:
+                    newTile.buildingInternal = False
+                    newTile.type_id = 1
+                    newTile.collisionEnabled = True
+                s.addTile(newTile)
+        s.addTile(t)
+        stair = Stair()
+        stair.pos = (1,2,0)
+        stair.collisionEnabled=True
+        stair.buildingInternal=True
+        stair.roofType=1
+        stair.type_id = 4
+        stair2 = Stair()
+        stair2.pos = (4,2,1)
+        stair2.collisionEnabled=True
+        stair2.buildingInternal=True
+        stair2.roofType=1
+        stair2.type_id = 4
+        stair2.isUp = False
+        s.addTile(stair2)
+        s.addTile(stair)
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 

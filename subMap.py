@@ -9,15 +9,14 @@ class SubMap:
     PATH = ["submaps"]
     TILE_SIZE = 32
 
-    def __init__(self,sizeX,sizeY,_id,posX=0,posY=0,posZ=0):
+    def __init__(self,sizeX,sizeY,_id,posX=0,posY=0,startingZ=0):
         self.size = sizeX,sizeY
         self.id = _id
-        self.pos = posX,posY,posZ
+        self.pos = posX,posY
         self.tileMap = list()
         self.fromFile()
         self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
-        self.render()
-        self.internalAreas = list()
+        self.render(startingZ)        
 
     def toFile(self):
         LOAD_PATH = MapManager.BASE_PATH + [MapManager.activeMap.name] + SubMap.PATH
@@ -32,6 +31,7 @@ class SubMap:
             subMapFile.write(output)
 
     def fromFile(self):
+        from tile import Tile
         LOAD_PATH = MapManager.BASE_PATH + [MapManager.activeMap.name] + SubMap.PATH
         url = os.path.join(*list(LOAD_PATH + [str(self.id) + '.smap']))
         if not os.path.isfile(url):
@@ -57,19 +57,21 @@ class SubMap:
             if tile.pos[0] == pos[0] and tile.pos[1] == pos[1] and tile.pos[2] == pos[2]:
                 self.tileMap.remove(tile)
 
-    def render(self,player_loc=None):
+    def render(self,zLevel):
         newSurface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
         for tile in self.tileMap:
             if tile is not None:
-                tile.render()
-                #time.sleep(.001)
-                newSurface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
+                if tile.pos[2] == zLevel:
+                        tile.render()
+                        newSurface.blit(tile.surface, (SubMap.TILE_SIZE * tile.pos[0], SubMap.TILE_SIZE * tile.pos[1]))
         self.surface = newSurface
+        self.surface = newSurface
+                
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
 
-    def handleCollision(self, tile):
+    def handleCollision(self, tile, pc):
         tilesChanged = False
         if tile is not None and tile.buildingInternal:
             tiles = copy.deepcopy(self.tileMap)
@@ -82,9 +84,8 @@ class SubMap:
                 if tile.buildingInternal and tile.inside:
                     tile.inside = False
                     tilesChanged = True
-
         if tilesChanged:
-            self.render()
+            self.render(pc.zLevel)
 
     def getTileAtCoord(self, pos):
         x = (pos[0] - self.pos[0]) / SubMap.TILE_SIZE
@@ -111,4 +112,3 @@ class SubMap:
     #                     neighbors_found += 1
     #     return neighbors
 
-from tile import Tile

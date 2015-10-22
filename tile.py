@@ -6,9 +6,9 @@ from mapManager import MapManager
 import os
 import pygame
 
-class Tile(Serializable):
+class Tile(Serializable,object):
     LOADED_SURFACES = dict()
-    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,buildingInternal=False,roofType=0,**kwargs):
+    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,buildingInternal=False,roofType=0,heightLevel=0,**kwargs):
         self.pos = pos
         self.type_id = type_id
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
@@ -16,6 +16,7 @@ class Tile(Serializable):
         self.buildingInternal=buildingInternal
         self.roofType=roofType
         self.inside=False
+        self.heightLevel=heightLevel
         self.render()
 
     def render(self):
@@ -24,9 +25,7 @@ class Tile(Serializable):
             renderID = self.roofType
         self.surface = Tile.loadSurfaceForId(renderID)
 
-        
-
-    def loadIDProperties(self):
+    def onCollision(self,pc=None):
         pass
 
     @staticmethod
