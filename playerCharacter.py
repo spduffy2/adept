@@ -80,7 +80,8 @@ class PlayerCharacter(Character):
         for submap in submaps:
             #Collision Logic
             collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
-            pcRect = pygame.Rect(self.fPos, self.surface.get_size())
+            pcRect = pygame.Rect(self.fPos, (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64)
+            print self.surface.get_size()
             if collideRect.colliderect(pcRect):
                 for tile in submap.tileMap:
                     if tile.collisionEnabled:
@@ -90,7 +91,7 @@ class PlayerCharacter(Character):
                             #Collision Detected between player and rect
                             self.xv = 0
                             self.yv = 0
-                            return
+                            break
     
         x,y = self.fPos
         x += self.xv * utils.delta

@@ -35,7 +35,7 @@ class GameTestScene(Scene):
 
         s = SubMap(10,10,5)
         from tile import Tile 
-        t = Tile((5,9),2)
+        t = Tile((5,9),2,collisionEnabled=True)
         s.removeTileAtLoc((5,9))
         s.tileMap.append(t)
         s.toFile()
