@@ -30,8 +30,6 @@ class GameTestScene(Scene):
         self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
         self.UIManager.updateGUIs()
 
-        MapManager.loadChunks(0,0)
-
     def on_escape(self):
         Saves.store(self.pc)
         sys.exit()
