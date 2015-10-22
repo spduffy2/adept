@@ -46,13 +46,21 @@ class SubMap:
         self.removeTileAtLoc(tile.pos)
         self.tileMap.append(tile)
 
+    def getTileAtPos(self,pos):
+        for tile in self.tileMap:
+            if tile.pos[0] == pos[0] and tile.pos[1] == pos[1] and tile.pos[2] == pos[2]:
+                return tile
+
     def removeTileAtLoc(self,pos):
         for tile in self.tileMap:
             if tile.pos[0] == pos[0] and tile.pos[1] == pos[1] and tile.pos[2] == pos[2]:
                 self.tileMap.remove(tile)
 
-    def render(self):
+    def render(self,player_loc=None):
         self.surface = utils.empty_surface((self.size[0] * SubMap.TILE_SIZE, self.size[1] * SubMap.TILE_SIZE))
+        if player_loc is not None:
+            print self.findAllNeighbors(self.tileMap[12])
+
         for tile in self.tileMap:
             if tile is not None:
                 tile.render()
@@ -60,5 +68,25 @@ class SubMap:
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
+
+    def findAllNeighbors(self,tile):
+        neighbors_found = 1
+        neighbors = [tile]
+        while neighbors_found is not 0:
+            neighbors_found = 0
+            for t in neighbors:
+                immediateNeighbors = list()
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0]+1,t.pos[1],t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0]-1,t.pos[1],t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]+1,t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+                immediateNeighbors.append(self.getTileAtPos((t.pos[0],t.pos[1]-1,t.pos[2])))
+                for n in immediateNeighbors:
+                    if n is not None and n.buildingInternal is True and not n in neighbors:
+                        neighbors.append(n)
+                        neighbors_found += 1
+        return neighbors
 
 from tile import Tile

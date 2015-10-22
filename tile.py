@@ -7,12 +7,14 @@ import os
 import pygame
 
 class Tile(Serializable):
-    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,**kwargs):
+    def __init__(self,pos=(0,0,0),type_id=0,collisionEnabled=False,buildingInternal=False,roofType=0,**kwargs):
         self.pos = pos
         self.type_id = type_id
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
         self.render()
         self.collisionEnabled = collisionEnabled
+        self.buildingInternal=buildingInternal
+        self.roofType=roofType
 
     def render(self):
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
