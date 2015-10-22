@@ -15,27 +15,31 @@ class Tile(Serializable):
         self.buildingInternal=buildingInternal
         self.roofType=roofType
         self.inside=False
+        self.IMG_FILE = ""
+        self.renderedOnce = False
         self.render()
 
     def render(self):
         self.surface = utils.empty_surface((SubMap.TILE_SIZE,SubMap.TILE_SIZE))
+        oldIMG_FILE = self.IMG_FILE
         if self.buildingInternal:
             if self.inside:
-                IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+                self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
 
             else:
-                IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.roofType) + ".png"])))
+                self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.roofType) + ".png"])))
 
         else:
-            IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
-
+            self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(self.type_id) + ".png"])))
+        
         try:
-            self.surface = pygame.image.load(IMG_FILE)
+            self.surface = pygame.image.load(self.IMG_FILE)
         except Exception as e:
             print("Error: Tile image for item \"" + str(self.type_id) + "\" does not exist.")
             print(e)
-            IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
-            self.surface = pygame.image.load(IMG_FILE)
+            self.IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
+            self.surface = pygame.image.load(self.IMG_FILE)
+        self.renderedOnce = True
 
     def loadIDProperties(self):
         pass
