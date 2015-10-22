@@ -11,6 +11,7 @@ from character import Character
 from chunk import Chunk
 
 from inventory import Inventory
+from skill import Skill
 
 class PlayerCharacter(Character):
 
@@ -29,8 +30,12 @@ class PlayerCharacter(Character):
         name = name if name is not None else PlayerCharacter.DEFAULT_NAME #These could probably be rewritten with kwargs
         fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
-        Character.__init__(self, name=name, fPos=fPos, size=size)
+        self.level = kwargs.get('level') if kwargs.get('level') is not None else 1
+        self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
+        Character.__init__(self, name=name, fPos=fPos, size=size, spawn=kwargs.get('spawn'))
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
+        self.swordSkill = kwargs.get('swordSkill') if kwargs.get('swordSkill') is not None else Skill(name="SwordSkill") #Example setup for a skill
+        self.bowSkill = kwargs.get('bowSkill') if kwargs.get('bowSkill') is not None else Skill(name="BowSkill")
         self.xv, self.yv = 0.0, 0.0
         self.surface = utils.empty_surface(self.size)
         self.inventory = inventory
@@ -140,6 +145,12 @@ class PlayerCharacter(Character):
         x, y = self.pos
         cx, cy = Camera.pos
         dest.blit(self.surface, (x - cx, y - cy))
+
+    def gainXP(self, amount):
+        self.experience += amount
+        if self.experience >= 100*self.level:
+            self.level += 1
+            self.experience %= (100*self.level)
 
     def load_sprites(self):
         for key in self.sprites.keys():
