@@ -98,7 +98,7 @@ class GameTestScene(Scene):
 
     def blit(self):
         Camera.blitView()
-        self.UIManager.blit(utils.screen, (0,0))
-        self.pc.blit(utils.screen)
         for npc in self.npcs:
             npc.blit(utils.screen)
+        self.pc.blit(utils.screen)
+        self.UIManager.blit(utils.screen, (0,0))
