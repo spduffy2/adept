@@ -111,4 +111,3 @@ class SubMap:
     #                     neighbors.append(n)
     #                     neighbors_found += 1
     #     return neighbors
-
