@@ -28,6 +28,7 @@ class EditorMenu(Scene):
             Label(
                 (5, 5),
                 "Adept Editor",
+                font="default18"
             )
         )
 

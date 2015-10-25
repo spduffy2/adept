@@ -27,6 +27,8 @@ class Menu(Scene):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (177, 0, 50, 255)
         Button.DEFAULT_BG_COLOR = (100, 100, 100, 255)
+        Button.DEFAULT_FONT = "default18"
+        Option.DEFAULT_FONT = "default18"
         self.labels.add(
             Label(
                 (5, 5),
