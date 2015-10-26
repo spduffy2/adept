@@ -32,7 +32,7 @@ class Tile(Serializable,object):
     def loadSurfaceForId(_id):
         if _id in Tile.LOADED_SURFACES.keys():
             return Tile.LOADED_SURFACES[_id]
-        IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + [str(_id) + ".png"])))
+        IMG_FILE = os.path.join(os.path.join(*list(['assets','tiles'] + [str(_id) + ".png"])))
         try:
             surface = pygame.image.load(IMG_FILE)
             Tile.LOADED_SURFACES[_id] = surface
@@ -40,7 +40,7 @@ class Tile(Serializable,object):
         except Exception as e:
             print("Error: Tile image for item \"" + str(_id) + "\" does not exist.")
             print(e)
-            IMG_FILE = os.path.join(os.path.join(*list(['tiles','assets'] + ["error.png"])))
+            IMG_FILE = os.path.join(os.path.join(*list(['assets'] + ["error.png"])))
             surface = pygame.image.load(IMG_FILE)
             Tile.LOADED_SURFACES[_id] = surface
             return surface
