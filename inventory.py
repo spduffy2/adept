@@ -10,6 +10,7 @@ class Inventory():
 
         self.items = [[None]*self.INV_SIZE_Y for _ in range(self.INV_SIZE_X)]
         self.hotbar = [None]*self.INV_SIZE_X
+        self.hotbarSelection = 0
 
         self.items[0][0] = Item("dagger")
         self.items[0][0].quantity = 2

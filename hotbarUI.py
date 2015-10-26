@@ -39,7 +39,7 @@ class HotbarUI:
 			iSurface.fill((0,0,0,100))
 
 			#Blit surface (default to empty surface)
-			if x == self.selectedIndex:
+			if x == self.inventory.hotbarSelection:
 				selectedSurface = utils.empty_surface((self.surface.get_height()-8, self.surface.get_height()-8))
 				selectedSurface.fill((255,0,0,255))
 				self.surface.blit(selectedSurface, (self.getGUIPosFromItemPos((x,0))[0] - 2,self.getGUIPosFromItemPos((x,0))[1] - 2))
@@ -74,43 +74,43 @@ class HotbarUI:
 
 	def handleKeyboardPress(self, keys):
 		if keys[pygame.K_1]:
-			self.selectedIndex = 0
+			self.inventory.hotbarSelection = 0
 			self.update()
 			return True
 		if keys[pygame.K_2]:
-			self.selectedIndex = 1
+			self.inventory.hotbarSelection = 1
 			self.update()
 			return True
 		if keys[pygame.K_3]:
-			self.selectedIndex = 2
+			self.inventory.hotbarSelection = 2
 			self.update()
 			return True
 		if keys[pygame.K_4]:
-			self.selectedIndex = 3
+			self.inventory.hotbarSelection = 3
 			self.update()
 			return True
 		if keys[pygame.K_5]:
-			self.selectedIndex = 4
+			self.inventory.hotbarSelection= 4
 			self.update()
 			return True
 		if keys[pygame.K_6]:
-			self.selectedIndex = 5
+			self.inventory.hotbarSelection = 5
 			self.update()
 			return True
 		if keys[pygame.K_7]:
-			self.selectedIndex = 6
+			self.inventory.hotbarSelection = 6
 			self.update()
 			return True
 		if keys[pygame.K_8]:
-			self.selectedIndex = 7
+			self.inventory.hotbarSelection = 7
 			self.update()
 			return True
 		if keys[pygame.K_9]:
-			self.selectedIndex = 8
+			self.inventory.hotbarSelection = 8
 			self.update()
 			return True
 		if keys[pygame.K_0]:
-			self.selectedIndex = 9
+			self.inventory.hotbarSelection = 9
 			self.update()
 			return True
 
