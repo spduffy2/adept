@@ -20,6 +20,10 @@ class Inventory():
 
     def addItem(self, item):
         for x in range(self.INV_SIZE_X):
+            if self.hotbar[x] == None and isinstance(item, Item):
+                self.hotbar[x] = item
+                return
+        for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
                 if self.items[x][y] == None and isinstance(item, Item):
                     self.items[x][y] = item
@@ -30,6 +34,10 @@ class Inventory():
 
     def removeItem(self, item):
         for x in range(self.INV_SIZE_X):
+            if self.hotbar[x] == item:
+                self.hotbar[x] = None
+                return
+        for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
                 if self.items[x][y] == item:
                     self.items[x][y] = None
@@ -37,6 +45,17 @@ class Inventory():
 
     def removeItemQuantity(self, item, quantity):
         quantityRemoved = 0;
+        for x in range(self.INV_SIZE_X):
+            if self.hotbar[x] is not None and self.hotbar[x].name == item:
+                currItem = self.hotbar[x]
+                if currItem.quantity > quantity:
+                    currItem.quantity -= quantity
+                    quantityRemoved = quantity
+                elif currItem.quantity <= quantity:
+                    quantityRemoved += currItem.quantity
+                    self.hotbar[x] = None 
+                if(quantityRemoved >= quantity):
+                    return
         for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
                 if self.items[x][y] is not None and self.items[x][y].name == item:
@@ -50,15 +69,27 @@ class Inventory():
                     if(quantityRemoved >= quantity):
                         return
 
+    def removeHotbarItem(self,item):
+        for x in range(self.INV_SIZE_X):
+            if self.hotbar[x] == item:
+                self.hotbar[x] = None
+                return
+
     def placeItem(self, item, pos):
         if isinstance(item,Item):
             oldItem = self.items[int(pos[0])][int(pos[1])]
             self.items[int(pos[0])][int(pos[1])] = item
             return oldItem
 
-    def placeItemInHotbar(self, item, index):
+    def placeItemInHotbar(self, item, pos):
         if isinstance(item,Item):
-            hotbar[index] = item
+            oldItem = self.hotbar[int(pos)]
+            self.hotbar[int(pos)] = item
+            return oldItem
+
+    def placeItemInHotbar(self, item, pos):
+        if isinstance(item,Item):
+            self.hotbar[pos[0]] = item
 
     def getTotalItemQuantity(self, item):
         """
@@ -70,6 +101,10 @@ class Inventory():
                 if self.items[x][y] is not None:
                     if self.items[x][y].name == item:
                         quantity += self.items[x][y].quantity
+        for x in range(self.INV_SIZE_X):
+            if self.hotbar[x] is not None:
+                if self.hotbar[x].name == item:
+                    quantity += self.hotbar[x].quantity
         return quantity
 
 
@@ -78,11 +113,17 @@ class Inventory():
             if hotbar[x] == None:
                 hotbar[x] = item
                 return
+
     def update(self):
         for x in range(self.INV_SIZE_X):
             for y in range(self.INV_SIZE_Y):
-                if self.items[x][y] is not None and self.items[x][y].quantity == 0:
+                if self.items[x][y] is not None and self.items[x][y].quantity <= 0:
                     self.items[x][y] = None
                 if self.items[x][y] is not None:
                     self.items[x][y].update()
+        for x in range(self.INV_SIZE_X):
+                if self.hotbar[x] is not None and self.hotbar[x].quantity <= 0:
+                    self.hotbar[x] = None
+                if self.hotbar[x] is not None:
+                    self.hotbar[x].update()
 
