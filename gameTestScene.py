@@ -14,6 +14,7 @@ from inventoryUI import InventoryUI
 from inventory import Inventory
 from guiManager import GUIManager
 from craftingUI import CraftingUI
+from hotbarUI import HotbarUI
 from subMap import SubMap
 from tradingUI import TradingUI
 from stair import Stair
@@ -38,6 +39,9 @@ class GameTestScene(Scene):
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
         self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
+        hb = HotbarUI(self.pc.inventory, self.UIManager)
+        self.UIManager.guiScreens.append(hb)
+        self.UIManager.alwaysOnGUIs.append(hb)
         self.UIManager.updateGUIs()
 
         s = SubMap(10,10,5)
