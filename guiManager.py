@@ -53,9 +53,20 @@ class GUIManager:
 		else:
 			self.keydown = False
 
-		#Mouse Events
-		if not self.active:
+
+		if self.active:
+			for gui in self.guiScreens:
+				if hasattr(gui, "handleKeyboardPress"):
+					if gui.handleKeyboardPress(keys) is not None:
+						self.updateGUIs()
+		else:
+			for gui in self.alwaysOnGUIs:
+				if hasattr(gui, "handleKeyboardPress"):
+					if gui.handleKeyboardPress(keys) is not None:
+						self.updateGUIs()
 			return
+
+		#Mouse Events
 		if pygame.mouse.get_pressed()[0]:
 			self.updateGUIs()
 			#On Mousedown

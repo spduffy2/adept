@@ -13,6 +13,7 @@ class HotbarUI:
 		self.pos = (utils.SCREEN_W / 2 - self.surface.get_width() / 2, utils.SCREEN_H - self.surface.get_height() - 10)
 		self.itemRects = list()
 		self.guiManager = manager
+		self.selectedIndex = 0
 
 	def resetSurface(self):
 		self.surface = utils.empty_surface((self.inventory.INV_SIZE_X * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING) + InventoryUI.PADDING,
@@ -37,11 +38,20 @@ class HotbarUI:
 			#Default color
 			iSurface.fill((0,0,0,100))
 
+			#Blit surface (default to empty surface)
+			if x == self.selectedIndex:
+				selectedSurface = utils.empty_surface((self.surface.get_height()-8, self.surface.get_height()-8))
+				selectedSurface.fill((255,0,0,255))
+				self.surface.blit(selectedSurface, (self.getGUIPosFromItemPos((x,0))[0] - 2,self.getGUIPosFromItemPos((x,0))[1] - 2))
+				if self.inventory.hotbar[x] is not None:
+					backgroundSurface = utils.empty_surface((InventoryUI.BUTTON_SIZE,InventoryUI.BUTTON_SIZE))
+					backgroundSurface.fill((0,0,0,100))
+					self.surface.blit(backgroundSurface, self.getGUIPosFromItemPos((x,0)))
+
 			#Load item icons from inventory
 			if self.inventory.hotbar[x] != None:
 				iSurface = self.inventory.hotbar[x].surface
 
-			#Blit surface (default to empty surface)
 			self.surface.blit(iSurface, self.getGUIPosFromItemPos((x,0)))
 
 	def getItemFromGUIPos(self, pos):
@@ -62,6 +72,47 @@ class HotbarUI:
 			self.guiManager.draggedItem = self.inventory.placeItemInHotbar(self.guiManager.draggedItem, self.getItemPosFromMousePos(pygame.mouse.get_pos()))
 		self.update()
 
+	def handleKeyboardPress(self, keys):
+		if keys[pygame.K_1]:
+			self.selectedIndex = 0
+			self.update()
+			return True
+		if keys[pygame.K_2]:
+			self.selectedIndex = 1
+			self.update()
+			return True
+		if keys[pygame.K_3]:
+			self.selectedIndex = 2
+			self.update()
+			return True
+		if keys[pygame.K_4]:
+			self.selectedIndex = 3
+			self.update()
+			return True
+		if keys[pygame.K_5]:
+			self.selectedIndex = 4
+			self.update()
+			return True
+		if keys[pygame.K_6]:
+			self.selectedIndex = 5
+			self.update()
+			return True
+		if keys[pygame.K_7]:
+			self.selectedIndex = 6
+			self.update()
+			return True
+		if keys[pygame.K_8]:
+			self.selectedIndex = 7
+			self.update()
+			return True
+		if keys[pygame.K_9]:
+			self.selectedIndex = 8
+			self.update()
+			return True
+		if keys[pygame.K_0]:
+			self.selectedIndex = 9
+			self.update()
+			return True
 
 	def blit(self, dest, pos):
 		dest.blit(self.surface, pos)
