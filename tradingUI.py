@@ -62,7 +62,7 @@ class TradingUI:
 			y = ((num / 2) * TradingUI.BUTTON_SIZE) + TradingUI.PADDING
 			newScreen.blit(Item(item, quantity = trade.goods[item]).surface, (x,y))
 
-		path = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + ["arrow.png"])))
+		path = os.path.join(os.path.join(*list(['assets'] + ['items'] + ["arrow.png"])))
 		arrowSurface = pygame.image.load(path)
 		newScreen.blit(arrowSurface,(114, (newScreen.get_height() / 2) - arrowSurface.get_height() / 2))
 
