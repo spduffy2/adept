@@ -14,6 +14,7 @@ from buffalo.input import Input
 
 from camera import Camera
 from pluginManager import PluginManager
+from tray import Tray
 
 class CameraController:
     def __init__(self):
@@ -56,68 +57,12 @@ class CameraController:
         self.pos = (int(self.fPos[0]), int(self.fPos[1]))
 
 class EditMapTestScene(Scene):
-    def logic(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                utils.end = True
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.on_escape()
-                else:
-                    for inpt in self.inputs:
-                        if inpt.selected:
-                            inpt.process_char( event.key )
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pos = pygame.mouse.get_pos()
-                for button in self.buttons:
-                    if button.get_rect().collidepoint( mouse_pos ):
-                        button.set_selected(True)
-                # IF THE MOUSE IS WITHIN THE TOOLS PART OF THE EDIT PANEL
-                x, y = mouse_pos
-                if x > utils.SCREEN_W - 180 and x < utils.SCREEN_W - 10 and \
-                   y > utils.SCREEN_H - 300 and y < utils.SCREEN_H - 10:
-                    for tool in self.tools:
-                        if tool.get_rect().collidepoint( mouse_pos ):
-                            tool.down = True
-                for option in self.options:
-                    if option.get_left_rect().collidepoint( mouse_pos ):
-                        option.set_left_selected(True)
-                        if option.get_right_rect().collidepoint( mouse_pos ):
-                            option.set_right_selected(True)
-            elif event.type == pygame.MOUSEBUTTONUP:
-                mouse_pos = pygame.mouse.get_pos()
-                for button in self.buttons:
-                    button.set_selected(False)
-                    if button.get_rect().collidepoint( mouse_pos ):
-                        if button.func is not None:
-                            button.func()
-                # IF THE MOUSE IS WITHIN THE TOOLS PART OF THE EDIT PANEL
-                x, y = mouse_pos
-                if x > utils.SCREEN_W - 180 and x < utils.SCREEN_W - 10 and \
-                   y > utils.SCREEN_H - 300 and y < utils.SCREEN_H - 10:
-                    for tool in self.tools:
-                        tool.down = False
-                        tool.selected = False
-                        if tool.get_rect().collidepoint( mouse_pos ):
-                            self.selected_tool = tool
-                            tool.selected = True
-                for inpt in self.inputs:
-                    if inpt.get_rect().collidepoint( mouse_pos ):
-                        inpt.select()
-                    else:
-                        inpt.deselect()
-                for option in self.options:
-                    if option.get_left_rect().collidepoint( mouse_pos ):
-                        option.go_left()
-                    if option.get_right_rect().collidepoint( mouse_pos ):
-                        option.go_right()
-
-
     def on_escape(self):
         sys.exit()
 
     def blit(self):
         Camera.blitView()
+        self.tray.blit(utils.screen)
 
     def update(self):
         keys = pygame.key.get_pressed()
@@ -131,3 +76,4 @@ class EditMapTestScene(Scene):
         Camera.init()
         self.camera_controller = CameraController()
         Camera.lock(self.camera_controller)
+        self.tray = Tray((50, 50), (640, 480))
