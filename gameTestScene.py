@@ -83,7 +83,7 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
-        self.f_text = FloatingText("hello")
+        self.f_text = FloatingText("hello",(0,0),alpha_decay=1)
 
     def on_escape(self):
         Saves.store(self.pc)
@@ -100,6 +100,7 @@ class GameTestScene(Scene):
                 npc.update()
             elif npc.__class__.__name__ is "Trader":
                 npc.update(self.pc.inventory, self.UIManager)
+        self.f_text.update()
         self.UIManager.update()
         Camera.update()
 

@@ -16,6 +16,7 @@ class FloatingText:
         self.italic = italic
         self.bold = bold
         self.lifetime_counter = 0
+        self.alpha = color[3]
         self.render()
 
     def blit(self, dest, pos):
@@ -24,9 +25,17 @@ class FloatingText:
     def render(self):
         font = pygame.font.SysFont(self.font,self.font_size,bold=self.bold,italic=self.italic)
         text_label_surface = font.render(self.text, True, self.color)
+        pixels_alpha = pygame.surfarray.pixels_alpha(text_label_surface)
+        pixels_alpha[...] = (pixels_alpha * (self.alpha / 255.0))
+        del pixels_alpha
         self.surface = text_label_surface
 
     def update(self):
-        self.pos[0] += hor_speed * utils.delta
-        self.pos[1] += vert_speed * utils.delta
-        self.color[3] -= self.alpha_decay * utils.delta
+        self.pos = (self.pos[0] + (self.hor_speed * utils.delta), self.pos[1] + (self.vert_speed * utils.delta))
+        self.lifetime_counter += utils.delta
+        if self.alpha > 0:
+            self.alpha -= self.alpha_decay * (utils.delta/25)
+        if self.alpha < 0:
+            self.alpha = 0
+
+        self.render()
