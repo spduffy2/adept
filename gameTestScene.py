@@ -83,7 +83,7 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
-        self.f_text = FloatingText("hello",(0,0),alpha_decay=1)
+        self.f_text = FloatingText("hello",(-100,-100),alpha_decay=2,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
 
     def on_escape(self):
         Saves.store(self.pc)
@@ -110,4 +110,4 @@ class GameTestScene(Scene):
             npc.blit(utils.screen)
         self.pc.blit(utils.screen)
         self.UIManager.blit(utils.screen, (0,0))
-        self.f_text.blit(utils.screen,(100,100))
+        self.f_text.blit(utils.screen,(self.f_text.pos[0] - Camera.pos[0],self.f_text.pos[1] - Camera.pos[1]))

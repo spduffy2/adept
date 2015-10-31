@@ -31,7 +31,7 @@ class FloatingText:
         self.surface = text_label_surface
 
     def update(self):
-        self.pos = (self.pos[0] + (self.hor_speed * utils.delta), self.pos[1] + (self.vert_speed * utils.delta))
+        self.pos = (self.pos[0] + (self.hor_speed * (utils.delta/25)), self.pos[1] + (self.vert_speed * (utils.delta/25)))
         self.lifetime_counter += utils.delta
         if self.alpha > 0:
             self.alpha -= self.alpha_decay * (utils.delta/25)
