@@ -18,6 +18,7 @@ from hotbarUI import HotbarUI
 from subMap import SubMap
 from tradingUI import TradingUI
 from stair import Stair
+from floatingText import FloatingText
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -82,6 +83,8 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
+        self.f_text = FloatingText("hello")
+
     def on_escape(self):
         Saves.store(self.pc)
         sys.exit()
@@ -106,3 +109,4 @@ class GameTestScene(Scene):
             npc.blit(utils.screen)
         self.pc.blit(utils.screen)
         self.UIManager.blit(utils.screen, (0,0))
+        self.f_text.blit(utils.screen,(100,100))
