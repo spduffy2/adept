@@ -83,7 +83,7 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
-        self.f_text = FloatingText("hello",(-100,-100),alpha_decay=2,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
+        self.f_text = FloatingText("hello",(-100,-100),alpha_decay=1,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
 
     def on_escape(self):
         Saves.store(self.pc)
