@@ -2,7 +2,7 @@ import pygame
 from buffalo import utils
 
 class FloatingText:
-    def __init__(self,text,pos,color=(0,0,0,255),vert_speed=0,hor_speed=0,font_size=15,lifetime=100,alpha_decay=0,bold=False,italic=False,font="comicsans"):
+    def __init__(self,text,pos,color=(0,0,0,255),vert_speed=0,hor_speed=0,font_size=15,lifetime=-1,alpha_decay=0,bold=False,italic=False,font="comicsans"):
         self.color = color
         self.text = text
         self.pos = pos
@@ -38,5 +38,5 @@ class FloatingText:
         if self.alpha < 0:
             self.alpha = 0
         self.render()
-        if self.lifetime_counter > self.lifetime:
+        if self.lifetime is not -1 and self.lifetime_counter > self.lifetime:
             self.alpha = 0
