@@ -111,5 +111,5 @@ class GameTestScene(Scene):
         for npc in self.npcs:
             npc.blit(utils.screen)
         self.pc.blit(utils.screen)
-        self.UIManager.blit(utils.screen, (0,0))
         FloatingTextManager.blit(utils.screen, (0,0))
+        self.UIManager.blit(utils.screen, (0,0))
