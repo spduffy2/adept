@@ -19,6 +19,7 @@ from subMap import SubMap
 from tradingUI import TradingUI
 from stair import Stair
 from floatingText import FloatingText
+from floatingTextManager import FloatingTextManager
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -83,7 +84,8 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
-        self.f_text = FloatingText("hello",(-100,-100),alpha_decay=0,font_size=25,lifetime=100,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
+        f_text = FloatingText("hello",(-100,-100),alpha_decay=0,font_size=25,lifetime=100,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
+        FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(f_text)
 
     def on_escape(self):
         Saves.store(self.pc)
@@ -100,9 +102,9 @@ class GameTestScene(Scene):
                 npc.update()
             elif npc.__class__.__name__ is "Trader":
                 npc.update(self.pc.inventory, self.UIManager)
-        self.f_text.update()
         self.UIManager.update()
         Camera.update()
+        FloatingTextManager.update()
 
     def blit(self):
         Camera.blitView()
@@ -110,4 +112,4 @@ class GameTestScene(Scene):
             npc.blit(utils.screen)
         self.pc.blit(utils.screen)
         self.UIManager.blit(utils.screen, (0,0))
-        self.f_text.blit(utils.screen,(self.f_text.pos[0] - Camera.pos[0],self.f_text.pos[1] - Camera.pos[1]))
+        FloatingTextManager.blit(utils.screen, (0,0))
