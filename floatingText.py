@@ -1,5 +1,6 @@
 import pygame
 from buffalo import utils
+from camera import Camera
 
 class FloatingText:
     def __init__(self,text,pos,color=(0,0,0,255),vert_speed=0,hor_speed=0,font_size=15,lifetime=-1,alpha_decay=0,bold=False,italic=False,font="comicsans"):
@@ -40,3 +41,25 @@ class FloatingText:
         self.render()
         if self.lifetime is not -1 and self.lifetime_counter > self.lifetime:
             self.alpha = 0
+
+class FloatingTextManager:
+    ACTIVE_FLOATING_TEXTS = list()
+    FLOATING_TEXT_SURFACE = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
+
+    @staticmethod
+    def update():
+        for fText in FloatingTextManager.ACTIVE_FLOATING_TEXTS:
+            fText.update()
+            if fText.alpha <= 0:
+                del fText
+
+    @staticmethod
+    def blit(dest, pos):
+        FloatingTextManager.render()
+        dest.blit( FloatingTextManager.FLOATING_TEXT_SURFACE, (pos) )
+
+    @staticmethod
+    def render():
+        for fText in FloatingTextManager.ACTIVE_FLOATING_TEXTS:
+            fText.render()
+            fText.blit(utils.screen,(fText.pos[0] - Camera.pos[0],fText.pos[1] - Camera.pos[1]))

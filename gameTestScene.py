@@ -19,7 +19,7 @@ from subMap import SubMap
 from tradingUI import TradingUI
 from stair import Stair
 from floatingText import FloatingText
-from floatingTextManager import FloatingTextManager
+from floatingText import FloatingTextManager
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -84,7 +84,7 @@ class GameTestScene(Scene):
         s.toFile()
         MapManager.activeMap.submaps.append(s)
 
-        f_text = FloatingText("hello",(-100,-100),alpha_decay=0,font_size=25,lifetime=100,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
+        f_text = FloatingText("hello",(-100,-100),alpha_decay=1,font_size=25,vert_speed=-.5,hor_speed=-.25,color=(255,0,0,255))
         FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(f_text)
 
     def on_escape(self):

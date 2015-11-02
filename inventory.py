@@ -30,6 +30,7 @@ class Inventory():
                     self.items[x][y] = item
                     return
 
+
     def addItemQuantity(self,item, quantity):
         pass
 
