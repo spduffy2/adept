@@ -10,7 +10,7 @@ class Tray(object):
     DEFAULT_MAX_WIDTH = 1000
     DEFAULT_MIN_HEIGHT = 150
     DEFAULT_MAX_HEIGHT = 1000
-    DEFAULT_COLOR = (150, 150, 150, 150)
+    DEFAULT_COLOR = (0, 0, 100, 150)
 
     def __init__(self, pos, size,
                  min_width=None, max_width=None,
@@ -32,8 +32,8 @@ class Tray(object):
         self.surface = utils.empty_surface(self.size)
         self.surface.fill(self.color)
         
-    def move(self, pos):
-        self.pos = pos
+    def move(self, diff):
+        self.pos = self.pos[0] + diff[0], self.pos[1] + diff[1]
 
     def resize(self, mouse_pos):
         x, y = mouse_pos
@@ -59,11 +59,10 @@ class Tray(object):
             self.pos = self.pos[0], original_pos[1]
         self.render()
 
-    def handle(self, mouse_pos, click_pos):
+    def handle(self, mouse_pos, mouse_rel):
         assert(type(mouse_pos) == tuple and len(mouse_pos) == 2)
         assert(type(mouse_pos[0]) == int and type(mouse_pos[1]) == int)
         x, y = mouse_pos
-        cx, cy = click_pos
         # Edges:
         # Left:   0b0001
         # Top:    0b0010
@@ -85,9 +84,15 @@ class Tray(object):
             if abs(x - (self.x + self.width)) <= Tray.FEATHER:
                 self.should_resize = True
                 self.edge |= 0b0100
-        if x > self.x + Tray.FEATHER and x < self.x + self.width - Tray.FEATHER:
-            if y > self.y + Tray.FEATHER and y < self.y + self.height - Tray.FEATHER:
+        if x > self.x + Tray.FEATHER * 5 and x < self.x + self.width - Tray.FEATHER * 5:
+            if y > self.y + Tray.FEATHER * 5 and y < self.y + self.height - Tray.FEATHER * 5:
                 self.should_move = True
+                for elem in self.elems:
+                    if elem.get_rect().collidepoint(mouse_pos):
+                        self.should_move = False
+                        break
+        if self.should_move:
+            self.move(mouse_rel)
         if self.should_resize:
             self.resize(mouse_pos)
 

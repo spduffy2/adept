@@ -71,7 +71,7 @@ class EditMapTestScene(Scene):
         Camera.update()
         if self.mouse_buttons[0]:
             for tray in self.trays:
-                tray.handle(self.mouse_pos, self.click_pos)
+                tray.handle(self.mouse_pos, self.mouse_rel)
         else:
             for tray in self.trays:
                 tray.should_move = False
