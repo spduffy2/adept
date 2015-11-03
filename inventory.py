@@ -138,5 +138,6 @@ class Inventory():
                     (self.playerCharacter.fPos[0], self.playerCharacter.fPos[1] + offsetY),
                     vert_speed = -1,
                     hor_speed = -1,
-                    alpha_decay = 1))
+                    alpha_decay = 5,
+                    lifetime = 35))
             offsetY += offsetPerNotification
