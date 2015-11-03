@@ -62,12 +62,21 @@ class EditMapTestScene(Scene):
 
     def blit(self):
         Camera.blitView()
-        self.tray.blit(utils.screen)
+        for tray in self.trays:
+            tray.blit(utils.screen)
 
     def update(self):
         keys = pygame.key.get_pressed()
         self.camera_controller.update(keys)
         Camera.update()
+        if self.mouse_buttons[0]:
+            for tray in self.trays:
+                tray.handle(self.mouse_pos, self.click_pos)
+        else:
+            for tray in self.trays:
+                tray.should_move = False
+                tray.should_resize = False
+                tray.edge = 0b0000
 
     def __init__(self):
         Scene.__init__(self)
@@ -76,4 +85,5 @@ class EditMapTestScene(Scene):
         Camera.init()
         self.camera_controller = CameraController()
         Camera.lock(self.camera_controller)
-        self.tray = Tray((50, 50), (640, 480))
+        self.trays = set()
+        self.trays.add(Tray((50, 50), (640, 480)))

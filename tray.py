@@ -2,30 +2,94 @@ from buffalo import utils
 
 class Tray(object):
 
-    FEATHER = 2
+    FEATHER = 10
     # FEATHER is the number of pixels away from the edges of a tray
     # that the "resize region" goes
 
-    DEFAULT_COLOR = (150, 150, 0, 100)
+    DEFAULT_MIN_WIDTH = 150
+    DEFAULT_MAX_WIDTH = 1000
+    DEFAULT_MIN_HEIGHT = 150
+    DEFAULT_MAX_HEIGHT = 1000
+    DEFAULT_COLOR = (150, 150, 150, 150)
 
-    def __init__(self, pos, size, color=None):
+    def __init__(self, pos, size,
+                 min_width=None, max_width=None,
+                 min_height=None, max_height=None,
+                 color=None):
         self.pos = pos
         self.size = size
+        self.min_width = min_width if min_width is not None else Tray.DEFAULT_MIN_WIDTH
+        self.max_width = max_width if max_width is not None else Tray.DEFAULT_MAX_WIDTH
+        self.min_height = min_height if min_height is not None else Tray.DEFAULT_MIN_HEIGHT
+        self.max_height = max_height if max_height is not None else Tray.DEFAULT_MAX_HEIGHT
         self.color = color if color is not None else Tray.DEFAULT_COLOR
+        self.elems = set()
+        self.should_resize = False
+        self.edge = 0b0000
+        self.render()
+
+    def render(self):
         self.surface = utils.empty_surface(self.size)
         self.surface.fill(self.color)
+        
+    def move(self, pos):
+        self.pos = pos
 
     def resize(self, mouse_pos):
+        x, y = mouse_pos
+        original_pos = self.pos
+        original_size = self.size
+        if self.edge & 0b0001: # left
+            r = self.x + self.width
+            self.pos = x, self.y
+            self.size = self.width + (r - (self.x + self.width)), self.height
+        if self.edge & 0b0010: # top
+            b = self.y + self.height
+            self.pos = self.x, y
+            self.size = self.width, self.height + (b - (self.y + self.height))
+        if self.edge & 0b0100: # right
+            self.size = self.width + (x - (self.x + self.width)), self.height
+        if self.edge & 0b1000: # bottom
+            self.size = self.width, self.height + (y - (self.y + self.height))
+        if self.size[0] < self.min_width or self.size[0] > self.max_width:
+            self.size = original_size[0], self.size[1]
+            self.pos = original_pos[0], self.pos[1]
+        if self.size[1] < self.min_height or self.size[1] > self.max_height:
+            self.size = self.size[0], original_size[1]
+            self.pos = self.pos[0], original_pos[1]
+        self.render()
+
+    def handle(self, mouse_pos, click_pos):
         assert(type(mouse_pos) == tuple and len(mouse_pos) == 2)
         assert(type(mouse_pos[0]) == int and type(mouse_pos[1]) == int)
         x, y = mouse_pos
+        cx, cy = click_pos
         # Edges:
-        # Left:   0
-        # Top:    1
-        # Right:  2
-        # Bottom: 3
-        if x >= self.x - Tray.FEATHER and x <= self.x + self.width + Tray.FEATHER:
-            print("YOLO")
+        # Left:   0b0001
+        # Top:    0b0010
+        # Right:  0b0100
+        # Bottom: 0b1000
+        within_x = x >= self.x and x <= self.x + self.width
+        within_y = y >= self.y and y <= self.y + self.height
+        if within_x:
+            if abs(y - (self.y + self.height)) <= Tray.FEATHER:
+                self.should_resize = True
+                self.edge |= 0b1000
+            if abs(y - self.y) <= Tray.FEATHER:
+                self.should_resize = True
+                self.edge |= 0b0010
+        if within_y:
+            if abs(x - self.x) <= Tray.FEATHER:
+                self.should_resize = True
+                self.edge |= 0b0001
+            if abs(x - (self.x + self.width)) <= Tray.FEATHER:
+                self.should_resize = True
+                self.edge |= 0b0100
+        if x > self.x + Tray.FEATHER and x < self.x + self.width - Tray.FEATHER:
+            if y > self.y + Tray.FEATHER and y < self.y + self.height - Tray.FEATHER:
+                self.should_move = True
+        if self.should_resize:
+            self.resize(mouse_pos)
 
     def blit(self, dest):
         dest.blit(self.surface, self.pos)
