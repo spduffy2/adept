@@ -139,5 +139,5 @@ class Inventory():
                     vert_speed = -1,
                     hor_speed = -1,
                     alpha_decay = 5,
-                    lifetime = 35))
+                    lifetime = 50))
             offsetY += offsetPerNotification
