@@ -24,13 +24,15 @@ class EditSubMapTestScene(Scene):
 
     def blit(self):
         #RenderSubmap
+        utils.screen.fill((255,255,255,255))
+        self.subMap.render(0)
+        self.subMap.blit(utils.screen, (0,0))
         for tray in self.trays:
             tray.blit(utils.screen)
 
     def update(self):
         keys = pygame.key.get_pressed()
         self.camera_controller.update(keys)
-        Camera.update()
         if self.mouse_buttons[0]:
             for tray in self.trays:
                 tray.handle(self.mouse_pos, self.mouse_rel)
@@ -42,12 +44,10 @@ class EditSubMapTestScene(Scene):
 
     def __init__(self,_id):
         Scene.__init__(self)
-        self.subMap = SubMap(_id)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
-        Camera.init()
         self.camera_controller = CameraController()
-        Camera.lock(self.camera_controller)
+        self.subMap = SubMap(_id)
         self.trays = set()
         self.trays.add(
             Tray(

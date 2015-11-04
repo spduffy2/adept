@@ -38,10 +38,15 @@ class EditorMenu(Scene):
             utils.set_scene(
                 EditMapTestScene()
             )
+
         def go_to_edit_submap_test_scene():
             from editSubMapTestScene import EditSubMapTestScene
+            from mapManager import MapManager
+            _id = self.subMapID.label.text
+            if _id.endswith("|"):
+                _id = _id.split('|')[0]
             utils.set_scene(
-                EditSubMapTestScene()
+                EditSubMapTestScene(_id)
             )
 
         self.buttons.add(
