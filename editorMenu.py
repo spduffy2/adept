@@ -6,6 +6,7 @@ from buffalo import utils
 from buffalo.scene import Scene
 from buffalo.label import Label
 from buffalo.button import Button
+from buffalo.input import Input
 
 class EditorMenu(Scene):
 
@@ -37,6 +38,11 @@ class EditorMenu(Scene):
             utils.set_scene(
                 EditMapTestScene()
             )
+        def go_to_edit_submap_test_scene():
+            from editSubMapTestScene import EditSubMapTestScene
+            utils.set_scene(
+                EditSubMapTestScene()
+            )
 
         self.buttons.add(
             Button(
@@ -48,6 +54,25 @@ class EditorMenu(Scene):
                 func=go_to_edit_map_test_scene,
             )
         )
+
+        self.buttons.add(
+            Button(
+                (int(utils.SCREEN_W / 2), int(utils.SCREEN_H / 2 + 75)),
+                "Edit SubMap",
+                font="default18",
+                x_centered=True,
+                y_centered=True,
+                func=go_to_edit_submap_test_scene,
+            )
+        )
+
+        self.subMapID  = Input(
+                                (utils.SCREEN_W / 2 + 100, utils.SCREEN_H / 2 + 75),
+                                "Map ID",
+                                y_centered=True,
+                                x_centered=True,
+                        )
+        self.inputs.add(self.subMapID)
         
         self.buttons.add(
             Button(
