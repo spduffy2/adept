@@ -8,9 +8,8 @@ from buffalo.label import Label
 from buffalo.button import Button
 from buffalo.option import Option
 
-from saves import Saves
-from playerCharacter import PlayerCharacter
 from inventory import Inventory
+from saves import Saves
 
 class Menu(Scene):
 
@@ -113,21 +112,20 @@ class Menu(Scene):
 
 
     def go_to_createCharacter(self):
+        from createCharacter import CreateCharacter
         utils.set_scene(
             CreateCharacter()
         )
     def go_to_options(self):
+        from options import Options
         utils.set_scene(
             Options()
         )
     def go_to_gameTestScene(self):
+        from gameTestScene import GameTestScene
         pc_name = self.characterOption.label.text
         utils.set_scene(
             GameTestScene(
                 pc_name
             )
         )
-
-from createCharacter import CreateCharacter
-from gameTestScene import GameTestScene
-from options import Options

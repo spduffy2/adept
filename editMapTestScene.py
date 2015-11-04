@@ -86,4 +86,11 @@ class EditMapTestScene(Scene):
         self.camera_controller = CameraController()
         Camera.lock(self.camera_controller)
         self.trays = set()
-        self.trays.add(Tray((50, 50), (640, 480)))
+        self.trays.add(
+            Tray(
+                (utils.SCREEN_W - 270, 20),
+                (250, 800),
+                min_width=250, max_width=800,
+                min_height=250, max_height=800
+            )
+        )

@@ -31,7 +31,15 @@ class Tray(object):
     def render(self):
         self.surface = utils.empty_surface(self.size)
         self.surface.fill(self.color)
+        for elem in self.elems:
+            elem.blit(self.surface)
         
+    def update(self):
+        rerender = False
+        for elem in self.elems:
+            if elem.update():
+                rerender = True
+
     def move(self, diff):
         self.pos = self.pos[0] + diff[0], self.pos[1] + diff[1]
 
@@ -60,6 +68,7 @@ class Tray(object):
         self.render()
 
     def handle(self, mouse_pos, mouse_rel):
+        self.update() # see if anything must be rerendered
         assert(type(mouse_pos) == tuple and len(mouse_pos) == 2)
         assert(type(mouse_pos[0]) == int and type(mouse_pos[1]) == int)
         x, y = mouse_pos
