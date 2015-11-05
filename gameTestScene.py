@@ -105,7 +105,7 @@ class GameTestScene(Scene):
         self.UIManager.update()
         Camera.update()
         FloatingTextManager.update()
-        PlayerConsole.render()
+        PlayerConsole.update()
 
     def blit(self):
         Camera.blitView()
