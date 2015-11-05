@@ -73,7 +73,7 @@ class EditorMenu(Scene):
 
         self.subMapID  = Input(
                                 (utils.SCREEN_W / 2 + 100, utils.SCREEN_H / 2 + 75),
-                                "Map ID",
+                                "5",
                                 y_centered=True,
                                 x_centered=True,
                         )

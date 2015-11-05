@@ -11,6 +11,7 @@ from buffalo import utils
 from buffalo.scene import Scene
 from buffalo.label import Label
 from buffalo.input import Input
+from buffalo.button import Button
 
 from editMapTestScene import CameraController
 from pluginManager import PluginManager
@@ -26,7 +27,7 @@ class EditSubMapTestScene(Scene):
         #RenderSubmap
         utils.screen.fill((255,255,255,255))
         self.subMap.render(0)
-        self.subMap.blit(utils.screen, (0,0))
+        self.subMap.blit(utils.screen, (0 - self.camera_controller.pos[0], 0 - self.camera_controller.pos[1]))
         for tray in self.trays:
             tray.blit(utils.screen)
 
@@ -49,11 +50,22 @@ class EditSubMapTestScene(Scene):
         self.camera_controller = CameraController()
         self.subMap = SubMap(_id)
         self.trays = set()
-        self.trays.add(
-            Tray(
+        self.editorTray = Tray(
                 (utils.SCREEN_W - 270, 20),
                 (250, 800),
                 min_width=250, max_width=800,
                 min_height=250, max_height=800
+                )
+        self.trays.add(
+            self.editorTray
+        )
+        self.editorTray.elems.add(
+            Button(
+                (self.editorTray.size[0]/2, 100),
+                "Test",
+                font="default18",
+                x_centered=True,
+                y_centered=True,
             )
         )
+        self.editorTray.render()
