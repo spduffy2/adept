@@ -1,5 +1,6 @@
 from tray import Tray
 from buffalo import utils
+from itertools import chain
 import pygame
 import random
 
@@ -19,6 +20,8 @@ class PlayerConsole:
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
+        ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis ac enim vel feugiat. Duis ac metus id est lobortis euismod. Vestibulum finibus est eget odio rhoncus consequat. Vestibulum sed lectus justo. Aenean fringilla mi et ultricies condimentum. Donec sapien quam, congue vitae felis at, bibendum tincidunt purus. Nulla in nunc consequat, laoreet nibh non, pulvinar eros. Quisque at justo mauris."
+        PlayerConsole.registerNewEvent(ipsum)
 
     @staticmethod
     def registerNewEvent(text,color=(0,0,0,255)):
@@ -43,7 +46,9 @@ class PlayerConsole:
         if PlayerConsole.ALPHA < 0:
             PlayerConsole.ALPHA = 0
             PlayerConsole.tray.surface = utils.empty_surface((1,1))
-        PlayerConsole.registerNewEvent(str(random.random()))
+        
+        #Stress Test Debugging Call:
+        #PlayerConsole.registerNewEvent(str(random.random()))
 
 
     @staticmethod
@@ -51,19 +56,16 @@ class PlayerConsole:
         totalHeight = 0
         PlayerConsole.tray.update()
         texts = list()
-        surfaces = 0
         for textMessage in reversed(PlayerConsole.TEXT_EVENTS):
             myfont = pygame.font.SysFont("monospace", 15)
-            label = myfont.render(textMessage.text, True, textMessage.color)
-            texts.append(label)
-            surfaces += 1
-            totalHeight += label.get_height()
-            if totalHeight > PlayerConsole.tray.surface.get_height():
-                break
+            for line in TextWrapper.wrap_line(textMessage.text, myfont, PlayerConsole.tray.size[0]):
+                label = myfont.render(line, True, textMessage.color)
+                texts.append(label)
+                totalHeight += label.get_height()
+                if totalHeight > PlayerConsole.tray.surface.get_height():
+                    break
         if totalHeight > PlayerConsole.tray.surface.get_height():
             totalHeight = PlayerConsole.tray.surface.get_height()
-        print "Surfaces Calls: " + str(surfaces)
-
 
         newSurface = utils.empty_surface((PlayerConsole.tray.surface.get_width(), totalHeight))
         currHeight = 0
@@ -83,3 +85,38 @@ class EventText:
     def __init__(self, text, color=(0,0,0,255)):
         self.text = text
         self.color = color
+
+#Code referenced from https://pygame.org/wiki/TextWrapping
+class TextWrapper:
+    @staticmethod
+    def truncate_line(text, font, maxWidth):
+        real = len(text)
+        stext = text
+        l = font.size(text)[0]
+        cut = 0
+        a = 0
+        done = 1
+        old = None
+        while l > maxWidth:
+            a += 1
+            n = text.rsplit(None, a)[0]
+            if stext == n:
+                cut += 1
+                stext = n[:-cut]
+            else:
+                stext = n
+            l = font.size(stext)[0]
+            real = len(stext)
+            done = 0
+        return real, done, stext
+
+    @staticmethod
+    def wrap_line(text, font, maxWidth):
+        done = 0
+        wrapped = list()
+
+        while not done:
+            nl, done, stext = TextWrapper.truncate_line(text, font, maxWidth)
+            wrapped.append(stext.strip())
+            text = text[nl:]
+        return wrapped
