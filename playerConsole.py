@@ -43,7 +43,7 @@ class PlayerConsole:
         if PlayerConsole.ALPHA < 0:
             PlayerConsole.ALPHA = 0
             PlayerConsole.tray.surface = utils.empty_surface((1,1))
-        #PlayerConsole.registerNewEvent(str(random.random()))
+        PlayerConsole.registerNewEvent(str(random.random()))
 
 
     @staticmethod
@@ -51,17 +51,23 @@ class PlayerConsole:
         totalHeight = 0
         PlayerConsole.tray.update()
         texts = list()
-        for textMessage in PlayerConsole.TEXT_EVENTS:
+        surfaces = 0
+        for textMessage in reversed(PlayerConsole.TEXT_EVENTS):
             myfont = pygame.font.SysFont("monospace", 15)
             label = myfont.render(textMessage.text, True, textMessage.color)
             texts.append(label)
+            surfaces += 1
             totalHeight += label.get_height()
+            if totalHeight > PlayerConsole.tray.surface.get_height():
+                break
         if totalHeight > PlayerConsole.tray.surface.get_height():
             totalHeight = PlayerConsole.tray.surface.get_height()
+        print "Surfaces Calls: " + str(surfaces)
+
 
         newSurface = utils.empty_surface((PlayerConsole.tray.surface.get_width(), totalHeight))
         currHeight = 0
-        for textSurface in reversed(texts):
+        for textSurface in texts:
             newSurface.blit(textSurface,(0,newSurface.get_height() - currHeight - textSurface.get_height()))
             currHeight += textSurface.get_height()
             if currHeight > PlayerConsole.tray.surface.get_height():
