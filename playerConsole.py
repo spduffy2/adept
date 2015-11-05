@@ -1,11 +1,12 @@
 from tray import Tray
 from buffalo import utils
 import pygame
+import random
 
 class PlayerConsole:
     TEXT_EVENTS = list()
     ALPHA = 255
-    ALPHA_WAIT = 200
+    ALPHA_WAIT = 100
     ALPHA_DECAY = 10
     ALPHA_COUNTER = 5001
 
@@ -14,13 +15,13 @@ class PlayerConsole:
         PlayerConsole.tray = Tray(
             (10,utils.SCREEN_H - utils.SCREEN_H / 4 - 75),
             (utils.SCREEN_W / 2, utils.SCREEN_H / 4),
-            color=(100,100,100,200))
+            color=(100,100,100,225))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
 
     @staticmethod
-    def registerNewEvent(text,color=(255,255,255,255)):
+    def registerNewEvent(text,color=(0,0,0,255)):
         newEvent = EventText(text,color)
         PlayerConsole.TEXT_EVENTS.append(newEvent)
         PlayerConsole.flashOn()
@@ -42,7 +43,7 @@ class PlayerConsole:
         if PlayerConsole.ALPHA < 0:
             PlayerConsole.ALPHA = 0
             PlayerConsole.tray.surface = utils.empty_surface((1,1))
-        print PlayerConsole.ALPHA_COUNTER
+        #PlayerConsole.registerNewEvent(str(random.random()))
 
 
     @staticmethod
@@ -52,15 +53,19 @@ class PlayerConsole:
         texts = list()
         for textMessage in PlayerConsole.TEXT_EVENTS:
             myfont = pygame.font.SysFont("monospace", 15)
-            label = myfont.render(textMessage.text, True, (255,255,255,255))
+            label = myfont.render(textMessage.text, True, textMessage.color)
             texts.append(label)
             totalHeight += label.get_height()
+        if totalHeight > PlayerConsole.tray.surface.get_height():
+            totalHeight = PlayerConsole.tray.surface.get_height()
 
         newSurface = utils.empty_surface((PlayerConsole.tray.surface.get_width(), totalHeight))
         currHeight = 0
-        for textSurface in texts:
-            newSurface.blit(textSurface,(0,currHeight))
+        for textSurface in reversed(texts):
+            newSurface.blit(textSurface,(0,newSurface.get_height() - currHeight - textSurface.get_height()))
             currHeight += textSurface.get_height()
+            if currHeight > PlayerConsole.tray.surface.get_height():
+                break
         PlayerConsole.tray.render()
         PlayerConsole.tray.surface.blit(newSurface,(0,PlayerConsole.tray.surface.get_height() - newSurface.get_height()))
         pixels_alpha = pygame.surfarray.pixels_alpha(PlayerConsole.tray.surface)
