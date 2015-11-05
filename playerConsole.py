@@ -16,7 +16,7 @@ class PlayerConsole:
         PlayerConsole.tray = Tray(
             (10,utils.SCREEN_H - utils.SCREEN_H / 4 - 75),
             (utils.SCREEN_W / 2, utils.SCREEN_H / 4),
-            color=(100,100,100,225))
+            color=(100,100,100,240))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
         PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
@@ -25,7 +25,7 @@ class PlayerConsole:
 
     @staticmethod
     def registerNewEvent(text,color=(0,0,0,255)):
-        newEvent = EventText(text,color)
+        newEvent = EventText('-'+text,color)
         PlayerConsole.TEXT_EVENTS.append(newEvent)
         PlayerConsole.flashOn()
 
@@ -58,12 +58,14 @@ class PlayerConsole:
         texts = list()
         for textMessage in reversed(PlayerConsole.TEXT_EVENTS):
             myfont = pygame.font.SysFont("monospace", 15)
+            thisMessage = list()
             for line in TextWrapper.wrap_line(textMessage.text, myfont, PlayerConsole.tray.size[0]):
                 label = myfont.render(line, True, textMessage.color)
-                texts.append(label)
                 totalHeight += label.get_height()
-                if totalHeight > PlayerConsole.tray.surface.get_height():
-                    break
+                thisMessage.append(label)
+            texts.extend(reversed(thisMessage))
+            if totalHeight > PlayerConsole.tray.surface.get_height():
+                break
         if totalHeight > PlayerConsole.tray.surface.get_height():
             totalHeight = PlayerConsole.tray.surface.get_height()
 
