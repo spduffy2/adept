@@ -17,11 +17,11 @@ class PlayerConsole:
             (10,utils.SCREEN_H - utils.SCREEN_H / 4 - 75),
             (utils.SCREEN_W / 2, utils.SCREEN_H / 4),
             color=(100,100,100,240))
-        PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
-        PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
-        PlayerConsole.TEXT_EVENTS.append(EventText("Hello!"))
+        PlayerConsole.registerNewEvent("Hello!")
+        PlayerConsole.registerNewEvent("Hello!")
+        PlayerConsole.registerNewEvent("Hello!")
         ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis ac enim vel feugiat. Duis ac metus id est lobortis euismod. Vestibulum finibus est eget odio rhoncus consequat. Vestibulum sed lectus justo. Aenean fringilla mi et ultricies condimentum. Donec sapien quam, congue vitae felis at, bibendum tincidunt purus. Nulla in nunc consequat, laoreet nibh non, pulvinar eros. Quisque at justo mauris."
-        PlayerConsole.registerNewEvent(ipsum)
+        PlayerConsole.registerNewEvent(ipsum,(0,255,0,255))
 
     @staticmethod
     def registerNewEvent(text,color=(0,0,0,255)):
