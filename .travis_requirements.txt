@@ -10,3 +10,4 @@ pickleshare==0.5
 Pillow==2.9.0
 pyglet==1.2.4
 PyYAML==3.11
+git+https://github.com/gragas/buffalo
