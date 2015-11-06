@@ -131,12 +131,15 @@ class Inventory():
     def craftingNotification(self,recipe):
         offsetY = 0
         offsetPerNotification = 10
+
+        if self.playerCharacter() is None:
+            return
         for item in recipe.products:
             item = Item(item)
             item.quantity = recipe.products[item.name]
             FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
                     "+" + str(item.quantity) + " " + item.name,
-                    (self.playerCharacter.fPos[0], self.playerCharacter.fPos[1] + offsetY),
+                    (self.playerCharacter().fPos[0], self.playerCharacter().fPos[1] + offsetY),
                     vert_speed = -1,
                     hor_speed = -1,
                     alpha_decay = 5,
