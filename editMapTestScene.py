@@ -10,11 +10,12 @@ import pygame
 from buffalo import utils
 from buffalo.scene import Scene
 from buffalo.label import Label
+from buffalo.button import Button
 from buffalo.input import Input
+from buffalo.tray import Tray
 
 from camera import Camera
 from pluginManager import PluginManager
-from tray import Tray
 
 class CameraController:
     def __init__(self):
@@ -62,21 +63,12 @@ class EditMapTestScene(Scene):
 
     def blit(self):
         Camera.blitView()
-        for tray in self.trays:
-            tray.blit(utils.screen)
 
     def update(self):
+        super(EditMapTestScene, self).update()
         keys = pygame.key.get_pressed()
         self.camera_controller.update(keys)
         Camera.update()
-        if self.mouse_buttons[0]:
-            for tray in self.trays:
-                tray.handle(self.mouse_pos, self.mouse_rel)
-        else:
-            for tray in self.trays:
-                tray.should_move = False
-                tray.should_resize = False
-                tray.edge = 0b0000
 
     def __init__(self):
         Scene.__init__(self)
@@ -85,12 +77,30 @@ class EditMapTestScene(Scene):
         Camera.init()
         self.camera_controller = CameraController()
         Camera.lock(self.camera_controller)
-        self.trays = set()
-        self.trays.add(
-            Tray(
-                (utils.SCREEN_W - 270, 20),
-                (250, 800),
-                min_width=250, max_width=800,
-                min_height=250, max_height=800
+        self.tool_tray = Tray(
+            (utils.SCREEN_W - 270, 20),
+            (250, 800),
+            min_width=250, max_width=800,
+            min_height=250, max_height=800,
+        )
+        self.tool_tray.labels.add(
+            Label(
+                (int(self.tool_tray.width / 2), 10),
+                "Tool Tray",
+                color=(255,255,255,255),
+                x_centered=True,
+                font="default18",
             )
         )
+        self.tool_tray.buttons.add(
+            Button(
+                (int(self.tool_tray.width / 2), 50),
+                "Yolo Doot Doot",
+                color=(255,255,255,255),
+                bg_color=(100,100,200,255),
+                x_centered=True,
+                font="default18",
+            )
+        )
+        self.tool_tray.render()
+        self.trays.add(self.tool_tray)
