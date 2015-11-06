@@ -8,6 +8,7 @@ addons:
 install:
     - git clone https://github.com/gragas/buffalo
     - cd buffalo && python setup.py install
+    - cd ..
     - pip install -r .travis_requirements.txt
 script: 
     - python main.py
