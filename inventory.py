@@ -1,6 +1,7 @@
 from item import Item
 import random
 from floatingText import FloatingText,FloatingTextManager
+from playerConsole import PlayerConsole
 
 class Inventory():
 
@@ -141,3 +142,4 @@ class Inventory():
                     alpha_decay = 5,
                     lifetime = 50))
             offsetY += offsetPerNotification
+            PlayerConsole.registerNewEvent("You crafted " + str(item.quantity) + " " + item.name + "(s)!", (255,0,0,255))

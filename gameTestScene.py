@@ -20,6 +20,7 @@ from tradingUI import TradingUI
 from stair import Stair
 from floatingText import FloatingText
 from floatingText import FloatingTextManager
+from playerConsole import PlayerConsole
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -83,6 +84,8 @@ class GameTestScene(Scene):
         s.addTile(stair)
         s.toFile()
         MapManager.activeMap.submaps.append(s)
+        PlayerConsole.init()
+
 
     def on_escape(self):
         Saves.store(self.pc)
@@ -102,6 +105,7 @@ class GameTestScene(Scene):
         self.UIManager.update()
         Camera.update()
         FloatingTextManager.update()
+        PlayerConsole.update()
 
     def blit(self):
         Camera.blitView()
@@ -110,3 +114,4 @@ class GameTestScene(Scene):
         self.pc.blit(utils.screen)
         FloatingTextManager.blit(utils.screen, (0,0))
         self.UIManager.blit(utils.screen, (0,0))
+        PlayerConsole.tray.blit(utils.screen)
