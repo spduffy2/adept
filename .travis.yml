@@ -6,6 +6,8 @@ addons:
         packages:
         - python-pygame
 install:
+    - git clone https://github.com/gragas/buffalo
+    - cd buffalo && sudo python setup.py
     - pip install -r .travis_requirements.txt
 script: 
     - python main.py
