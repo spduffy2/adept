@@ -4,10 +4,7 @@ import unittest
 from buffalo import utils
 import random
 
-utils.init(
-            caption='Adept',
-            fullscreen=True
-        )
+utils.init()
 
 class TestItem:
     def test_init(self):   
