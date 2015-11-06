@@ -80,7 +80,7 @@ class EditMapTestScene(Scene):
         self.tool_tray = Tray(
             (utils.SCREEN_W - 270, 20),
             (250, 800),
-            min_width=250, max_width=800,
+            min_width=250, max_width=250,
             min_height=250, max_height=800,
         )
         self.tool_tray.labels.add(
