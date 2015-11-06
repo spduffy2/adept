@@ -6,7 +6,7 @@ addons:
         packages:
         - python-pygame
 install:
-    - git clone https://github.com/gragas/buffalo/develop
+    - git clone -b develop https://github.com/gragas/buffalo/
     - cd buffalo && python setup.py develop
     - cd ..
     - pip install -r .travis_requirements.txt
