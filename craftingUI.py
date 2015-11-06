@@ -67,7 +67,7 @@ class CraftingUI:
         """
         Arrow Rendering
         """
-        path = os.path.join(os.path.join(*list(Item.BASE_PATH +  ['assets'] + ["arrow.png"])))
+        path = os.path.join(os.path.join(*list(['assets'] + ['items'] + ["arrow.png"])))
         arrowSurface = pygame.image.load(path)
         newScreen.blit(arrowSurface,(114, (newScreen.get_height() / 2) - arrowSurface.get_height() / 2))
         """
@@ -101,6 +101,7 @@ class CraftingUI:
                     newItem = Item(item)
                     newItem.quantity = clickedRecipe.products[item]
                     self.inventory.addItem(newItem)
+                self.inventory.craftingNotification(clickedRecipe)
                 self.inventory.update()
                 self.updateRecipeTable()
                 return
