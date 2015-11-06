@@ -30,9 +30,9 @@ class GameTestScene(Scene):
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         Camera.init()
-        self.enemy = Enemy(name="monster", fPos=(0.0,0.0)) # Example enemy
-        self.friendly = Friendly(name="villager", fPos=(0.0,0.0)) # Example friendly npc
-        self.trader = Trader(name="merchant", fPos=(0.0,0.0)) # Example trader
+        self.enemy = Enemy(name="monster", fPos=(-128.0,256.0)) # Example enemy
+        self.friendly = Friendly(name="villager", fPos=(-128.0,256.0)) # Example friendly npc
+        self.trader = Trader(name="merchant", fPos=(-128.0,256.0)) # Example trader
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
         Camera.lock(self.pc)
@@ -92,9 +92,9 @@ class GameTestScene(Scene):
         self.pc.update(keys, subMaps)
         for npc in self.npcs:
             if npc.__class__.__name__ is "Enemy":
-                npc.update(self.pc.fPos)
+                npc.update(self.pc, subMaps)
             elif npc.__class__.__name__ is "Friendly":
-                npc.update()
+                npc.update(subMaps)
             elif npc.__class__.__name__ is "Trader":
                 npc.update(self.pc.inventory, self.UIManager)
         self.UIManager.update()
