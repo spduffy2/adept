@@ -49,13 +49,13 @@ class CreateCharacter(Scene):
                                 x_centered=True,
                         )
                 )
-                self.speed = Option(
+                self.speed_option = Option(
                                 (utils.SCREEN_W / 2, utils.SCREEN_H / 2),
                                 [str(n) for n in list(range(10,50))],
                                 x_centered=True,
                                 y_centered=True,
                         )
-                self.options.add(self.speed)
+                self.options.add(self.speed_option)
                 self.buttons.add(
                         Button(
                                 (utils.SCREEN_W / 2, utils.SCREEN_H / 2 + 60),
@@ -86,7 +86,7 @@ class CreateCharacter(Scene):
                         PlayerCharacter(
                                 Inventory(),
                                 name=self.characterName.label.text,
-                                speed = (float(self.speed.label.text) / 100),
+                                speed=(float(self.speed_option.label.text) / 100),
                         )
                 )
                 self.go_to_main_menu()

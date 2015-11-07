@@ -1,3 +1,5 @@
+import multiprocessing
+
 import pygame
 
 from buffalo import utils
@@ -47,8 +49,8 @@ class Camera:
         if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE / 3):
             x, y = Camera.character.fPos
             x = int(x // (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH))
-            y = int(y // (Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT))            
-            MapManager.loadChunks(x, y)
+            y = int(y // (Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT))
+            #MapManager.loadChunks(x, y, array=MapManager.loadedChunks)
             Camera.marker = Camera.fPos
         
 
