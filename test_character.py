@@ -23,3 +23,13 @@ class TestCharacter:
         self.init()
         self.c.characterName.label.text = "Test"
         self.c.create_character()
+
+    def test_surface(self):
+        from playerCharacter import PlayerCharacter
+        char = PlayerCharacter()
+        assert char.surface is not None
+
+    def test_inventory__pc_reference(self):
+        from playerCharacter import PlayerCharacter
+        char = PlayerCharacter()
+        assert char.inventory.playerCharacter() == char

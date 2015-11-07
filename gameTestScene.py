@@ -21,6 +21,7 @@ from stair import Stair
 from floatingText import FloatingText
 from floatingText import FloatingTextManager
 from playerConsole import PlayerConsole
+from item import Item
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -46,6 +47,8 @@ class GameTestScene(Scene):
         self.UIManager.guiScreens.append(hb)
         self.UIManager.alwaysOnGUIs.append(hb)
         self.UIManager.updateGUIs()
+
+        #self.pc.inventory.addItem(Item("axe"))
 
         s = SubMap(10,10,5)
         from tile import Tile 

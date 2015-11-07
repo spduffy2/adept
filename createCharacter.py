@@ -84,7 +84,7 @@ class CreateCharacter(Scene):
                         self.characterName.deselect()
                 Saves.store(
                         PlayerCharacter(
-                                Inventory(),
+                                inventory=Inventory(),
                                 name=self.characterName.label.text,
                                 speed = (float(self.speed.label.text) / 100),
                         )

@@ -4,11 +4,13 @@ import os
 import random
 import pygame
 from inventoryUI import InventoryUI
+from serializable import Serializable
 
-class Item():
+
+class Item(Serializable):
     BASE_PATH = ["items"]
 
-    def __init__(self,name,quantity=1,durability=1.0,**kwargs):
+    def __init__(self,name="",quantity=1,durability=1.0,**kwargs):
         """
         Static item information
         """
