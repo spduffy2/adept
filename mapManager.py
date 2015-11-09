@@ -1,4 +1,5 @@
 import os
+from multiprocessing import Process, Queue
 
 class MapManager:
     """
@@ -13,6 +14,7 @@ class MapManager:
     activeMap     = None    # activeMap is the active map // lol
 
     loaded_chunks = dict()
+    lru_chunks    = dict()  # least recently used chunks
 
     @staticmethod
     def loadMaps():
@@ -23,6 +25,9 @@ class MapManager:
             MapManager.loadMap(name)
         MapManager.maps.sort(key=lambda m: m.precedence)
         MapManager.activeMap = MapManager.maps[0]
+        # THIS LINE IS REALLY IMPORTANT
+        MapManager.soft_load_reader_queue = Queue()
+        MapManager.soft_load_writer_queue = Queue()
 
     @staticmethod
     def loadMap( map_name ):
@@ -41,11 +46,69 @@ class MapManager:
 
     @staticmethod
     def hard_load(world_pos):
-        x, y = chunk_coords = MapManager.get_chunk_coords(world_pos)
+        x, y = MapManager.get_chunk_coords(world_pos)
         for j in range(y - 2, y + 3):
             for i in range(x - 2, x + 3):
-                MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
-        
+                if (i, j) not in MapManager.loaded_chunks.keys():
+                    MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
+                    MapManager.lru_chunks[(i, j)] = 2
+        MapManager.soft_load_reader_process = MapManager.get_soft_load_reader_process()
+        MapManager.soft_load_reader_process.start()
+        MapManager.soft_load_reader_queue.put(world_pos)
+        MapManager.soft_load_reader_queue.put("DONE")
+        MapManager.soft_load_reader_process.join()
+
+    @staticmethod
+    def soft_load(world_pos):
+        x, y = MapManager.get_chunk_coords(world_pos)
+        for j in range(y - 4, y - 2) + range(y + 3, y + 5):
+            for i in range(x - 4, x - 2) + range(x + 3, x + 5):
+                #MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
+                package = ((x, y), (i, j), Chunk(i, j))
+                MapManager.soft_load_writer_queue.put(package)
+
+    @staticmethod
+    def offload_old_chunks():
+        # This method goes through the lru_chunks dictionary
+        # and determines which chunks don't need to be in memory
+        # based on when they were last used relative to other chunks
+        for key in MapManager.lru_chunks.keys():
+            if MapManager.lru_chunks[key] == 0:
+                if key in MapManager.loaded_chunks.keys():
+                    del MapManager.loaded_chunks[key]
+                del MapManger.lru_chunks[key]
+
+    @staticmethod
+    def soft_load_reader():
+        while True:
+            world_pos = MapManager.soft_load_reader_queue.get()
+            if world_pos == "DONE":
+                break
+            else:
+                MapManager.soft_load(world_pos)
+
+    @staticmethod
+    def soft_load_writer():
+        if MapManager.soft_load_writer_queue.empty():
+            return
+        package = MapManager.soft_load_writer_queue.get()
+        coords, pos, chunk = package
+        MapManager.loaded_chunks[pos] = chunk
+        if pos in MapManager.lru_chunks.keys():
+            MapManager.lru_chunks[pos] = 1
+        else:
+            MapManager.lru_chunks[pos] = 1
+        x, y = coords
+        for i, j in MapManager.loaded_chunks.keys():
+            if i < x - 4 or i > x + 4 or j < y - 4 or j > y + 4:
+                # these  are really far away chunks that can be offloaded if necessary
+                MapManager.lru_chunks[i, j] = 0
+
+    @staticmethod
+    def get_soft_load_reader_process():
+        soft_load_reader_process = Process(target=MapManager.soft_load_reader)
+        soft_load_reader_process.daemon = True
+        return soft_load_reader_process
 
 from Map import Map
 from pluginManager import PluginManager

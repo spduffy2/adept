@@ -1,6 +1,7 @@
 import os
 import os.path
 import sys
+from multiprocessing import Queue
 
 import numpy
 import numpy.random
@@ -15,6 +16,7 @@ from buffalo.input import Input
 from buffalo.tray import Tray
 
 from camera import Camera
+from mapManager import MapManager
 from pluginManager import PluginManager
 from toolManager import ToolManager
 
@@ -60,6 +62,8 @@ class CameraController:
 
 class EditMapTestScene(Scene):
     def on_escape(self):
+        MapManager.soft_load_reader_queue = Queue()
+        MapManager.soft_load_reader_queue.put("DONE")
         sys.exit()
 
     def blit(self):
@@ -70,6 +74,7 @@ class EditMapTestScene(Scene):
         keys = pygame.key.get_pressed()
         self.camera_controller.update(keys)
         Camera.update()
+        MapManager.soft_load_writer()
 
     def __init__(self):
         Scene.__init__(self)
@@ -77,6 +82,7 @@ class EditMapTestScene(Scene):
         PluginManager.loadPlugins()
         self.camera_controller = CameraController()
         Camera.lock(self.camera_controller, initial_update=True)
+
         Button.DEFAULT_SEL_COLOR = (50, 50, 100, 255)
         self.tool_tray = Tray(
             (utils.SCREEN_W - 270, 20),

@@ -42,8 +42,9 @@ class Camera:
                 MapManager.hard_load(Camera.fPos)
             Camera.marker = Camera.fPos
             return
-        if Camera.locked and utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE):
-            MapManager.hard_load(Camera.character.fPos)
+        if utils.dist(Camera.fPos, Camera.marker) > (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE):
+            this_pos = Camera.character.fPos if Camera.locked else Camera.fPos
+            MapManager.hard_load(this_pos)
             Camera.marker = Camera.fPos
         
 
