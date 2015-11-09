@@ -56,7 +56,7 @@ class Chunk:
         self.fromFile(x,y)
         self.label = Label(
             (5,5),
-            str((self.pos[0] * 32, self.pos[1] * 32)),
+            str((self.pos[0], self.pos[1])),
             font="default36",
             color=(0,0,0,255)
         )
@@ -146,14 +146,14 @@ class Chunk:
                     )
 
                     #Color Based Rendering
-                    # self.surface.fill(
-                    #     self.defs[col],
-                    #     pygame.Rect(
-                    #         (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE),
-                    #         (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
-                    #     )
-                    # )
-        #self.label.blit(self.surface)
+                    #self.surface.fill(
+                    #    self.defs[col],
+                    #    pygame.Rect(
+                    #        (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE),
+                    #        (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
+                    #    )
+                    #)
+#        self.label.blit(self.surface)
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )

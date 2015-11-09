@@ -12,12 +12,7 @@ class MapManager:
     maps          = []      # Maps is a list of all Map's found in within BASE_PATH
     activeMap     = None    # activeMap is the active map // lol
 
-    loadedChunks  = [[None]*5 for _ in range(5)]
-
-    # LC_WIDTH and LC_HEIGHT are the maximum width and height
-    # of loadedChunks, which contains Chunk's loaded into memory
-    LC_WIDTH      = len(loadedChunks[0])
-    LC_HEIGHT     = len(loadedChunks)
+    loaded_chunks = dict()
 
     @staticmethod
     def loadMaps():
@@ -37,20 +32,21 @@ class MapManager:
         CHUNK_PATH_LIST = MapManager.BASE_PATH + [map_name, "chunks"]
         MapManager.maps.append(Map(map_name, CHUNK_PATH_LIST))
 
-    # Reloads loaded chunks in grid around central chunk (inputs use chunk coordinates)
     @staticmethod
-    def loadChunks(centralx, centraly):
-        ybegin = centraly - int(MapManager.LC_HEIGHT/2)
-        yend   = centraly + int(MapManager.LC_HEIGHT/2)
-        xbegin = centralx - int(MapManager.LC_WIDTH/2)
-        xend   = centralx + int(MapManager.LC_WIDTH/2)
-        for LCy, chunky in enumerate(range(ybegin, yend)):
-            for LCx, chunkx in enumerate(range(xbegin, xend)):
-                MapManager.loadedChunks[LCy][LCx] = Chunk(chunkx, chunky)
-        camera.Camera.c_offset = centralx, centraly
+    def get_chunk_coords(world_pos):
+        return (
+            int(world_pos[0] / (Chunk.CHUNK_WIDTH * Chunk.TILE_SIZE)),
+            int(world_pos[1] / (Chunk.CHUNK_HEIGHT * Chunk.TILE_SIZE)),
+        )
+
+    @staticmethod
+    def hard_load(world_pos):
+        x, y = chunk_coords = MapManager.get_chunk_coords(world_pos)
+        for j in range(y - 2, y + 3):
+            for i in range(x - 2, x + 3):
+                MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
         
 
 from Map import Map
 from pluginManager import PluginManager
 from chunk import Chunk
-import camera

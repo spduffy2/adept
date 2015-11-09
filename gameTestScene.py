@@ -32,12 +32,12 @@ class GameTestScene(Scene):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
-        Camera.init()
         self.enemy = Enemy(name="monster", fPos=(0.0,0.0)) # Example enemy
         self.friendly = Friendly(name="villager", fPos=(0.0,0.0)) # Example friendly npc
         self.trader = Trader(name="merchant", fPos=(0.0,0.0)) # Example trader
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
+        MapManager.hard_load(self.pc.pos)
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))

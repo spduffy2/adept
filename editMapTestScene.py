@@ -75,9 +75,8 @@ class EditMapTestScene(Scene):
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
-        Camera.init()
         self.camera_controller = CameraController()
-        Camera.lock(self.camera_controller)
+        Camera.lock(self.camera_controller, initial_update=True)
         Button.DEFAULT_SEL_COLOR = (50, 50, 100, 255)
         self.tool_tray = Tray(
             (utils.SCREEN_W - 270, 20),
