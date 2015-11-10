@@ -1,5 +1,8 @@
 import os
 from multiprocessing import Process, Queue
+from threading import Thread
+
+from buffalo import utils
 
 class MapManager:
     """
@@ -28,6 +31,7 @@ class MapManager:
         # THIS LINE IS REALLY IMPORTANT
         MapManager.soft_load_reader_queue = Queue()
         MapManager.soft_load_writer_queue = Queue()
+        MapManager.soft_load_render_queue = Queue()
 
     @staticmethod
     def loadMap( map_name ):
@@ -52,11 +56,16 @@ class MapManager:
                 if (i, j) not in MapManager.loaded_chunks.keys():
                     MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
                     MapManager.lru_chunks[(i, j)] = 2
+        if hasattr(MapManager, 'soft_load_reader_process'):
+            MapManager.soft_load_reader_process.join()
+        if hasattr(MapManager, 'soft_load_render_thread'):
+            MapManager.soft_load_render_thread.join()
         MapManager.soft_load_reader_process = MapManager.get_soft_load_reader_process()
         MapManager.soft_load_reader_process.start()
         MapManager.soft_load_reader_queue.put(world_pos)
         MapManager.soft_load_reader_queue.put("DONE")
-        MapManager.soft_load_reader_process.join()
+#        MapManager.soft_load_render_thread = MapManager.get_soft_load_render_thread(world_pos)
+#        MapManager.soft_load_render_thread.start()
 
     @staticmethod
     def soft_load(world_pos):
@@ -64,7 +73,7 @@ class MapManager:
         for j in range(y - 4, y - 2) + range(y + 3, y + 5):
             for i in range(x - 4, x - 2) + range(x + 3, x + 5):
                 #MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
-                package = ((x, y), (i, j), Chunk(i, j))
+                package = ((x, y), (i, j), Chunk(i, j, from_other_process=False))
                 MapManager.soft_load_writer_queue.put(package)
 
     @staticmethod
@@ -103,6 +112,20 @@ class MapManager:
             if i < x - 4 or i > x + 4 or j < y - 4 or j > y + 4:
                 # these  are really far away chunks that can be offloaded if necessary
                 MapManager.lru_chunks[i, j] = 0
+
+    @staticmethod
+    def soft_load_render(world_pos):
+        x, y = MapManager.get_chunk_coords(world_pos)
+        for j in range(y - 4, y - 2) + range(y + 3, y + 5):
+            for i in range(x - 4, x - 2) + range(x + 3, x + 5):
+                if (i, j) in MapManager.loaded_chunks.keys():
+                    MapManager.loaded_chunks[(i, j)].create_and_render_surface()
+        
+    @staticmethod
+    def get_soft_load_render_thread(world_pos):
+        soft_load_render_thread = Thread(target=MapManager.soft_load_render, args=((world_pos),))
+        soft_load_render_thread.daemon = True
+        return soft_load_render_thread
 
     @staticmethod
     def get_soft_load_reader_process():

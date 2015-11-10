@@ -73,6 +73,8 @@ class Camera:
             for colindx in range(coords[0] - 2, coords[0] + 3):
                 if not (colindx, rowindx) in MapManager.loaded_chunks.keys():
                     continue
+                if not hasattr(MapManager.loaded_chunks[(colindx, rowindx)], 'surface'):
+                    continue
                 x = colindx
                 y = rowindx
                 chunk = MapManager.loaded_chunks[(colindx, rowindx)]
