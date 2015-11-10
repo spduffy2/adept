@@ -1,5 +1,7 @@
 import sys
 
+from multiprocessing import Queue
+
 import pygame
 from buffalo import utils
 from buffalo.scene import Scene
@@ -30,15 +32,15 @@ from trader import Trader
 class GameTestScene(Scene):
     def __init__(self, pc_name):
         Scene.__init__(self)
+        print("got hithertonQ")
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
-        self.enemy = Enemy(name="monster", fPos=(0.0,0.0)) # Example enemy
-        self.friendly = Friendly(name="villager", fPos=(0.0,0.0)) # Example friendly npc
-        self.trader = Trader(name="merchant", fPos=(0.0,0.0)) # Example trader
+        self.enemy = Enemy(name="monster", fPos=(0.0,0.0))
+        self.friendly = Friendly(name="villager", fPos=(0.0,0.0))
+        self.trader = Trader(name="merchant", fPos=(0.0,0.0))
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
-        MapManager.hard_load(self.pc.pos)
-        Camera.lock(self.pc)
+        Camera.lock(self.pc, initial_update=True)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
         self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
@@ -89,6 +91,8 @@ class GameTestScene(Scene):
 
     def on_escape(self):
         Saves.store(self.pc)
+        MapManager.soft_load_reader_queue = Queue()
+        MapManager.soft_load_reader_queue.put("DONE")
         sys.exit()
 
     def update(self):
@@ -104,6 +108,7 @@ class GameTestScene(Scene):
                 npc.update(self.pc.inventory, self.UIManager)
         self.UIManager.update()
         Camera.update()
+        MapManager.soft_load_writer()
         FloatingTextManager.update()
         PlayerConsole.update()
 

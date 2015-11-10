@@ -42,6 +42,8 @@ class CameraController:
         else:
             speed = self.speed
 
+        speed *= utils.delta / 16.0
+
         self.xv = 0.0
         self.yv = 0.0
 

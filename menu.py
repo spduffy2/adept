@@ -1,4 +1,7 @@
 import os
+import sys
+
+from multiprocessing import Queue
 
 import pygame
 
@@ -8,13 +11,16 @@ from buffalo.label import Label
 from buffalo.button import Button
 from buffalo.option import Option
 
+from mapManager import MapManager
 from inventory import Inventory
 from saves import Saves
 
 class Menu(Scene):
 
     def on_escape(self):
-        exit()
+        MapManager.soft_load_reader_queue = Queue()
+        MapManager.soft_load_reader_queue.put("DONE")
+        sys.exit()
 
     def update(self):
         pass
@@ -124,6 +130,8 @@ class Menu(Scene):
     def go_to_gameTestScene(self):
         from gameTestScene import GameTestScene
         pc_name = self.characterOption.label.text
+        MapManager.soft_load_reader_queue = Queue()
+        MapManager.soft_load_reader_queue.put("DONE")
         utils.set_scene(
             GameTestScene(
                 pc_name
