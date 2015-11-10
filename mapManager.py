@@ -70,11 +70,18 @@ class MapManager:
     @staticmethod
     def soft_load(world_pos):
         x, y = MapManager.get_chunk_coords(world_pos)
-        for j in range(y - 4, y - 2) + range(y + 3, y + 5):
+        for j in range(y - 4, y + 5): # sides
             for i in range(x - 4, x - 2) + range(x + 3, x + 5):
                 #MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
-                package = ((x, y), (i, j), Chunk(i, j, from_other_process=False))
-                MapManager.soft_load_writer_queue.put(package)
+                if (i, j) not in MapManager.loaded_chunks:
+                    package = ((x, y), (i, j), Chunk(i, j, from_other_process=False))
+                    MapManager.soft_load_writer_queue.put(package)
+        for j in range(y - 4, y - 2) + range(y + 3, y + 5): # top and bottom
+            for i in range(x - 4, x + 5): 
+                #MapManager.loaded_chunks[(i, j)] = Chunk(i, j)
+                if (i, j) not in MapManager.loaded_chunks:
+                    package = ((x, y), (i, j), Chunk(i, j, from_other_process=False))
+                    MapManager.soft_load_writer_queue.put(package)
 
     @staticmethod
     def offload_old_chunks():
@@ -102,6 +109,7 @@ class MapManager:
             return
         package = MapManager.soft_load_writer_queue.get()
         coords, pos, chunk = package
+        chunk.create_and_render_surface()
         MapManager.loaded_chunks[pos] = chunk
         if pos in MapManager.lru_chunks.keys():
             MapManager.lru_chunks[pos] = 1
