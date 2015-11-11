@@ -39,6 +39,10 @@ class GameTestScene(Scene):
         self.trader = Trader(name="merchant", fPos=(0.0,0.0)) # Example trader
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
+
+        if self.pc is None:
+            raise UserWarning
+            
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
