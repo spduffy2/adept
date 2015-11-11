@@ -12,7 +12,7 @@ class Inventory(Serializable):
     def __init__(self, **kwargs):
         self.items = kwargs.get("items",[[None]*3 for _ in range(10)])
         self.hotbar = kwargs.get("hotbar",[None]*10)
-        self.hotbarSelection = 0
+        self.hotbarSelection = kwargs.get("hotbarSelection",0)
         self.update()
 
     def addItem(self, item):
@@ -44,6 +44,9 @@ class Inventory(Serializable):
                     return
 
     def removeItemQuantity(self, item, quantity):
+    """
+    NOTE: Takes an item NAME as the 'item' param, not an Item object.
+    """
         quantityRemoved = 0;
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] is not None and self.hotbar[x].name == item:

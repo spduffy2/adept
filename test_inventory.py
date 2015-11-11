@@ -21,12 +21,18 @@ class TestInventory:
 		assert i.items[0][0] is not None
 		assert i.items[9][2] is not None
 
-	def test_rem_item(self):
-		l = Inventory()
+	def test_instantiation(self):
+		i = Inventory()
 		d = Inventory()
-		assert l != d
-		t = Item("test")
-		l.addItem(t)
-		assert l.hotbar[0] == t
-		# i.removeItemQuantity(t,5)
-		# assert i.hotbar[0].quantity == 5
+		assert i != d
+		assert i.hotbar is not d.hotbar
+		assert i.items is not d.items
+
+	def test_rem_item(self):
+		i = Inventory()
+		t = Item("test",quantity=10)
+		i.addItem(t)
+		assert i.hotbar[0] == t
+		i.removeItemQuantity("test",5)
+		print i.hotbar[0].quantity
+		assert i.hotbar[0].quantity == 5
