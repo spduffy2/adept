@@ -48,10 +48,10 @@ class GameTestScene(Scene):
         self.UIManager.alwaysOnGUIs.append(hb)
         self.UIManager.updateGUIs()
 
-        #self.pc.inventory.addItem(Item("axe"))
+        self.pc.inventory.addItem(Item("axe"))
 
         s = SubMap(5)
-        # from tile import Tile 
+        from tile import Tile 
         # t = Tile((5,9,0),2,collisionEnabled=False,buildingInternal=True,roofType=2)
         # for x in range(10):
         #     for y in range(10):
@@ -86,7 +86,10 @@ class GameTestScene(Scene):
         # s.addTile(stair2)
         # s.addTile(stair)
         # s.toFile()
+        g = SubMap(5,posX=500,posY=0)
+        g.addTile(Tile)
         MapManager.activeMap.submaps.append(s)
+        MapManager.activeMap.submaps.append(g)
         PlayerConsole.init()
 
 

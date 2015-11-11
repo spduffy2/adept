@@ -103,6 +103,8 @@ class Menu(Scene):
         self.options.add(self.characterOption)
     def getCharacterNames(self):
         characters = list()
+        if not os.path.isdir("characters"):
+            os.mkdir("characters")
         for character in os.listdir("characters"):
             if character != ".DS_Store":
                 characters.append(character)

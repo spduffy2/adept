@@ -29,7 +29,6 @@ class PlayerCharacter(Character):
 
     #**kwargs here allows for an object to be created with a dictionary for input, which basically allows an object to be created from the deserialize method
     def __init__(self, inventory=Inventory(), name=None, fPos=None, zLevel=0, size=None, speed=None, **kwargs):
-        print "hello!"
         name = name if name is not None else PlayerCharacter.DEFAULT_NAME #These could probably be rewritten with kwargs
         fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
         size = size if size is not None else PlayerCharacter.DEFAULT_SIZE

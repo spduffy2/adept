@@ -2,6 +2,7 @@ from item import Item
 import pygame
 import unittest
 from buffalo import utils
+import os
 
 utils.init(
             caption='Adept',
@@ -23,6 +24,11 @@ class TestCharacter:
         self.init()
         self.c.characterName.label.text = "Test"
         self.c.create_character()
+        assert os.path.isfile(os.path.join("characters","Test")) is True
+        if os.path.isfile(os.path.join("characters","Test")) is True:
+            os.remove(os.path.join("characters","Test"))
+        if len(os.listdir(os.path.join("characters"))) is 0:
+            os.rmdir(os.path.join(os.path.join("characters")))
 
     def test_surface(self):
         from playerCharacter import PlayerCharacter
