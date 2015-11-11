@@ -55,3 +55,11 @@ class TestInventory:
 
 		assert i.getTotalItemQuantity("test") == quantity1 + quantity2
 
+	def test_crafting_notification(self):
+		from playerConsole import PlayerConsole
+		currLen = len(PlayerConsole.TEXT_EVENTS)
+
+		i = Inventory()
+		i.craftingNotification(None)
+		assert len(PlayerConsole.TEXT_EVENTS) == currLen
+

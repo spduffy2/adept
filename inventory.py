@@ -3,6 +3,7 @@ import random
 from floatingText import FloatingText,FloatingTextManager
 from playerConsole import PlayerConsole
 from serializable import Serializable
+import weakref
 
 
 class Inventory(Serializable):
@@ -13,6 +14,12 @@ class Inventory(Serializable):
         self.items = kwargs.get("items",[[None]*3 for _ in range(10)])
         self.hotbar = kwargs.get("hotbar",[None]*10)
         self.hotbarSelection = kwargs.get("hotbarSelection",0)
+
+        #Creating a blank weakref
+        o = Item()
+        self.playerCharacter = weakref.ref(o)
+        del(o)
+        
         self.update()
 
     def addItem(self, item):
