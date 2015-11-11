@@ -36,3 +36,22 @@ class TestInventory:
 		i.removeItemQuantity("test",5)
 		print i.hotbar[0].quantity
 		assert i.hotbar[0].quantity == 5
+
+	def test_place_item(self):
+		i = Inventory()
+		t = Item("test")
+		i.placeItem(t, (2,2))
+		assert i.items[2][2] == t
+
+	def test_item_quantity_total(self):
+		quantity1 = int(random.random() * 10) + 1
+		quantity2 = int(random.random() * 10) + 1
+		t1 = Item("test", quantity1)
+		t2 = Item("test", quantity2)
+
+		i = Inventory()
+		i.addItem(t1)
+		i.placeItem(t2, (2,2))
+
+		assert i.getTotalItemQuantity("test") == quantity1 + quantity2
+

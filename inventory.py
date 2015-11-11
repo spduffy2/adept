@@ -44,9 +44,9 @@ class Inventory(Serializable):
                     return
 
     def removeItemQuantity(self, item, quantity):
-    """
-    NOTE: Takes an item NAME as the 'item' param, not an Item object.
-    """
+        """
+        NOTE: Takes an item NAME as the 'item' param, not an Item object.
+        """
         quantityRemoved = 0;
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] is not None and self.hotbar[x].name == item:
