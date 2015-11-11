@@ -9,9 +9,9 @@ class Inventory(Serializable):
     INV_SIZE_X = 10
     INV_SIZE_Y = 3
 
-    def __init__(self, items=[[None]*3 for _ in range(10)], hotbar=[None]*10, **kwargs):
-        self.items = items
-        self.hotbar = hotbar
+    def __init__(self, **kwargs):
+        self.items = kwargs.get("items",[[None]*3 for _ in range(10)])
+        self.hotbar = kwargs.get("hotbar",[None]*10)
         self.hotbarSelection = 0
         self.update()
 
