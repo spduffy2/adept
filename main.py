@@ -16,7 +16,7 @@ if __name__ == "__main__":
     
     if not utils.init(
             caption="Adept",
-            fullscreen=True        
+            fullscreen=False       
     ):
         print('buffalo.utils failed to initialize')
         pygame.quit()

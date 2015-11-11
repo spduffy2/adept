@@ -137,12 +137,12 @@ class Inventory():
         for item in recipe.products:
             item = Item(item)
             item.quantity = recipe.products[item.name]
-            FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
-                    "+" + str(item.quantity) + " " + item.name,
-                    (self.playerCharacter().fPos[0], self.playerCharacter().fPos[1] + offsetY),
-                    vert_speed = -1,
-                    hor_speed = -1,
-                    alpha_decay = 5,
-                    lifetime = 50))
+#            FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
+#                    "+" + str(item.quantity) + " " + item.name,
+#                    (self.playerCharacter().fPos[0], self.playerCharacter().fPos[1] + offsetY),
+#                    vert_speed = -1,
+#                    hor_speed = -1,
+#                    alpha_decay = 5,
+#                    lifetime = 50))
             offsetY += offsetPerNotification
             PlayerConsole.registerNewEvent("You crafted " + str(item.quantity) + " " + item.name + "(s)!", (255,0,0,255))

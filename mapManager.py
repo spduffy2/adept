@@ -110,6 +110,7 @@ class MapManager:
         package = MapManager.soft_load_writer_queue.get()
         coords, pos, chunk = package
         chunk.create_and_render_surface()
+        #chunk.create_surface()
         MapManager.loaded_chunks[pos] = chunk
         if pos in MapManager.lru_chunks.keys():
             MapManager.lru_chunks[pos] = 1

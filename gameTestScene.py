@@ -35,9 +35,9 @@ class GameTestScene(Scene):
         print("got hithertonQ")
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
-        self.enemy = Enemy(name="monster", fPos=(0.0,0.0))
-        self.friendly = Friendly(name="villager", fPos=(0.0,0.0))
-        self.trader = Trader(name="merchant", fPos=(0.0,0.0))
+        self.enemy = Enemy(name="monster", fPos=(600.0,600.0))
+        self.friendly = Friendly(name="villager", fPos=(650.0,650.0))
+        self.trader = Trader(name="merchant", fPos=(800.0,800.0))
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
         Camera.lock(self.pc, initial_update=True)

@@ -55,17 +55,16 @@ class Chunk:
             self.create_and_render_surface()
 
     def create_and_render_surface(self):
-        self.label = Label(
-            (5,5),
-            str((self.pos[0], self.pos[1])),
-            font="default36",
-            color=(0,0,0,255)
-        )
+#        self.label = Label(
+#            (5,5),
+#            str((self.pos[0], self.pos[1])),
+#            font="default36",
+#            color=(0,0,0,255)
+#        )
         self.surface = utils.empty_surface(
             (Chunk.TILE_SIZE * Chunk.CHUNK_WIDTH, Chunk.TILE_SIZE * Chunk.CHUNK_HEIGHT)
         )
         self.render()
-
 
     @staticmethod
     def loadSurfaceForId(_id):
@@ -158,7 +157,7 @@ class Chunk:
                     #        (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
                     #    )
                     #)
-        self.label.blit(self.surface)
+#        self.label.blit(self.surface)
 
     def blit(self, dest, pos):
         dest.blit( self.surface, pos )
