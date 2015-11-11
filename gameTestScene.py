@@ -29,7 +29,7 @@ from enemy import Enemy
 from trader import Trader
 
 class GameTestScene(Scene):
-    def __init__(self, pc_name):
+    def __init__(self, pc_name): 
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
