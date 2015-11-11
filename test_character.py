@@ -39,3 +39,13 @@ class TestCharacter:
         from playerCharacter import PlayerCharacter
         char = PlayerCharacter()
         assert char.inventory.playerCharacter() == char
+
+    def test_serialize(self):
+        from playerCharacter import PlayerCharacter
+        from serializable import Serializable
+        char = PlayerCharacter()
+        j = char.serialize()
+        decoded = Serializable.deserialize(j)
+        assert char.name == decoded.name
+        assert decoded.inventory is not None
+        assert decoded.surface is not None
