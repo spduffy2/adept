@@ -101,6 +101,7 @@ class Menu(Scene):
                 y_centered=True,
             )
         self.options.add(self.characterOption)
+
     def getCharacterNames(self):
         characters = list()
         if not os.path.isdir("characters"):
@@ -126,6 +127,8 @@ class Menu(Scene):
     def go_to_gameTestScene(self):
         from gameTestScene import GameTestScene
         pc_name = self.characterOption.label.text
+        if pc_name == "No Characters":
+            return
         utils.set_scene(
             GameTestScene(
                 pc_name
