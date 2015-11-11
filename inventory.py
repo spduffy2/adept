@@ -14,6 +14,8 @@ class Inventory(Serializable):
         self.hotbar = hotbar
         self.hotbarSelection = 0
         self.update()
+        self.addItem(Item("dagger",quantity=20))
+        self.addItem(Item("book",quantity=10))
 
     def addItem(self, item):
         for x in range(Inventory.INV_SIZE_X):

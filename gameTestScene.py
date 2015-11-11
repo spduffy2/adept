@@ -87,7 +87,6 @@ class GameTestScene(Scene):
         # s.addTile(stair)
         # s.toFile()
         g = SubMap(5,posX=500,posY=0)
-        g.addTile(Tile)
         MapManager.activeMap.submaps.append(s)
         MapManager.activeMap.submaps.append(g)
         PlayerConsole.init()
