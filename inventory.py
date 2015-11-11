@@ -19,18 +19,20 @@ class Inventory(Serializable):
 
     def addItem(self, item):
         for x in range(Inventory.INV_SIZE_X):
+            if self.hotbar[x] != None and self.hotbar[x].name == item.name:
+                self.hotbar[x].quantity += item.quantity
+                return
             if self.hotbar[x] == None and isinstance(item, Item):
                 self.hotbar[x] = item
                 return
         for x in range(Inventory.INV_SIZE_X):
             for y in range(Inventory.INV_SIZE_Y):
+                if self.items[x][y] != None and self.items[x][y].name == item.name:
+                    self.items[x][y].quantity += item.quantity
+                    return
                 if self.items[x][y] == None and isinstance(item, Item):
                     self.items[x][y] = item
                     return
-
-
-    def addItemQuantity(self,item, quantity):
-        pass
 
     def removeItem(self, item):
         for x in range(Inventory.INV_SIZE_X):
