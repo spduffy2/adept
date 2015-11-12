@@ -23,15 +23,18 @@ class EventRegistry:
 		for event in EventRegistry.EVENTS:
 			for listener in EventRegistry.LISTENERS:
 				if listener[1] == event.type:
-					if not hasattr(listener, handleEvent):
-						print str(listener) + "doesn't have the method \"handleEvent()\""
+					if not hasattr(listener[0], 'handleEvent'):
+						print str(listener[0]) + "doesn't have the method \"handleEvent()\""
 						raise NotImplementedError
-					listener.handleEvent(event)
+					listener[0].handleEvent(event)
 		#Reset the events list for the next tick
 		EventRegistry.EVENTS = list()
 
 
 class Event:
-	def __init__(self, _type="", info = dict()):
+	def __init__(self, _type, info):
+		if not isinstance(_type,str) or not isinstance(info,dict):
+			raise TypeError
+			return
 		self.type = _type
 		self.info = info
