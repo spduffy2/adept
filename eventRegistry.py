@@ -19,7 +19,7 @@ class EventRegistry:
 
 	@staticmethod
 	def update():
-		#Call the handleEvent() function on all listeners
+		#Call the callback function on all listeners
 		for event in EventRegistry.EVENTS:
 			for listener in EventRegistry.LISTENERS:
 				if listener[1] == event.type:
