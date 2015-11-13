@@ -23,7 +23,7 @@ class TestCharacter:
     def test_saveing(self):
         self.init()
         self.c.characterName.label.text = "Test"
-        self.c.create_character()
+        self.c.create_character(Inventory())
         assert os.path.isfile(os.path.join("characters","Test")) is True
         if os.path.isfile(os.path.join("characters","Test")) is True:
             os.remove(os.path.join("characters","Test"))
@@ -32,18 +32,18 @@ class TestCharacter:
 
     def test_surface(self):
         from playerCharacter import PlayerCharacter
-        char = PlayerCharacter()
+        char = PlayerCharacter(Inventory())
         assert char.surface is not None
 
     def test_inventory__pc_reference(self):
         from playerCharacter import PlayerCharacter
-        char = PlayerCharacter()
+        char = PlayerCharacter(Inventory())
         assert char.inventory.playerCharacter() == char
 
     def test_serialize(self):
         from playerCharacter import PlayerCharacter
         from serializable import Serializable
-        char = PlayerCharacter()
+        char = PlayerCharacter(Inventory())
         j = char.serialize()
         decoded = Serializable.deserialize(j)
         assert char.name == decoded.name
