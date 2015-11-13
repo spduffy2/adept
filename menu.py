@@ -109,24 +109,21 @@ class Menu(Scene):
         self.options.add(self.characterOption)
 
     def getCharacterNames(self):
+        if not self.getCharacters():
+            return ["No Characters"]
+        return self.getCharacters()
+
+    def getCharacters(self):
         characters = list()
         if not os.path.isdir("characters"):
             os.mkdir("characters")
         for character in os.listdir("characters"):
             if character != ".DS_Store":
                 characters.append(character)
-        if not characters:
-            return ["No Characters"]
         return characters
 
     def getNumCharacters(self):
-        characters = list()
-        if not os.path.isdir("characters"):
-            os.mkdir("characters")
-        for character in os.listdir("characters"):
-            if character != ".DS_Store":
-                characters.append(character)
-        return len(characters)
+        return len(self.getCharacters())
 
     def go_to_createCharacter(self):
         from createCharacter import CreateCharacter
