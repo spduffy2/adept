@@ -142,7 +142,7 @@ class Menu(Scene):
         from gameTestScene import GameTestScene
         pc_name = self.characterOption.label.text
 
-        if getNumCharacters() == 0:
+        if self.getNumCharacters() == 0:
             return
 
         MapManager.soft_load_reader_queue = Queue()
