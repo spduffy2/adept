@@ -1,3 +1,4 @@
+from inventory import Inventory
 from item import Item
 import pygame
 import unittest
