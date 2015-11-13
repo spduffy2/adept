@@ -21,6 +21,7 @@ from stair import Stair
 from floatingText import FloatingText
 from floatingText import FloatingTextManager
 from playerConsole import PlayerConsole
+from item import Item
 
 from playerCharacter import PlayerCharacter
 from friendly import Friendly
@@ -28,7 +29,7 @@ from enemy import Enemy
 from trader import Trader
 
 class GameTestScene(Scene):
-    def __init__(self, pc_name):
+    def __init__(self, pc_name): 
         Scene.__init__(self)
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
@@ -38,6 +39,10 @@ class GameTestScene(Scene):
         self.trader = Trader(name="merchant", fPos=(0.0,0.0)) # Example trader
         self.npcs = [self.enemy, self.friendly, self.trader]
         self.pc = Saves.unstore(pc_name, "characters")
+
+        if self.pc is None:
+            raise UserWarning
+            
         Camera.lock(self.pc)
         self.UIManager = GUIManager()
         self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
@@ -47,43 +52,47 @@ class GameTestScene(Scene):
         self.UIManager.alwaysOnGUIs.append(hb)
         self.UIManager.updateGUIs()
 
-        s = SubMap(10,10,5)
+        self.pc.inventory.addItem(Item("axe"))
+
+        s = SubMap(5)
         from tile import Tile 
-        t = Tile((5,9,0),2,collisionEnabled=False,buildingInternal=True,roofType=2)
-        for x in range(10):
-            for y in range(10):
-                newTile = Tile(pos=(x,y,0),type_id=0,collisionEnabled=False,buildingInternal=True,roofType=1)
-                if x == 0 or x == 9 or y == 0 or y == 9:
-                    newTile.buildingInternal = False
-                    newTile.type_id = 1
-                    newTile.collisionEnabled = True
-                s.addTile(newTile)
-        for x in range(10):
-            for y in range(10):
-                newTile = Tile(pos=(x,y,1),type_id=5,collisionEnabled=False,buildingInternal=True,roofType=1)
-                if x == 0 or x == 9 or y == 0 or y == 9:
-                    newTile.buildingInternal = False
-                    newTile.type_id = 1
-                    newTile.collisionEnabled = True
-                s.addTile(newTile)
-        s.addTile(t)
-        stair = Stair()
-        stair.pos = (1,2,0)
-        stair.collisionEnabled=True
-        stair.buildingInternal=True
-        stair.roofType=1
-        stair.type_id = 4
-        stair2 = Stair()
-        stair2.pos = (4,2,1)
-        stair2.collisionEnabled=True
-        stair2.buildingInternal=True
-        stair2.roofType=1
-        stair2.type_id = 4
-        stair2.isUp = False
-        s.addTile(stair2)
-        s.addTile(stair)
-        s.toFile()
+        # t = Tile((5,9,0),2,collisionEnabled=False,buildingInternal=True,roofType=2)
+        # for x in range(10):
+        #     for y in range(10):
+        #         newTile = Tile(pos=(x,y,0),type_id=0,collisionEnabled=False,buildingInternal=True,roofType=1)
+        #         if x == 0 or x == 9 or y == 0 or y == 9:
+        #             newTile.buildingInternal = False
+        #             newTile.type_id = 1
+        #             newTile.collisionEnabled = True
+        #         s.addTile(newTile)
+        # for x in range(10):
+        #     for y in range(10):
+        #         newTile = Tile(pos=(x,y,1),type_id=5,collisionEnabled=False,buildingInternal=True,roofType=1)
+        #         if x == 0 or x == 9 or y == 0 or y == 9:
+        #             newTile.buildingInternal = False
+        #             newTile.type_id = 1
+        #             newTile.collisionEnabled = True
+        #         s.addTile(newTile)
+        # s.addTile(t)
+        # stair = Stair()
+        # stair.pos = (1,2,0)
+        # stair.collisionEnabled=True
+        # stair.buildingInternal=True
+        # stair.roofType=1
+        # stair.type_id = 4
+        # stair2 = Stair()
+        # stair2.pos = (4,2,1)
+        # stair2.collisionEnabled=True
+        # stair2.buildingInternal=True
+        # stair2.roofType=1
+        # stair2.type_id = 4
+        # stair2.isUp = False
+        # s.addTile(stair2)
+        # s.addTile(stair)
+        # s.toFile()
+        g = SubMap(5,posX=500,posY=0)
         MapManager.activeMap.submaps.append(s)
+        MapManager.activeMap.submaps.append(g)
         PlayerConsole.init()
 
 
