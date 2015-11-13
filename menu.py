@@ -119,6 +119,14 @@ class Menu(Scene):
             return ["No Characters"]
         return characters
 
+    def getNumCharacters(self):
+        characters = list()
+        if not os.path.isdir("characters"):
+            os.mkdir("characters")
+        for character in os.listdir("characters"):
+            if character != ".DS_Store":
+                characters.append(character)
+        return len(characters)
 
     def go_to_createCharacter(self):
         from createCharacter import CreateCharacter
@@ -134,7 +142,7 @@ class Menu(Scene):
         from gameTestScene import GameTestScene
         pc_name = self.characterOption.label.text
 
-        if pc_name == "No Characters":
+        if getNumCharacters() == 0:
             return
 
         MapManager.soft_load_reader_queue = Queue()
