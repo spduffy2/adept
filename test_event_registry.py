@@ -22,26 +22,23 @@ def test_event_registry_successful_register():
 	EventRegistry.registerEvent(e)
 	assert len(EventRegistry.EVENTS) == currLen + 1
 
-class TestCorrectListener:
+class TestListener:
 	def handleEvent(self,event):
 		self.result = True
-
-class TestIncorrectListener:
-	pass
 
 def test_correct_listener():
 	e = Event("test",dict())
 	EventRegistry.registerEvent(e)
-	l = TestCorrectListener()
-	EventRegistry.registerListener(l,"test")
+	l = TestListener()
+	EventRegistry.registerListener(l.handleEvent,"test")
 	EventRegistry.update()
 	assert hasattr(l, 'result') and l.result == True
 
 def test_incorrect_listener():
 	e = Event("test",dict())
 	EventRegistry.registerEvent(e)
-	l = TestIncorrectListener()
-	EventRegistry.registerListener(l,"test")
+	l = TestListener()
+	EventRegistry.registerListener("test","test")
 	assert_raises(NotImplementedError, EventRegistry.update)
 
 

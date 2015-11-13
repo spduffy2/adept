@@ -4,11 +4,17 @@ from floatingText import FloatingText,FloatingTextManager
 from playerConsole import PlayerConsole
 from serializable import Serializable
 import weakref
+from eventRegistry import Event
+from eventRegistry import EventRegistry
 
 
 class Inventory(Serializable):
     INV_SIZE_X = 10
     INV_SIZE_Y = 3
+    BASE_EVENT_TYPE = 'inv_'
+
+    def addItemListener(self,event):
+        PlayerConsole.registerNewEvent("success!")
 
     def __init__(self, **kwargs):
         self.items = kwargs.get("items",[[None]*3 for _ in range(10)])
@@ -21,8 +27,15 @@ class Inventory(Serializable):
         del(o)
         
         self.update()
+        EventRegistry.registerListener(self.addItemListener, "inv_add")
+
+
 
     def addItem(self, item):
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'add',
+            {'item':item}
+            ))
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] != None and self.hotbar[x].name == item.name:
                 self.hotbar[x].quantity += item.quantity
@@ -143,12 +156,13 @@ class Inventory(Serializable):
         for item in recipe.products:
             item = Item(item)
             item.quantity = recipe.products[item.name]
-#            FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
-#                    "+" + str(item.quantity) + " " + item.name,
-#                    (self.playerCharacter().fPos[0], self.playerCharacter().fPos[1] + offsetY),
-#                    vert_speed = -1,
-#                    hor_speed = -1,
-#                    alpha_decay = 5,
-#                    lifetime = 50))
+            FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
+                       "+" + str(item.quantity) + " " + item.name,
+                       (self.playerCharacter().fPos[0], self.playerCharacter().fPos[1] + offsetY),
+                       vert_speed = -1,
+                       hor_speed = -1,
+                       alpha_decay = 5,
+                       lifetime = 50))
             offsetY += offsetPerNotification
-            PlayerConsole.registerNewEvent("You crafted " + str(item.quantity) + " " + item.name + "(s)!", (255,0,0,255))
+            PlayerConsole.registerNewEvent("You crafted " + str(item.quantity) + " " + item.name + "(s)!", color=(255,0,0,255))
+

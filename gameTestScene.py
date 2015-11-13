@@ -29,11 +29,11 @@ from playerCharacter import PlayerCharacter
 from friendly import Friendly
 from enemy import Enemy
 from trader import Trader
+from eventRegistry import EventRegistry
 
 class GameTestScene(Scene):
     def __init__(self, pc_name): 
         Scene.__init__(self)
-        print("got hithertonQ")
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         self.enemy = Enemy(name="monster", fPos=(600.0,600.0))
@@ -52,9 +52,11 @@ class GameTestScene(Scene):
         hb = HotbarUI(self.pc.inventory, self.UIManager)
         self.UIManager.guiScreens.append(hb)
         self.UIManager.alwaysOnGUIs.append(hb)
+        self.pc.inventory.addItem(Item("dagger",quantity=5))
+        self.pc.inventory.addItem(Item("book",quantity=5))
         self.UIManager.updateGUIs()
 
-        self.pc.inventory.addItem(Item("axe"))
+
 
         s = SubMap(5)
         from tile import Tile 
@@ -120,6 +122,7 @@ class GameTestScene(Scene):
         MapManager.soft_load_writer()
         FloatingTextManager.update()
         PlayerConsole.update()
+        EventRegistry.update()
 
     def blit(self):
         Camera.blitView()

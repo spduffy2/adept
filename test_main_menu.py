@@ -22,4 +22,3 @@ class TestMainMenu:
 		m.getCharacterNames()
 		m.go_to_gameTestScene()
 		assert utils.scene is m
-

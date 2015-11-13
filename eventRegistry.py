@@ -14,8 +14,8 @@ class EventRegistry:
 		return EventRegistry.EVENTS
 
 	@staticmethod
-	def registerListener(listener,_type):
-		EventRegistry.LISTENERS.append((listener,_type))
+	def registerListener(func,_type):
+		EventRegistry.LISTENERS.append((func,_type))
 
 	@staticmethod
 	def update():
@@ -23,10 +23,11 @@ class EventRegistry:
 		for event in EventRegistry.EVENTS:
 			for listener in EventRegistry.LISTENERS:
 				if listener[1] == event.type:
-					if not hasattr(listener[0], 'handleEvent'):
-						print str(listener[0]) + "doesn't have the method \"handleEvent()\""
+					if listener[0] is not None and callable(listener[0]):
+						listener[0](event)
+					else:
+						print "Error: Could not call " + str(listener[0])
 						raise NotImplementedError
-					listener[0].handleEvent(event)
 		#Reset the events list for the next tick
 		EventRegistry.EVENTS = list()
 
