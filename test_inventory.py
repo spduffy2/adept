@@ -1,10 +1,14 @@
 from buffalo import utils
 from inventory import Inventory
 from item import Item
+from eventRegistry import EventRegistry
 import random
 utils.init()
 
 class TestInventory:
+	def __init__(self):
+		self.called = False
+
 	def test_init(self):
 		i = Inventory()
 		assert len(i.items) == 10
@@ -28,7 +32,11 @@ class TestInventory:
 		assert i.hotbar is not d.hotbar
 		assert i.items is not d.items
 
+	def remListener(self,event):
+		self.called = True
+
 	def test_rem_item(self):
+		EventRegistry.registerListener(self.remListener,"inv_remove_quantity")
 		i = Inventory()
 		t = Item("test",quantity=10)
 		i.addItem(t)
@@ -36,6 +44,7 @@ class TestInventory:
 		i.removeItemQuantity("test",5)
 		print i.hotbar[0].quantity
 		assert i.hotbar[0].quantity == 5
+		assert self.called == True
 
 	def test_place_item(self):
 		i = Inventory()

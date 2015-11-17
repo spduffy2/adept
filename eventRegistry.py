@@ -1,5 +1,4 @@
 class EventRegistry:
-	EVENTS = list()
 	LISTENERS = list()
 
 	@staticmethod
@@ -7,7 +6,10 @@ class EventRegistry:
 		if not isinstance(event, Event):
 			raise TypeError
 			return
-		EventRegistry.EVENTS.append(event)
+		for listener in EventRegistry.LISTENERS:
+			if listener[1] == event.type:
+				listener[0](event)
+					
 
 	@staticmethod
 	def getEvents():
@@ -15,21 +17,11 @@ class EventRegistry:
 
 	@staticmethod
 	def registerListener(func,_type):
+		if func is None or not callable(func):
+			raise NotImplementedError
+			return
 		EventRegistry.LISTENERS.append((func,_type))
 
-	@staticmethod
-	def update():
-		#Call the callback function on all listeners
-		for event in EventRegistry.EVENTS:
-			for listener in EventRegistry.LISTENERS:
-				if listener[1] == event.type:
-					if listener[0] is not None and callable(listener[0]):
-						listener[0](event)
-					else:
-						print "Error: Could not call " + str(listener[0])
-						raise NotImplementedError
-		#Reset the events list for the next tick
-		EventRegistry.EVENTS = list()
 
 
 class Event:

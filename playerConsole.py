@@ -31,6 +31,8 @@ class PlayerConsole:
 
     @staticmethod
     def flashOn():
+        if not hasattr(PlayerConsole, 'tray'):
+            PlayerConsole.init()
         PlayerConsole.ALPHA = 255
         PlayerConsole.ALPHA_COUNTER = 0
         PlayerConsole.tray.render()

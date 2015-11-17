@@ -18,30 +18,21 @@ def test_event_registry_blocking_bad_objects():
 
 def test_event_registry_successful_register():
 	e = Event("test",dict())
-	currLen = len(EventRegistry.EVENTS)
 	EventRegistry.registerEvent(e)
-	assert len(EventRegistry.EVENTS) == currLen + 1
 
 class TestListener:
 	def handleEvent(self,event):
 		self.result = True
 
 def test_correct_listener():
-	e = Event("test",dict())
-	EventRegistry.registerEvent(e)
 	l = TestListener()
 	EventRegistry.registerListener(l.handleEvent,"test")
-	EventRegistry.update()
+	e = Event("test",dict())
+	EventRegistry.registerEvent(e)
 	assert hasattr(l, 'result') and l.result == True
 
 def test_incorrect_listener():
 	e = Event("test",dict())
 	EventRegistry.registerEvent(e)
 	l = TestListener()
-	EventRegistry.registerListener("test","test")
-	assert_raises(NotImplementedError, EventRegistry.update)
-
-
-
-
-
+	assert_raises(NotImplementedError, EventRegistry.registerListener,"test","test")

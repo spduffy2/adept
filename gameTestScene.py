@@ -122,7 +122,6 @@ class GameTestScene(Scene):
         MapManager.soft_load_writer()
         FloatingTextManager.update()
         PlayerConsole.update()
-        EventRegistry.update()
 
     def blit(self):
         Camera.blitView()
