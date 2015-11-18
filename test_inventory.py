@@ -14,18 +14,18 @@ class TestInventory:
 		assert len(i.items[0]) == 3
 		assert i.hotbarSelection == 0
 
-	def test_add_item(self):
-		i = Inventory()
-		print 1
-		t = Item("test")
-		print 2
-		i.addItem(t)
-		print 3
-		assert i.hotbar[0] == t
-		for x in range(100):
-			i.addItem(Item(str(random.random())))
-		assert i.items[0][0] is not None
-		assert i.items[9][2] is not None
+	# def test_add_item(self):
+	# 	i = Inventory()
+	# 	print 1
+	# 	t = Item("test")
+	# 	print 2
+	# 	i.addItem(t)
+	# 	print 3
+	# 	assert i.hotbar[0] == t
+	# 	for x in range(100):
+	# 		i.addItem(Item(str(random.random())))
+	# 	assert i.items[0][0] is not None
+	# 	assert i.items[9][2] is not None
 
 	def test_instantiation(self):
 		i = Inventory()
