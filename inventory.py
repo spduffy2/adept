@@ -111,20 +111,20 @@ class Inventory(Serializable):
                 return
 
     def placeItem(self, item, pos):
-        # EventRegistry.registerEvent(Event(
-        #     Inventory.BASE_EVENT_TYPE + 'add',
-        #     {'item':item}
-        #     ))
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'add',
+            {'item':item}
+            ))
         if isinstance(item,Item):
             oldItem = self.items[int(pos[0])][int(pos[1])]
             self.items[int(pos[0])][int(pos[1])] = item
             return oldItem
 
     def placeItemInHotbar(self, item, pos):
-        # EventRegistry.registerEvent(Event(
-        #     Inventory.BASE_EVENT_TYPE + 'add',
-        #     {'item':item}
-        #     ))
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'add',
+            {'item':item}
+            ))
         if isinstance(item,Item):
             oldItem = self.hotbar[pos[0]]
             self.hotbar[pos[0]] = item
