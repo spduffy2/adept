@@ -61,7 +61,6 @@ class TestInventory:
 		t2 = Item("test", quantity2)
 
 		i = Inventory()
-		EventRegistry.registerListener(self.remListener,"inv_add")
 		i.addItem(t1)
 		i.placeItem(t2, (2,2))
 

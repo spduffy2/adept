@@ -13,9 +13,6 @@ class Inventory(Serializable):
     INV_SIZE_Y = 3
     BASE_EVENT_TYPE = 'inv_'
 
-    def addItemListener(self,event):
-        PlayerConsole.registerNewEvent("success!")
-
     def __init__(self, **kwargs):
         self.items = kwargs.get("items",[[None]*3 for _ in range(10)])
         self.hotbar = kwargs.get("hotbar",[None]*10)
@@ -50,10 +47,10 @@ class Inventory(Serializable):
                     return
 
     def removeItem(self, item):
-        # EventRegistry.registerEvent(Event(
-        #     Inventory.BASE_EVENT_TYPE + 'remove',
-        #     {'item':item}
-        #     ))
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'remove',
+            {'item':item}
+            ))
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] == item:
                 self.hotbar[x] = None

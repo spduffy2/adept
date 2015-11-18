@@ -30,6 +30,7 @@ from friendly import Friendly
 from enemy import Enemy
 from trader import Trader
 from eventRegistry import EventRegistry
+from inventoryUtils import InventoryUtils
 
 class GameTestScene(Scene):
     def __init__(self, pc_name): 
@@ -98,6 +99,7 @@ class GameTestScene(Scene):
         MapManager.activeMap.submaps.append(s)
         MapManager.activeMap.submaps.append(g)
         PlayerConsole.init()
+        InventoryUtils.init()
 
 
     def on_escape(self):
