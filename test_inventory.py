@@ -17,8 +17,11 @@ class TestInventory:
 
 	def test_add_item(self):
 		i = Inventory()
+		print 1
 		t = Item("test")
+		print 2
 		i.addItem(t)
+		print 3
 		assert i.hotbar[0] == t
 		for x in range(100):
 			i.addItem(Item(str(random.random())))

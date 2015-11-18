@@ -22,8 +22,6 @@ class EventRegistry:
 			return
 		EventRegistry.LISTENERS.append((func,_type))
 
-
-
 class Event:
 	def __init__(self, _type, info):
 		if not isinstance(_type,str) or not isinstance(info,dict):
