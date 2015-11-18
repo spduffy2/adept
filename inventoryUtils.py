@@ -14,7 +14,8 @@ class InventoryUtils:
 
     @staticmethod
     def add_item_listener(event):
-        PlayerConsole.registerNewEvent("success")
+        #PlayerConsole.registerNewEvent("+" + str(event.info["item"].quantity) + " " + str(event.info['item'].name))
+        pass
 
     @staticmethod
     def craft_listener(event):
