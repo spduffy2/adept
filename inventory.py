@@ -52,10 +52,10 @@ class Inventory(Serializable):
                     return
 
     def removeItem(self, item):
-        EventRegistry.registerEvent(Event(
-            Inventory.BASE_EVENT_TYPE + 'remove',
-            {'item':item}
-            ))
+        # EventRegistry.registerEvent(Event(
+        #     Inventory.BASE_EVENT_TYPE + 'remove',
+        #     {'item':item}
+        #     ))
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] == item:
                 self.hotbar[x] = None
@@ -70,11 +70,11 @@ class Inventory(Serializable):
         """
         NOTE: Takes an item NAME as the 'item' param, not an Item object.
         """
-        EventRegistry.registerEvent(Event(
-            Inventory.BASE_EVENT_TYPE + 'remove_quantity',
-            {'item_name':item,
-            'quantity':quantity}
-            ))
+        # EventRegistry.registerEvent(Event(
+        #     Inventory.BASE_EVENT_TYPE + 'remove_quantity',
+        #     {'item_name':item,
+        #     'quantity':quantity}
+        #     ))
         quantityRemoved = 0;
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] is not None and self.hotbar[x].name == item:
@@ -111,20 +111,20 @@ class Inventory(Serializable):
                 return
 
     def placeItem(self, item, pos):
-        EventRegistry.registerEvent(Event(
-            Inventory.BASE_EVENT_TYPE + 'add',
-            {'item':item}
-            ))
+        # EventRegistry.registerEvent(Event(
+        #     Inventory.BASE_EVENT_TYPE + 'add',
+        #     {'item':item}
+        #     ))
         if isinstance(item,Item):
             oldItem = self.items[int(pos[0])][int(pos[1])]
             self.items[int(pos[0])][int(pos[1])] = item
             return oldItem
 
     def placeItemInHotbar(self, item, pos):
-        EventRegistry.registerEvent(Event(
-            Inventory.BASE_EVENT_TYPE + 'add',
-            {'item':item}
-            ))
+        # EventRegistry.registerEvent(Event(
+        #     Inventory.BASE_EVENT_TYPE + 'add',
+        #     {'item':item}
+        #     ))
         if isinstance(item,Item):
             oldItem = self.hotbar[pos[0]]
             self.hotbar[pos[0]] = item
