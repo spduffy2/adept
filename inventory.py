@@ -27,8 +27,6 @@ class Inventory(Serializable):
         del(o)
         
         self.update()
-        EventRegistry.registerListener(self.addItemListener, "inv_add")
-
 
     def addItem(self, item):
         EventRegistry.registerEvent(Event(
