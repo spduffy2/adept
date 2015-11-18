@@ -3,7 +3,6 @@ from inventory import Inventory
 from item import Item
 from eventRegistry import EventRegistry
 import random
-utils.init()
 
 class TestInventory:
 	def __init__(self):

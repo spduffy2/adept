@@ -9,8 +9,7 @@ class EventRegistry:
 		for listener in EventRegistry.LISTENERS:
 			if listener[1] == event.type:
 				listener[0](event)
-					
-
+				
 	@staticmethod
 	def getEvents():
 		return EventRegistry.EVENTS
