@@ -70,11 +70,11 @@ class Inventory(Serializable):
         """
         NOTE: Takes an item NAME as the 'item' param, not an Item object.
         """
-        # EventRegistry.registerEvent(Event(
-        #     Inventory.BASE_EVENT_TYPE + 'remove_quantity',
-        #     {'item_name':item,
-        #     'quantity':quantity}
-        #     ))
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'remove_quantity',
+            {'item_name':item,
+            'quantity':quantity}
+            ))
         quantityRemoved = 0;
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] is not None and self.hotbar[x].name == item:

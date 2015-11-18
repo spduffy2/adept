@@ -6,10 +6,12 @@ class EventRegistry:
 		if not isinstance(event, Event):
 			raise TypeError
 			return
+		if len(EventRegistry.LISTENERS) == 0:
+			return
 		for listener in EventRegistry.LISTENERS:
 			if listener[1] == event.type:
 				listener[0](event)
-				
+
 	@staticmethod
 	def getEvents():
 		return EventRegistry.EVENTS
