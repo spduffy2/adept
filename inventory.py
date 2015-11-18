@@ -31,10 +31,10 @@ class Inventory(Serializable):
 
 
     def addItem(self, item):
-        # EventRegistry.registerEvent(Event(
-        #     Inventory.BASE_EVENT_TYPE + 'add',
-        #     {'item':item}
-        #     ))
+        EventRegistry.registerEvent(Event(
+            Inventory.BASE_EVENT_TYPE + 'add',
+            {'item':item}
+            ))
         for x in range(Inventory.INV_SIZE_X):
             if self.hotbar[x] != None and self.hotbar[x].name == item.name:
                 self.hotbar[x].quantity += item.quantity
