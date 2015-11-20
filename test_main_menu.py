@@ -22,7 +22,6 @@ class TestMainMenu:
         assert not hasattr(m, 'characterOption')
         m.go_to_gameTestScene()
         assert utils.scene is m
-
     def test_load_scene_with_characters(self):
         #Create character
         c = CreateCharacter()
