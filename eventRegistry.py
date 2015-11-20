@@ -9,7 +9,7 @@ class EventRegistry:
 		if len(EventRegistry.LISTENERS) == 0:
 			return
 		for listener in EventRegistry.LISTENERS:
-			if listener[1] == event.type or (listener[2] and event.type.contains(listener[1])):
+			if listener[1] == event.type or (listener[2] and event.type.startswith(listener[1])):
 				listener[0](event)
 
 	@staticmethod
@@ -22,7 +22,7 @@ class EventRegistry:
 		-_type: String that codes for a certain event. By convention, should be in the format:
 			'module_specificEvent'
 			ex: 'inventory_add_item'
-		-flexible_type: If true, will trigger if the event type contains the _type parameter:
+		-flexible_type: If true, will trigger if the event type starts with the _type parameter:
 			ex: _type = 'inventory', flexible_type = True: func will be called for any 'inventory_x' event
 	"""
 	@staticmethod
