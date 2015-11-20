@@ -6,6 +6,7 @@ import pygame
 from buffalo import utils
 
 from npc import NPC
+from AStar import AStar
 
 class Enemy(NPC):
 
@@ -22,11 +23,16 @@ class Enemy(NPC):
 		# If it's too far away it will stop trying
 		targetPos = target.fPos
 		if self.fPos[0] != targetPos[0] and math.hypot(self.fPos[1]-targetPos[1], self.fPos[0]-targetPos[0]) > 32 and math.hypot(self.fPos[1]-targetPos[1], self.fPos[0]-targetPos[0]) < 600:
-			# Some fancy trig to get the direction it needs to go to follow the player
 			
-			angle = math.atan((self.fPos[1]-targetPos[1])/(self.fPos[0]-targetPos[0]))
-			if self.fPos[0] - targetPos[0] > 0:
-				angle = math.pi + angle
-			self.move(submaps, angle)
+			newTargetPos = AStar.aStar(self.fPos, target.fPos, submaps)
+			specialTargetPos = newTargetPos[1]
+			targetPos = (specialTargetPos[0]*32, specialTargetPos[1]*32)
+			print self.fPos
+			print targetPos
+			if targetPos is not None:
+				angle = math.atan((self.fPos[1]-targetPos[1])/(self.fPos[0]-targetPos[0]))
+				if self.fPos[0] - targetPos[0] > 0:
+					angle = math.pi + angle
+				self.move(submaps, angle)
 
 		NPC.update(self)

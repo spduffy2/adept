@@ -1,5 +1,6 @@
 import os
 import os.path
+import weakref
 
 import pygame
 import pygame.image
@@ -27,20 +28,22 @@ class PlayerCharacter(Character):
     DEFAULT_SPRITE_URL = os.path.join("sprites", "paul_asl",)
 
     #**kwargs here allows for an object to be created with a dictionary for input, which basically allows an object to be created from the deserialize method
-    def __init__(self, inventory, name=None, fPos=None, zLevel=0, size=None, speed=None, **kwargs):
-        name = name if name is not None else PlayerCharacter.DEFAULT_NAME #These could probably be rewritten with kwargs
-        fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
-        size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
+    def __init__(self, inventory=Inventory(), name=None, fPos=None, zLevel=0, size=None, speed=None, **kwargs):
+        self.name = name if name is not None else PlayerCharacter.DEFAULT_NAME #These could probably be rewritten with kwargs
+        self.fPos = fPos if fPos is not None else PlayerCharacter.DEFAULT_FPOS
+        self.size = size if size is not None else PlayerCharacter.DEFAULT_SIZE
+        self.pos  = int(self.fPos[0]), int(self.fPos[1])
         self.level = kwargs.get('level') if kwargs.get('level') is not None else 1
         self.experience = kwargs.get('experience') if kwargs.get('experience') is not None else 0
         Character.__init__(self, name=name, fPos=fPos, size=size, spawn=kwargs.get('spawn'))
         self.speed = speed if speed is not None else PlayerCharacter.DEFAULT_SPEED
+        self.run_speed = self.speed * 1.5
         self.swordSkill = kwargs.get('swordSkill') if kwargs.get('swordSkill') is not None else Skill(name="SwordSkill") #Example setup for a skill
         self.bowSkill = kwargs.get('bowSkill') if kwargs.get('bowSkill') is not None else Skill(name="BowSkill")
         self.xv, self.yv = 0.0, 0.0
         self.surface = utils.empty_surface(self.size)
         self.inventory = inventory
-        self.inventory.playerCharacter = self
+        self.inventory.playerCharacter = weakref.ref(self)
         self.sprites = {
             "i": list(), # idle
             "r": list(), # right
@@ -63,14 +66,20 @@ class PlayerCharacter(Character):
 
     def update(self, keys, submaps):
 
-        w, a, s, d = (
+        w, a, s, d, shift = (
             keys[pygame.K_w],
             keys[pygame.K_a],
             keys[pygame.K_s],
             keys[pygame.K_d],
+            keys[pygame.K_LSHIFT],
         )
 
+        if shift:
+            speed = self.run_speed
+        else:
+            speed = self.speed
 
+        speed *= utils.delta / 16.0
 
         if w:
             self.yv += -self.speed
@@ -91,7 +100,7 @@ class PlayerCharacter(Character):
         for submap in submaps:
             #Collision Logic
             collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
-            pcRect = pygame.Rect((self.fPos[0] + self.xv * utils.delta, self.fPos[1] + self.yv * utils.delta), (self.surface.get_size()[0],self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64) 
+            pcRect = pygame.Rect((self.fPos[0] + self.xv * utils.delta + 6, self.fPos[1] + self.yv * utils.delta), (self.surface.get_size()[0] - 12,self.surface.get_size()[0])) #Manually using only the x component of self.surface necessary b/c for some reason the sprite has size (32,64) 
             #pcRect = self.surface.get_bounding_rect().move(self.fPos)  
             if collideRect.colliderect(pcRect):
                 submap.handleCollision(submap.getTileAtCoord(pcRect.center),self) 
