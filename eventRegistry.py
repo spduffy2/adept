@@ -9,7 +9,7 @@ class EventRegistry:
 		if len(EventRegistry.LISTENERS) == 0:
 			return
 		for listener in EventRegistry.LISTENERS:
-			if listener[1] == event.type or (listener[2] and event.type.contains(listener[1]))
+			if listener[1] == event.type or (listener[2] and event.type.contains(listener[1])):
 				listener[0](event)
 
 	@staticmethod
