@@ -22,13 +22,11 @@ class TestMainMenu:
         assert not hasattr(m, 'characterOption')
         m.go_to_gameTestScene()
         assert utils.scene is m
-    def test_load_scene_with_characters(self):
-        #Create character
-        c = CreateCharacter()
-        c.characterName.label.text = "Test"
-        c.create_character()
-
+    def test_load_scene_with_no_characters(self):
         m = Menu()
+        if os.path.isdir("characters"):
+            shutil.rmtree("characters")
         utils.set_scene(m)
-        assert hasattr(m, 'characterOption')
-        assert m.characterOption.label.text == "Test"
+        m.getCharacterNames()
+        m.go_to_gameTestScene()
+        assert utils.scene is m
