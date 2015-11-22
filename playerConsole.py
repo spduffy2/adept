@@ -13,6 +13,9 @@ class PlayerConsole:
 
     @staticmethod
     def init():
+        #Return if already initialized
+        if hasattr(PlayerConsole, 'tray'):
+            return
         PlayerConsole.tray = Tray(
             (10,utils.SCREEN_H - utils.SCREEN_H / 4 - 75),
             (utils.SCREEN_W / 2, utils.SCREEN_H / 4),

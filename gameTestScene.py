@@ -48,8 +48,8 @@ class GameTestScene(Scene):
             
         Camera.lock(self.pc, initial_update=True)
         self.UIManager = GUIManager()
-        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
-        self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
+        self.UIManager.registerGUI(InventoryUI(self.pc.inventory, self.UIManager))
+        self.UIManager.registerGUI(CraftingUI(self.pc.inventory))
         hb = HotbarUI(self.pc.inventory, self.UIManager)
         self.UIManager.guiScreens.append(hb)
         self.UIManager.alwaysOnGUIs.append(hb)

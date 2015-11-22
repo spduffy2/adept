@@ -18,6 +18,16 @@ class GUIManager:
 		self.mousedown = False;
 		self.draggedItem = None
 
+	def registerGUI(self,gui):
+		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown'):
+			raise NotImplementedError
+		self.guiScreens.append(gui)
+
+	def registerAlwaysOnGUI(self,gui):
+		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown'):
+			raise NotImplementedError
+		self.alwaysOnGUIs.append(gui)
+
 	def updateGUIs(self):
 		"""
 		Calls update on all the registered GUIs
@@ -25,9 +35,13 @@ class GUIManager:
 		self.surface = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
 		self.alwaysOnSurface = utils.empty_surface((utils.SCREEN_W, utils.SCREEN_H))
 		for UIObject in self.guiScreens:
+			if not hasattr(UIObject, 'update'):
+				raise NotImplementedError
 			UIObject.update()
 			self.surface.blit(UIObject.surface, UIObject.pos)
 		for UIObject in self.alwaysOnGUIs:
+			if not hasattr(UIObject, 'update'):
+				raise NotImplementedError
 			UIObject.update()
 			self.alwaysOnSurface.blit(UIObject.surface, UIObject.pos)
 
@@ -36,6 +50,8 @@ class GUIManager:
 		Given a position (such as a mouse click) find the GUI screen that the position interacts with.
 		"""
 		for UIObject in self.guiScreens:
+			if not hasattr(UIObject,'pos'):
+				raise UserWarning
 			guiPos = UIObject.pos
 			guiRect = pygame.Rect(guiPos, (UIObject.surface.get_size()))
 			if guiRect.collidepoint(pos):
@@ -76,6 +92,8 @@ class GUIManager:
 				self.mousedown = True
 				UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
 				if UIObject != None:
+					if not hasattr(UIObject,'mouseDown'):
+						raise NotImplementedError
 					absLocation = pygame.mouse.get_pos()
 					relLocation = (absLocation[0] - UIObject.pos[0], absLocation[1] - UIObject.pos[1])
 					UIObject.mouseDown(relLocation)
@@ -83,8 +101,6 @@ class GUIManager:
 
 		else:
 			self.mousedown = False
-
-	
 
 	def blit(self, dest, pos):
 		if(self.active):
