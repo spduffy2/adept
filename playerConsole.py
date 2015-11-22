@@ -70,6 +70,10 @@ class PlayerConsole:
             texts.extend(reversed(thisMessage))
             if totalHeight > PlayerConsole.tray.surface.get_height():
                 break
+        #Crop total height to the defined height of the tray
+        if totalHeight > PlayerConsole.tray.surface.get_height():
+            totalHeight = PlayerConsole.tray.surface.get_height()
+            
         return (texts, totalHeight)
 
     @staticmethod
@@ -90,9 +94,6 @@ class PlayerConsole:
         #Create a list of label surfaces from TEXT_EVENTS; Also record the sum total height of these surfaces
         texts, totalHeight = PlayerConsole.renderTextLabels()
         
-        #Crop total height to the defined height of the tray
-        if totalHeight > PlayerConsole.tray.surface.get_height():
-            totalHeight = PlayerConsole.tray.surface.get_height()
 
         #Get a surface that has all the labels blitted
         newSurface = PlayerConsole.renderTextsToSurface(texts,totalHeight)

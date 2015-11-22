@@ -43,21 +43,24 @@ def test_update():
     assert PlayerConsole.tray.surface.get_size != tray_size
 
 def test_render_labels_one_text():
+    PlayerConsole.flashOn()
     PlayerConsole.clearTextEvents()
     PlayerConsole.registerNewEvent('test')
     texts, height =  PlayerConsole.renderTextLabels()
     assert len(texts) == 1
-    assert height == 18
+    assert height <= PlayerConsole.tray.surface.get_height()
     assert PlayerConsole.renderTextsToSurface(texts,height).get_size() == (PlayerConsole.tray.surface.get_width(),height)
 
 def test_render_labels_overload():
+    PlayerConsole.flashOn()
     PlayerConsole.clearTextEvents()
     global ipsum
     for x in range(5):
         PlayerConsole.registerNewEvent(ipsum)
     texts, height =  PlayerConsole.renderTextLabels()
     assert len(texts) == 14
-    assert height == 252
+    print PlayerConsole.tray.surface.get_height()
+    assert height <= PlayerConsole.tray.surface.get_height()
     assert PlayerConsole.renderTextsToSurface(texts,height).get_size()[0] == PlayerConsole.tray.surface.get_width()
     assert PlayerConsole.renderTextsToSurface(texts,height).get_size()[1] <= PlayerConsole.tray.surface.get_height()
 
