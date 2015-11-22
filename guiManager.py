@@ -19,13 +19,17 @@ class GUIManager:
 		self.draggedItem = None
 
 	def registerGUI(self,gui):
-		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown'):
+		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown') or not hasattr(gui,'surface') or not hasattr(gui,'pos'):
 			raise NotImplementedError
+		if gui.surface is None:
+			raise UserWarning
 		self.guiScreens.append(gui)
 
 	def registerAlwaysOnGUI(self,gui):
-		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown'):
+		if not hasattr(gui,'update') or not hasattr(gui,'mouseDown') or not hasattr(gui,'surface') or not hasattr(gui,'pos'):
 			raise NotImplementedError
+		if gui.surface is None:
+			raise UserWarning
 		self.alwaysOnGUIs.append(gui)
 
 	def deregisterGUI(self,gui):
@@ -79,34 +83,37 @@ class GUIManager:
 
 		if self.active:
 			PlayerConsole.flashOn()
-			for gui in self.guiScreens:
-				if hasattr(gui, "handleKeyboardPress"):
-					if gui.handleKeyboardPress(keys) is not None:
-						self.updateGUIs()
+			self.sendKeyboardPresses()
 		else:
-			for gui in self.alwaysOnGUIs:
-				if hasattr(gui, "handleKeyboardPress"):
-					if gui.handleKeyboardPress(keys) is not None:
-						self.updateGUIs()
+			self.sendKeyboardPresses()
 			return
 
 		#Mouse Events
 		if pygame.mouse.get_pressed()[0]:
-			self.updateGUIs()
-			#On Mousedown
-			if not self.mousedown:
-				self.mousedown = True
-				UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
-				if UIObject != None:
-					if not hasattr(UIObject,'mouseDown'):
-						raise NotImplementedError
-					absLocation = pygame.mouse.get_pos()
-					relLocation = (absLocation[0] - UIObject.pos[0], absLocation[1] - UIObject.pos[1])
-					UIObject.mouseDown(relLocation)
-					self.updateGUIs()
-
+			self.handleMouseEvent()
 		else:
 			self.mousedown = False
+
+	def sendKeyboardPresses(self):
+		keys = pygame.key.get_pressed()
+		for gui in self.guiScreens:
+				if hasattr(gui, "handleKeyboardPress"):
+					if gui.handleKeyboardPress(keys) is not None:
+						self.updateGUIs()
+
+	def handleMouseEvent(self):
+		self.updateGUIs()
+		#On Mousedown
+		if not self.mousedown:
+			self.mousedown = True
+			UIObject = self.findCollidingGUI(pygame.mouse.get_pos())
+			if UIObject != None:
+				if not hasattr(UIObject,'mouseDown'):
+					raise NotImplementedError
+				absLocation = pygame.mouse.get_pos()
+				relLocation = (absLocation[0] - UIObject.pos[0], absLocation[1] - UIObject.pos[1])
+				UIObject.mouseDown(relLocation)
+				self.updateGUIs()
 
 	def blit(self, dest, pos):
 		if(self.active):
