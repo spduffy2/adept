@@ -3,7 +3,6 @@ from buffalo import utils
 from nose.tools import assert_raises
 import pygame
 
-
 utils.init()
 
 def test_init():

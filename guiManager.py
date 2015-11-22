@@ -87,6 +87,7 @@ class GUIManager:
 		if self.active:
 			PlayerConsole.flashOn()
 		else:
+			#Don't do mouse events if not active
 			return
 
 		#Mouse Events
