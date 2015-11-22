@@ -80,12 +80,13 @@ class GUIManager:
 		else:
 			self.keydown = False
 
+		#Send keys to GUIs that request them
+		self.sendKeyboardPresses()
 
+		#Flash on the PlayerConsole if active
 		if self.active:
 			PlayerConsole.flashOn()
-			self.sendKeyboardPresses()
 		else:
-			self.sendKeyboardPresses()
 			return
 
 		#Mouse Events
