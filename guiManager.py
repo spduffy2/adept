@@ -28,6 +28,12 @@ class GUIManager:
 			raise NotImplementedError
 		self.alwaysOnGUIs.append(gui)
 
+	def deregisterGUI(self,gui):
+		if gui in self.guiScreens:
+			self.guiScreens.remove(gui)
+		if gui in self.alwaysOnGUIs:
+			self.alwaysOnGUIs.remove(gui)
+
 	def updateGUIs(self):
 		"""
 		Calls update on all the registered GUIs

@@ -28,11 +28,11 @@ class Trader(Friendly):
 			mousePos = (mousePos[0] + Camera.pos[0], mousePos[1] + Camera.pos[1])
 			if traderRect.collidepoint(mousePos):
 				manager.active = True
-				manager.guiScreens.append(self.tradeUI)
+				manager.registerGUI(self.tradeUI)
 				self.active = True
 
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_e] and self.active:
-			manager.guiScreens.remove(self.tradeUI)
+			manager.deregisterGUI(self.tradeUI)
 			self.active = False
 			self.tradeUI = None
