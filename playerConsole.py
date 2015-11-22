@@ -33,6 +33,10 @@ class PlayerConsole:
         PlayerConsole.flashOn()
 
     @staticmethod
+    def clearTextEvents():
+        PlayerConsole.TEXT_EVENTS = list()
+
+    @staticmethod
     def flashOn():
         PlayerConsole.ALPHA = 255
         PlayerConsole.ALPHA_COUNTER = 0
