@@ -6,12 +6,8 @@ import pygame
 
 utils.init()
 PlayerConsole.init()
+
 ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis ac enim vel feugiat. Duis ac metus id est lobortis euismod. Vestibulum finibus est eget odio rhoncus consequat. Vestibulum sed lectus justo. Aenean fringilla mi et ultricies condimentum. Donec sapien quam, congue vitae felis at, bibendum tincidunt purus. Nulla in nunc consequat, laoreet nibh non, pulvinar eros. Quisque at justo mauris."
-
-
-# def test_init():
-#     
-#     assert hasattr(PlayerConsole,'tray')
 
 def test_event_text():
     e = EventText("test",(1,2,3,4))
@@ -63,3 +59,5 @@ def test_render_labels_overload():
     assert len(texts) == 14
     assert height == 252
     assert PlayerConsole.renderTextsToSurface(texts,height).get_size()[0] == PlayerConsole.tray.surface.get_width()
+    assert PlayerConsole.renderTextsToSurface(texts,height).get_size()[1] <= PlayerConsole.tray.surface.get_height()
+
