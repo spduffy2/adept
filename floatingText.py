@@ -18,6 +18,7 @@ class FloatingText:
         self.bold = bold
         self.lifetime_counter = 0
         self.alpha = color[3]
+
         self.render()
 
     def blit(self, dest, pos):
@@ -52,6 +53,12 @@ class FloatingTextManager:
             fText.update()
             if fText.alpha <= 0:
                 del fText
+
+    @staticmethod
+    def registerFloatingText(fText):
+        if not isinstance(fText, FloatingText):
+            raise TypeError
+        FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(fText)
 
     @staticmethod
     def blit(dest, pos):

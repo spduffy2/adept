@@ -28,7 +28,7 @@ class InventoryUtils:
         for item in event.info['recipe'].products:
             item = Item(item)
             item.quantity = event.info['recipe'].products[item.name]
-            FloatingTextManager.ACTIVE_FLOATING_TEXTS.append(FloatingText(
+            FloatingTextManager.registerFloatingText(FloatingText(
                        "+" + str(item.quantity) + " " + item.name,
                        (playerCharacter.fPos[0], playerCharacter.fPos[1] + offsetY),
                        vert_speed = -1,
