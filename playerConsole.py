@@ -20,11 +20,11 @@ class PlayerConsole:
             (10,utils.SCREEN_H - utils.SCREEN_H / 4 - 75),
             (utils.SCREEN_W / 2, utils.SCREEN_H / 4),
             color=(100,100,100,240))
-        PlayerConsole.registerNewEvent("Hello!")
-        PlayerConsole.registerNewEvent("Hello!")
-        PlayerConsole.registerNewEvent("Hello!")
-        ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis ac enim vel feugiat. Duis ac metus id est lobortis euismod. Vestibulum finibus est eget odio rhoncus consequat. Vestibulum sed lectus justo. Aenean fringilla mi et ultricies condimentum. Donec sapien quam, congue vitae felis at, bibendum tincidunt purus. Nulla in nunc consequat, laoreet nibh non, pulvinar eros. Quisque at justo mauris."
-        PlayerConsole.registerNewEvent(ipsum,(0,255,0,255))
+        # PlayerConsole.registerNewEvent("Hello!")
+        # PlayerConsole.registerNewEvent("Hello!")
+        # PlayerConsole.registerNewEvent("Hello!")
+        # ipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lobortis ac enim vel feugiat. Duis ac metus id est lobortis euismod. Vestibulum finibus est eget odio rhoncus consequat. Vestibulum sed lectus justo. Aenean fringilla mi et ultricies condimentum. Donec sapien quam, congue vitae felis at, bibendum tincidunt purus. Nulla in nunc consequat, laoreet nibh non, pulvinar eros. Quisque at justo mauris."
+        # PlayerConsole.registerNewEvent(ipsum,(0,255,0,255))
 
     @staticmethod
     def registerNewEvent(text,color=(0,0,0,255)):
@@ -49,16 +49,13 @@ class PlayerConsole:
         if PlayerConsole.ALPHA < 0:
             PlayerConsole.ALPHA = 0
             PlayerConsole.tray.surface = utils.empty_surface((1,1))
-        
-        #Stress Test Debugging Call:
-        #PlayerConsole.registerNewEvent(str(random.random()))
-
 
     @staticmethod
-    def render():
-        totalHeight = 0
-        PlayerConsole.tray.update()
+    def renderTextLabels():
         texts = list()
+        totalHeight = 0
+
+        #Render all of the texts
         for textMessage in reversed(PlayerConsole.TEXT_EVENTS):
             myfont = pygame.font.SysFont("monospace", 15)
             thisMessage = list()
@@ -69,9 +66,10 @@ class PlayerConsole:
             texts.extend(reversed(thisMessage))
             if totalHeight > PlayerConsole.tray.surface.get_height():
                 break
-        if totalHeight > PlayerConsole.tray.surface.get_height():
-            totalHeight = PlayerConsole.tray.surface.get_height()
+        return (texts, totalHeight)
 
+    @staticmethod
+    def renderTextsToSurface(texts,totalHeight):
         newSurface = utils.empty_surface((PlayerConsole.tray.surface.get_width(), totalHeight))
         currHeight = 0
         for textSurface in texts:
@@ -79,12 +77,30 @@ class PlayerConsole:
             currHeight += textSurface.get_height()
             if currHeight > PlayerConsole.tray.surface.get_height():
                 break
+        return newSurface
+
+    @staticmethod
+    def render():
+        PlayerConsole.tray.update()
+
+        #Create a list of label surfaces from TEXT_EVENTS; Also record the sum total height of these surfaces
+        texts, totalHeight = PlayerConsole.renderTextLabels()
+        
+        #Crop total height to the defined height of the tray
+        if totalHeight > PlayerConsole.tray.surface.get_height():
+            totalHeight = PlayerConsole.tray.surface.get_height()
+
+        #Get a surface that has all the labels blitted
+        newSurface = PlayerConsole.renderTextsToSurface(texts,totalHeight)
+
         PlayerConsole.tray.render()
+        #Render the label surface on to the tray
         PlayerConsole.tray.surface.blit(newSurface,(0,PlayerConsole.tray.surface.get_height() - newSurface.get_height()))
+
+        #Dynamically shift the alpha of the tray surface based on the current ALPHA value
         pixels_alpha = pygame.surfarray.pixels_alpha(PlayerConsole.tray.surface)
         pixels_alpha[...] = (pixels_alpha * (PlayerConsole.ALPHA / 255.0))
         del pixels_alpha
-
 
 class EventText:
     def __init__(self, text, color=(0,0,0,255)):
