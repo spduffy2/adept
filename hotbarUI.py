@@ -22,7 +22,7 @@ class HotbarUI:
 
 	def getGUIPosFromItemPos(self, pos):
 		newX = (pos[0] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)) + InventoryUI.PADDING
-		newY = (pos[1] * (InventoryUI.BUTTON_SIZE + InventoryUI.PADDING)) + InventoryUI.PADDING
+		newY = InventoryUI.PADDING
 		return (newX, newY)
 
 	def getItemPosFromMousePos(self, pos):
