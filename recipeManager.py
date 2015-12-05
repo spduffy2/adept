@@ -12,3 +12,9 @@ class RecipeManager:
 			if(f.split('.')[0] != ""):
 				newRecipe = Recipe(f.split('.')[0])
 				RecipeManager.RECIPES.append(newRecipe)
+
+	@staticmethod
+	def getRecipe(name):
+		for recipe in RecipeManager.RECIPES:
+			if recipe.name == name:
+				return recipe
