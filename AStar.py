@@ -14,10 +14,17 @@ class AStar:
 			pos = (math.floor(submap.pos[0]/32), math.floor(submap.pos[1]/32))
 			for tile in submap.tileMap:
 				if tile.collisionEnabled:
+					if tile.pos[0] == 0:
+						nonViable.append((pos[0] + tile.pos[0] - 1, pos[1] + tile.pos[1]))
+					if tile.pos[1] == 0:
+						nonViable.append((pos[0] + tile.pos[0], pos[1] + tile.pos[1] - 1))
 					nonViable.append((pos[0] + tile.pos[0], pos[1] + tile.pos[1]))
 
-		while len(openSet) != 0 and openSet[-1].pos != goal:
+		count = 0;
+			
+		while len(openSet) != 0 and openSet[-1].pos != goal and count < 100:
 			print "trying"
+			count += 1;
 			current = openSet.pop()
 			closedSet.append(current)
 			neighbors = [(current.pos[0] + 1, current.pos[1]), (current.pos[0] - 1, current.pos[1]), (current.pos[0], current.pos[1] + 1), (current.pos[0], current.pos[1] - 1)]
@@ -47,7 +54,7 @@ class AStar:
 						while relCost < newNeighbor.f and index > 0:
 							index = index - 1
 							relCost = openSet[index].f
-						if relCost < openSet[index]:
+						if relCost < newNeighbor.f:
 							index = index - 1
 						openSet.insert(index + 1, newNeighbor)
 
@@ -55,19 +62,16 @@ class AStar:
 			print "failed"
 			return None
 
-		print "trying really hard"
 		tracedPath = [openSet[-1]]
-		print "where"
 		positionPath = [openSet[-1].pos]
-		print "does"
 		while tracedPath[0].parent is not None:
-			print "this"
 			tracedPath.insert(0, tracedPath[0].parent)
-			print "crash"
 			positionPath.insert(0, tracedPath[0].pos)
-			print "?"
 
 		print "succeeded"
+		print start.pos
+		print goal
+		print positionPath
 		return positionPath
 
 

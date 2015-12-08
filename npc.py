@@ -50,39 +50,40 @@ class NPC(Character):
             yv = self.speed * math.sin(direction) * utils.delta
             xn = x + xv
             yn = y + yv
-            for submap in submaps:
-                npcRect = pygame.Rect((xn, yn), (self.surface.get_size()[0],self.surface.get_size()[1]))
-                collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
-                if collideRect.colliderect(npcRect):
-                    for tile in submap.tileMap:
-                        if tile.collisionEnabled and tile.pos[2] == self.zLevel:
-                            tileSize = SubMap.TILE_SIZE
-                            tileRect = pygame.Rect(submap.pos[0] + tile.pos[0] * tileSize, submap.pos[1] + tile.pos[1] * tileSize, tileSize, tileSize)
-                            if tileRect.colliderect(npcRect):
-                                if y < tileRect.bottom and y + self.size[1] > tileRect.top and x > tileRect.right and xn < tileRect.right and xv < 0:
-                                    xv = 0
-                                    if yv > 0:
-                                        yv = self.speed*utils.delta
-                                    elif yv < 0:
-                                        yv = -self.speed*utils.delta
-                                elif y < tileRect.bottom and y + self.size[1] > tileRect.top and x + self.size[0] < tileRect.left and xn + self.size[0] > tileRect.left and xv > 0:
-                                    xv = 0
-                                    if yv > 0:
-                                        yv = self.speed*utils.delta
-                                    elif yv < 0:
-                                        yv = -self.speed*utils.delta
-                                elif x < tileRect.right and x + self.size[0] > tileRect.left and y + self.size[1] < tileRect.top and yn + self.size[1] > tileRect.top and yv > 0:
-                                    yv = 0
-                                    if xv > 0:
-                                        xv = self.speed*utils.delta
-                                    elif xv < 0:
-                                        xv = -self.speed*utils.delta
-                                elif x < tileRect.right and x + self.size[0] > tileRect.left and y > tileRect.bottom and yn < tileRect.bottom and yv < 0:
-                                    yv = 0
-                                    if xv > 0:
-                                        xv = self.speed*utils.delta
-                                    elif xv < 0:
-                                        xv = -self.speed*utils.delta
+            if submaps is not None:
+                for submap in submaps:
+                    npcRect = pygame.Rect((xn, yn), (self.surface.get_size()[0],self.surface.get_size()[1]))
+                    collideRect = pygame.Rect(submap.pos[0],submap.pos[1],submap.size[0]*SubMap.TILE_SIZE, submap.size[1]*SubMap.TILE_SIZE)
+                    if collideRect.colliderect(npcRect):
+                        for tile in submap.tileMap:
+                            if tile.collisionEnabled and tile.pos[2] == self.zLevel:
+                                tileSize = SubMap.TILE_SIZE
+                                tileRect = pygame.Rect(submap.pos[0] + tile.pos[0] * tileSize, submap.pos[1] + tile.pos[1] * tileSize, tileSize, tileSize)
+                                if tileRect.colliderect(npcRect):
+                                    if y < tileRect.bottom and y + self.size[1] > tileRect.top and x > tileRect.right and xn < tileRect.right and xv < 0:
+                                        xv = 0
+                                        if yv > 0:
+                                            yv = self.speed*utils.delta
+                                        elif yv < 0:
+                                            yv = -self.speed*utils.delta
+                                    elif y < tileRect.bottom and y + self.size[1] > tileRect.top and x + self.size[0] < tileRect.left and xn + self.size[0] > tileRect.left and xv > 0:
+                                        xv = 0
+                                        if yv > 0:
+                                            yv = self.speed*utils.delta
+                                        elif yv < 0:
+                                            yv = -self.speed*utils.delta
+                                    elif x < tileRect.right and x + self.size[0] > tileRect.left and y + self.size[1] < tileRect.top and yn + self.size[1] > tileRect.top and yv > 0:
+                                        yv = 0
+                                        if xv > 0:
+                                            xv = self.speed*utils.delta
+                                        elif xv < 0:
+                                            xv = -self.speed*utils.delta
+                                    elif x < tileRect.right and x + self.size[0] > tileRect.left and y > tileRect.bottom and yn < tileRect.bottom and yv < 0:
+                                        yv = 0
+                                        if xv > 0:
+                                            xv = self.speed*utils.delta
+                                        elif xv < 0:
+                                            xv = -self.speed*utils.delta
             x += xv
             y += yv
             self.fPos = x, y

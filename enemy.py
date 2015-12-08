@@ -25,14 +25,19 @@ class Enemy(NPC):
 		if self.fPos[0] != targetPos[0] and math.hypot(self.fPos[1]-targetPos[1], self.fPos[0]-targetPos[0]) > 32 and math.hypot(self.fPos[1]-targetPos[1], self.fPos[0]-targetPos[0]) < 600:
 			
 			newTargetPos = AStar.aStar(self.fPos, target.fPos, submaps)
-			specialTargetPos = newTargetPos[1]
-			targetPos = (specialTargetPos[0]*32, specialTargetPos[1]*32)
-			print self.fPos
-			print targetPos
-			if targetPos is not None:
-				angle = math.atan((self.fPos[1]-targetPos[1])/(self.fPos[0]-targetPos[0]))
-				if self.fPos[0] - targetPos[0] > 0:
-					angle = math.pi + angle
-				self.move(submaps, angle)
+			if newTargetPos is not None and len(newTargetPos) > 1:
+				specialTargetPos = newTargetPos[1]
+				targetPos = (specialTargetPos[0]*32 + self.fPos[0]%32, specialTargetPos[1]*32 + self.fPos[1]%32)
+				if targetPos is not None:
+					if self.fPos[0] == targetPos[0]:
+						if self.fPos[1] > targetPos[1]:
+							angle = -math.pi / 2
+						else: 
+							angle = math.pi/2
+					else:
+						angle = math.atan((self.fPos[1]-targetPos[1])/(self.fPos[0]-targetPos[0]))
+					if self.fPos[0] - targetPos[0] > 0:
+						angle = math.pi + angle
+					self.move(None, angle)
 
 		NPC.update(self)
