@@ -149,19 +149,19 @@ class Chunk:
             for x, col in enumerate(row):
                 if col in self.defs.keys():
                     #Image/Texture Based Rendering
-                    #self.surface.blit(
-                    #    Chunk.loadSurfaceForId(col),
-                    #    (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE)
-                    #)
+                    self.surface.blit(
+                        Chunk.loadSurfaceForId(col),
+                        (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE)
+                    )
 
                     #Color Based Rendering
-                    self.surface.fill(
-                        self.defs[col],
-                        pygame.Rect(
-                            (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE),
-                            (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
-                        )
-                    )
+#                    self.surface.fill(
+#                        self.defs[col],
+#                        pygame.Rect(
+#                            (x * Chunk.TILE_SIZE, y * Chunk.TILE_SIZE),
+#                            (Chunk.TILE_SIZE, Chunk.TILE_SIZE),
+#                        )
+#                    )
 #        self.label.blit(self.surface)
 
     def blit(self, dest, pos):

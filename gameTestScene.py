@@ -29,11 +29,12 @@ from playerCharacter import PlayerCharacter
 from friendly import Friendly
 from enemy import Enemy
 from trader import Trader
+from eventRegistry import EventRegistry
+from inventoryUtils import InventoryUtils
 
 class GameTestScene(Scene):
     def __init__(self, pc_name): 
         Scene.__init__(self)
-        print("got hithertonQ")
         self.BACKGROUND_COLOR = (0, 0, 0, 255)
         PluginManager.loadPlugins()
         self.enemy = Enemy(name="monster", fPos=(600.0,600.0))
@@ -47,14 +48,16 @@ class GameTestScene(Scene):
             
         Camera.lock(self.pc, initial_update=True)
         self.UIManager = GUIManager()
-        self.UIManager.guiScreens.append(InventoryUI(self.pc.inventory, self.UIManager))
-        self.UIManager.guiScreens.append(CraftingUI(self.pc.inventory))
+        self.UIManager.registerGUI(InventoryUI(self.pc.inventory, self.UIManager))
+        self.UIManager.registerGUI(CraftingUI(self.pc.inventory))
         hb = HotbarUI(self.pc.inventory, self.UIManager)
         self.UIManager.guiScreens.append(hb)
         self.UIManager.alwaysOnGUIs.append(hb)
+        self.pc.inventory.addItem(Item("dagger",quantity=5))
+        self.pc.inventory.addItem(Item("book",quantity=5))
         self.UIManager.updateGUIs()
 
-        self.pc.inventory.addItem(Item("axe"))
+
 
         s = SubMap(5)
         from tile import Tile 
@@ -96,6 +99,7 @@ class GameTestScene(Scene):
         MapManager.activeMap.submaps.append(s)
         MapManager.activeMap.submaps.append(g)
         PlayerConsole.init()
+        InventoryUtils.init()
 
 
     def on_escape(self):
